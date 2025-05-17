@@ -370,7 +370,6 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       labs,
       modules, // Pass modules to the page component
     },
-    revalidate: 3600 // Revalidate at most once per hour
   };
 };
 

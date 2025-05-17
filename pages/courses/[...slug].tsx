@@ -163,8 +163,7 @@ export const getStaticProps: GetStaticProps<ModuleDetailProps> = async ({ params
         nextModule,
         allModules,
         currentModuleIndex
-      },
-      revalidate: 3600 // Revalidate at most once per hour
+      }
     };
   } catch (error) {
     console.error(`Error loading module: ${error}`);
