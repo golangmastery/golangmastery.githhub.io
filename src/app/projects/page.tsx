@@ -4,8 +4,9 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { getAllContent } from '@/lib/mdx';
 
+
 export default async function ProjectsPage() {
-  const projects = await getAllContent('projects');
+  const projects = (await getAllContent('projects')) || [];
 
   return (
     <div>
@@ -32,7 +33,7 @@ export default async function ProjectsPage() {
                   }`}>
                     {project.frontmatter.level}
                   </span>
-                  {project.frontmatter.tags.map((tag: string) => (
+                  {(project.frontmatter.tags || []).map((tag: string) => (
                     <span key={tag} className="px-2 py-1 text-xs bg-gray-100 text-gray-800 rounded-full">
                       {tag}
                     </span>
