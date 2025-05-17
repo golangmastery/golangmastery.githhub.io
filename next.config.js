@@ -19,5 +19,16 @@ const nextConfig = {
   },
   output: 'export',
 };
+let config;
+try {
+  config = withMDX(nextConfig);
+} catch (err) {
+  // Ensure thrown error is an instance of Error
+  if (!(err instanceof Error)) {
+    throw new Error(String(err));
+  }
+  throw err;
+}
+module.exports = config;
 
 module.exports = withMDX(nextConfig);
