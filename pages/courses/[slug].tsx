@@ -35,6 +35,74 @@ function isTopicSection(section: Section): section is TopicSection {
   return section.type === 'topic';
 }
 
+// Add custom styles in the globalStyles
+const globalStyles = `
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .animate-fadeIn {
+    animation: fadeIn 0.5s ease-out;
+  }
+  
+  /* Typography improvements */
+  .readable-text {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-size: 1.125rem;
+    line-height: 1.8;
+    color: rgba(55, 65, 81, 1);
+    letter-spacing: -0.011em;
+  }
+  
+  @media (min-width: 768px) {
+    .readable-text {
+      font-size: 1.1875rem;
+    }
+  }
+  
+  .readable-text p {
+    margin-bottom: 1.5em;
+  }
+  
+  .readable-text h2, .readable-text h3 {
+    margin-top: 1.75em;
+    margin-bottom: 0.75em;
+  }
+  
+  .readable-text code {
+    font-family: 'SF Mono', 'Cascadia Code', 'Fira Code', Consolas, monospace;
+    font-size: 0.925em;
+    background-color: rgba(243, 244, 246, 1);
+    padding: 0.125em 0.25em;
+    border-radius: 0.25em;
+  }
+  
+  .readable-text pre {
+    background-color: rgb(31, 41, 55);
+    font-size: 0.875em;
+    padding: 1.25em;
+    border-radius: 0.375em;
+    overflow-x: auto;
+  }
+  
+  .readable-text pre code {
+    background-color: transparent;
+    color: rgb(228, 228, 231);
+    padding: 0;
+  }
+`;
+
+// ReadableContent component for optimal readability
+function ReadableContent({ children, className = "" }: { children: React.ReactNode, className?: string }) {
+  return (
+    <div className={`max-w-2xl mx-auto ${className}`}>
+      <div className="readable-text">
+        {children}
+      </div>
+    </div>
+  );
+}
+
 // TableOfContents component
 function TableOfContents({ items }: { items: {id: string, title: string}[] }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -276,7 +344,7 @@ export default function CourseDetail({ course, mdxSource, labs }: { course: Cour
   const [completedSections, setCompletedSections] = useState<number[]>([]);
   const [showTooltip, setShowTooltip] = useState(false);
   const [showCertificate, setShowCertificate] = useState(false);
-  const [showQuickStart, setShowQuickStart] = useState(true);
+  const [showQuickStart, setShowQuickStart] = useState(false);
   
   // Ensure labs is an array
   const safeLabs = Array.isArray(labs) ? labs : [];
@@ -305,7 +373,69 @@ export default function CourseDetail({ course, mdxSource, labs }: { course: Cour
     }
   };
 
-  // Mark current section as completed when going to next page
+  // Use isMounted pattern to avoid hydration mismatches
+  const [isMounted, setIsMounted] = useState(false);
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  // Load completed sections from localStorage on mount - with safety check
+  useEffect(() => {
+    if (isMounted && typeof window !== 'undefined') {
+      try {
+        const saved = localStorage.getItem(`course-progress-${course.slug}`);
+        if (saved) {
+          setCompletedSections(JSON.parse(saved));
+        }
+        
+        // Check for first visit - do this after mount to avoid hydration mismatch
+        const hasVisited = localStorage.getItem(`visited-course-${course.slug}`);
+        setShowQuickStart(!hasVisited);
+        
+        // Mark as visited
+        if (!hasVisited) {
+          localStorage.setItem(`visited-course-${course.slug}`, 'true');
+        }
+      } catch (e) {
+        console.error('Failed to load saved progress', e);
+      }
+    }
+  }, [isMounted, course.slug]);
+
+  // Save completed sections to localStorage when they change - with safety check
+  useEffect(() => {
+    if (isMounted && typeof window !== 'undefined' && completedSections.length > 0) {
+      try {
+        localStorage.setItem(
+          `course-progress-${course.slug}`,
+          JSON.stringify(completedSections)
+        );
+      } catch (e) {
+        console.error('Failed to save progress', e);
+      }
+    }
+  }, [completedSections, course.slug, isMounted]);
+  
+  // Keyboard navigation - with safety check
+  useEffect(() => {
+    if (!isMounted) return;
+    
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Left arrow key for previous page
+      if (e.key === 'ArrowLeft' && currentPage > 0) {
+        goToPage(currentPage - 1);
+      }
+      // Right arrow key for next page
+      else if (e.key === 'ArrowRight' && currentPage < sections.length - 1) {
+        completeAndGoNext();
+      }
+    };
+    
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [currentPage, sections.length, isMounted]);
+
+  // Mark current section as completed - using safer reference
   const completeAndGoNext = () => {
     if (!completedSections.includes(currentPage)) {
       const newCompletedSections = [...completedSections, currentPage];
@@ -330,60 +460,6 @@ export default function CourseDetail({ course, mdxSource, labs }: { course: Cour
     setTimeout(() => setShowTooltip(false), 2000);
   };
 
-  // Load completed sections from localStorage on mount
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const saved = localStorage.getItem(`course-progress-${course.slug}`);
-      if (saved) {
-        try {
-          setCompletedSections(JSON.parse(saved));
-        } catch (e) {
-          console.error('Failed to parse saved progress');
-        }
-      }
-    }
-  }, [course.slug]);
-
-  // Save completed sections to localStorage when they change
-  useEffect(() => {
-    if (typeof window !== 'undefined' && completedSections.length > 0) {
-      localStorage.setItem(
-        `course-progress-${course.slug}`,
-        JSON.stringify(completedSections)
-      );
-    }
-  }, [completedSections, course.slug]);
-
-  // Check if this is first visit to the course
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const hasVisited = localStorage.getItem(`visited-course-${course.slug}`);
-      setShowQuickStart(!hasVisited);
-      
-      // Mark as visited
-      if (!hasVisited) {
-        localStorage.setItem(`visited-course-${course.slug}`, 'true');
-      }
-    }
-  }, [course.slug]);
-  
-  // Keyboard navigation
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      // Left arrow key for previous page
-      if (e.key === 'ArrowLeft' && currentPage > 0) {
-        goToPage(currentPage - 1);
-      }
-      // Right arrow key for next page
-      else if (e.key === 'ArrowRight' && currentPage < sections.length - 1) {
-        completeAndGoNext();
-      }
-    };
-    
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [currentPage, completeAndGoNext, sections.length]);
-
   // Generate table of contents sections for each topic
   const getTocForTopic = (topic: string) => {
     // In a real app, this would be derived from actual content
@@ -404,6 +480,17 @@ export default function CourseDetail({ course, mdxSource, labs }: { course: Cour
   // Current section & TOC
   const currentSection = sections[currentPage];
   const currentToc = currentPage > 0 ? getTocForTopic(currentSection.title) : [];
+
+  // For the clipboard functionality, add a safety check
+  const copyToClipboard = () => {
+    if (typeof navigator !== 'undefined' && navigator.clipboard) {
+      navigator.clipboard.writeText(window.location.href).then(() => {
+        showTemporaryTooltip();
+      }).catch(err => {
+        console.error('Failed to copy URL: ', err);
+      });
+    }
+  };
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
@@ -430,6 +517,8 @@ export default function CourseDetail({ course, mdxSource, labs }: { course: Cour
             })
           }}
         />
+        {/* Add custom typography styles */}
+        <style dangerouslySetInnerHTML={{ __html: globalStyles }} />
       </Head>
       <Header />
       
@@ -520,24 +609,21 @@ export default function CourseDetail({ course, mdxSource, labs }: { course: Cour
             </div>
           </div>
 
-          {/* Page content */}
-          <div className="bg-white rounded-lg shadow-sm p-6 md:p-8 max-w-3xl mx-auto">
+          {/* Content container with improved width for readability */}
+          <div className="bg-white rounded-lg shadow-sm p-6 md:p-8 max-w-4xl mx-auto">
             <div className="flex justify-between items-start mb-4">
               <h1 className="text-2xl md:text-3xl font-bold text-gray-900">{currentSection.title}</h1>
               
               <div className="flex gap-2">
                 <div className="relative">
                   <button
-                    onClick={() => {
-                      navigator.clipboard.writeText(window.location.href);
-                      showTemporaryTooltip();
-                    }}
+                    onClick={copyToClipboard}
                     className="p-2 text-gray-500 hover:text-indigo-600 rounded-full hover:bg-gray-100"
                     aria-label="Share this course"
                   >
                     <FaShare className="h-4 w-4" />
                   </button>
-                  {showTooltip && (
+                  {showTooltip && isMounted && (
                     <div className="absolute right-0 -bottom-10 bg-gray-800 text-white text-xs rounded py-1 px-2 whitespace-nowrap">
                       URL copied!
                     </div>
@@ -552,187 +638,199 @@ export default function CourseDetail({ course, mdxSource, labs }: { course: Cour
               </div>
             </div>
             
-            {/* Quick Start Guide for first-time visitors */}
-            {currentPage === 0 && showQuickStart && (
+            {/* Quick Start Guide for first-time visitors - only shown after component is mounted */}
+            {currentPage === 0 && showQuickStart && isMounted && (
               <QuickStartGuide onClose={() => setShowQuickStart(false)} />
             )}
             
-            {currentPage === 0 && (
-              <div className="mb-6">
-                <div className="flex flex-wrap items-center gap-4 mb-4">
-                  <div className="h-12 w-12 rounded-full overflow-hidden">
-                    <img 
-                      src={course.instructorImage || '/images/instructor-placeholder.jpg'} 
-                      alt={course.instructor}
-                      className="h-full w-full object-cover"
-                    />
+            {/* Course content with improved readability */}
+            <div className="max-w-3xl mx-auto">
+              {currentPage === 0 && (
+                <div className="mb-6">
+                  <div className="flex flex-wrap items-center gap-4 mb-4">
+                    <div className="h-12 w-12 rounded-full overflow-hidden">
+                      <img 
+                        src={course.instructorImage || '/images/instructor-placeholder.jpg'} 
+                        alt={course.instructor}
+                        className="h-full w-full object-cover"
+                      />
+                    </div>
+                    <div>
+                      <div className="text-sm text-gray-500">Instructor</div>
+                      <div className="font-medium">{course.instructor}</div>
+                    </div>
+                    <div className="border-l border-gray-200 h-10 mx-2 hidden sm:block" />
+                    <div>
+                      <div className="text-sm text-gray-500">Level</div>
+                      <div className="font-medium">{course.level}</div>
+                    </div>
+                    <div className="border-l border-gray-200 h-10 mx-2 hidden sm:block" />
+                    <div>
+                      <div className="text-sm text-gray-500">Duration</div>
+                      <div className="font-medium">{course.duration}</div>
+                    </div>
                   </div>
-                  <div>
-                    <div className="text-sm text-gray-500">Instructor</div>
-                    <div className="font-medium">{course.instructor}</div>
-                  </div>
-                  <div className="border-l border-gray-200 h-10 mx-2 hidden sm:block" />
-                  <div>
-                    <div className="text-sm text-gray-500">Level</div>
-                    <div className="font-medium">{course.level}</div>
-                  </div>
-                  <div className="border-l border-gray-200 h-10 mx-2 hidden sm:block" />
-                  <div>
-                    <div className="text-sm text-gray-500">Duration</div>
-                    <div className="font-medium">{course.duration}</div>
-                  </div>
-                </div>
 
-                {/* Course card with additional info */}
-                <div className="mt-6 bg-indigo-50 rounded-lg p-4 border border-indigo-100">
-                  <h3 className="text-lg font-semibold text-indigo-900 mb-2">Course Overview</h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <h4 className="text-sm font-medium text-indigo-800 mb-1">What you'll learn</h4>
-                      <ul className="text-sm text-gray-700 space-y-1">
-                        {course.topics.slice(0, 3).map((topic, idx) => (
-                          <li key={idx} className="flex items-center gap-2">
-                            <span className="inline-block h-1.5 w-1.5 bg-indigo-400 rounded-full"></span>
-                            {topic}
+                  {/* Course card with additional info */}
+                  <div className="mt-6 bg-indigo-50 rounded-lg p-4 border border-indigo-100">
+                    <h3 className="text-lg font-semibold text-indigo-900 mb-2">Course Overview</h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <h4 className="text-sm font-medium text-indigo-800 mb-1">What you'll learn</h4>
+                        <ul className="text-sm text-gray-700 space-y-1">
+                          {course.topics.slice(0, 3).map((topic, idx) => (
+                            <li key={idx} className="flex items-center gap-2">
+                              <span className="inline-block h-1.5 w-1.5 bg-indigo-400 rounded-full"></span>
+                              {topic}
+                            </li>
+                          ))}
+                          {course.topics.length > 3 && (
+                            <li className="text-indigo-600 font-medium">+{course.topics.length - 3} more topics</li>
+                          )}
+                        </ul>
+                      </div>
+                      <div>
+                        <h4 className="text-sm font-medium text-indigo-800 mb-1">Prerequisites</h4>
+                        <p className="text-sm text-gray-700">
+                          Basic Go knowledge and programming fundamentals
+                        </p>
+                        
+                        <h4 className="text-sm font-medium text-indigo-800 mt-3 mb-1">Includes</h4>
+                        <ul className="text-sm text-gray-700">
+                          <li className="flex items-center gap-2">
+                            <FaCheckCircle className="text-green-500 h-3 w-3" />
+                            {safeLabs.length} practical labs
                           </li>
-                        ))}
-                        {course.topics.length > 3 && (
-                          <li className="text-indigo-600 font-medium">+{course.topics.length - 3} more topics</li>
-                        )}
-                      </ul>
-                    </div>
-                    <div>
-                      <h4 className="text-sm font-medium text-indigo-800 mb-1">Prerequisites</h4>
-                      <p className="text-sm text-gray-700">
-                        Basic Go knowledge and programming fundamentals
-                      </p>
-                      
-                      <h4 className="text-sm font-medium text-indigo-800 mt-3 mb-1">Includes</h4>
-                      <ul className="text-sm text-gray-700">
-                        <li className="flex items-center gap-2">
-                          <FaCheckCircle className="text-green-500 h-3 w-3" />
-                          {safeLabs.length} practical labs
-                        </li>
-                        <li className="flex items-center gap-2">
-                          <FaCheckCircle className="text-green-500 h-3 w-3" />
-                          Downloadable resources
-                        </li>
-                      </ul>
+                          <li className="flex items-center gap-2">
+                            <FaCheckCircle className="text-green-500 h-3 w-3" />
+                            Downloadable resources
+                          </li>
+                        </ul>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            )}
-            
-            {/* Overview page (first page) */}
-            {currentPage === 0 && mdxSource && (
-              <div className="prose prose-lg prose-indigo max-w-none">
-                <MDXRemote {...mdxSource} components={MDXComponents} />
-              </div>
-            )}
-            
-            {/* Topic page */}
-            {currentPage > 0 && (
-              <div>
-                {/* Add TOC component for topics */}
-                <TableOfContents items={currentToc} />
-                
-                <div className="prose prose-lg prose-indigo max-w-none">
-                  <p>This section covers {currentSection.title}.</p>
-                  
-                  {/* In a real app, this would show the actual content for this topic */}
-                  {/* We're adding ids that match our TOC items */}
-                  <div id={`${currentSection.title.toLowerCase().replace(/\s+/g, '-')}-intro`}>
-                    <h2>Introduction</h2>
-                    <p>
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a diam lectus. 
-                      Sed sit amet ipsum mauris. Maecenas congue ligula ac quam viverra nec consectetur ante hendrerit.
-                      Donec et mollis dolor. Praesent et diam eget libero egestas mattis sit amet vitae augue.
-                    </p>
+              )}
+              
+              {/* Overview page (first page) */}
+              {currentPage === 0 && mdxSource && (
+                <ReadableContent>
+                  <div className="prose prose-lg prose-indigo max-w-none">
+                    <MDXRemote {...mdxSource} components={MDXComponents} />
                   </div>
+                </ReadableContent>
+              )}
+              
+              {/* Topic page */}
+              {currentPage > 0 && (
+                <div>
+                  {/* Add TOC component for topics */}
+                  <TableOfContents items={currentToc} />
                   
-                  <div id={`${currentSection.title.toLowerCase().replace(/\s+/g, '-')}-concepts`}>
-                    <h2>Key Concepts</h2>
-                    <p>
-                      Fusce nec urna ut tellus accumsan venenatis. Aenean fermentum porta velit, sit amet volutpat libero viverra vel.
-                      Nullam hendrerit, ipsum non aliquet semper, neque nisi molestie elit, nec imperdiet enim augue vitae nulla.
-                    </p>
-                  </div>
-                  
-                  <div id={`${currentSection.title.toLowerCase().replace(/\s+/g, '-')}-examples`}>
-                    <h2>Examples</h2>
-                    <p>
-                      Here are some examples of {currentSection.title} in action:
-                    </p>
-                    <pre><code>{`
+                  <ReadableContent>
+                    <div className="prose prose-lg prose-indigo max-w-none">
+                      <p className="text-xl font-light mb-6 text-gray-600">This section covers {currentSection.title}.</p>
+                      
+                      {/* We're adding ids that match our TOC items */}
+                      <div id={`${currentSection.title.toLowerCase().replace(/\s+/g, '-')}-intro`}>
+                        <h2 className="text-2xl font-semibold text-gray-900 mb-4">Introduction</h2>
+                        <p>
+                          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a diam lectus. 
+                          Sed sit amet ipsum mauris. Maecenas congue ligula ac quam viverra nec consectetur ante hendrerit.
+                          Donec et mollis dolor. Praesent et diam eget libero egestas mattis sit amet vitae augue.
+                        </p>
+                      </div>
+                      
+                      <div id={`${currentSection.title.toLowerCase().replace(/\s+/g, '-')}-concepts`}>
+                        <h2 className="text-2xl font-semibold text-gray-900 mt-8 mb-4">Key Concepts</h2>
+                        <p>
+                          Fusce nec urna ut tellus accumsan venenatis. Aenean fermentum porta velit, sit amet volutpat libero viverra vel.
+                          Nullam hendrerit, ipsum non aliquet semper, neque nisi molestie elit, nec imperdiet enim augue vitae nulla.
+                        </p>
+                      </div>
+                      
+                      <div id={`${currentSection.title.toLowerCase().replace(/\s+/g, '-')}-examples`}>
+                        <h2 className="text-2xl font-semibold text-gray-900 mt-8 mb-4">Examples</h2>
+                        <p>
+                          Here are some examples of {currentSection.title} in action:
+                        </p>
+                        <div className="bg-gray-800 text-gray-100 p-4 rounded-lg mt-4 mb-4 overflow-x-auto">
+                          <pre><code className="font-mono text-sm">{`
 func example() {
     // Example code for ${currentSection.title}
     fmt.Println("Hello from ${currentSection.title}!")
 }
-                    `}</code></pre>
-                  </div>
+                          `}</code></pre>
+                        </div>
+                      </div>
+                      
+                      <div id={`${currentSection.title.toLowerCase().replace(/\s+/g, '-')}-advanced`}>
+                        <h2 className="text-2xl font-semibold text-gray-900 mt-8 mb-4">Advanced Usage</h2>
+                        <p>
+                          For advanced scenarios, consider the following approaches:
+                        </p>
+                        <ul className="list-disc pl-6 mt-4 space-y-2">
+                          <li>Understand the core concepts of {currentSection.title}</li>
+                          <li>Apply these concepts to real-world Go programming</li>
+                          <li>Solve common problems related to {currentSection.title}</li>
+                        </ul>
+                      </div>
+                      
+                      <div id={`${currentSection.title.toLowerCase().replace(/\s+/g, '-')}-summary`}>
+                        <h2 className="text-2xl font-semibold text-gray-900 mt-8 mb-4">Summary</h2>
+                        <p>
+                          In this section, we've covered the fundamentals of {currentSection.title}, 
+                          including its implementation, common use cases, and best practices.
+                        </p>
+                        <div className="p-4 bg-indigo-50 border-l-4 border-indigo-400 my-6">
+                          <p className="text-indigo-800 font-medium">Key Takeaway</p>
+                          <p className="text-gray-700">{currentSection.title} is a powerful tool in Go programming that helps you write more efficient and maintainable code.</p>
+                        </div>
+                      </div>
+                    </div>
+                  </ReadableContent>
                   
-                  <div id={`${currentSection.title.toLowerCase().replace(/\s+/g, '-')}-advanced`}>
-                    <h2>Advanced Usage</h2>
-                    <p>
-                      For advanced scenarios, consider the following approaches:
-                    </p>
-                    <ul>
-                      <li>Understand the core concepts of {currentSection.title}</li>
-                      <li>Apply these concepts to real-world Go programming</li>
-                      <li>Solve common problems related to {currentSection.title}</li>
-                    </ul>
-                  </div>
+                  {/* Lab for this topic if available */}
+                  {isTopicSection(currentSection) && currentSection.labIndex !== null && currentSection.labIndex < safeLabs.length && (
+                    <div className="mt-8 p-6 border-2 rounded-lg bg-blue-50 border-blue-100 shadow-sm transform transition-transform hover:scale-[1.01]">
+                      <h3 className="text-lg font-semibold mb-3 flex items-center gap-2">
+                        <FaFlask className="text-blue-600" /> Lab Exercise
+                      </h3>
+                      <p className="mb-4">{safeLabs[currentSection.labIndex].description || 'Practice what you learned in this section with a hands-on lab.'}</p>
+                      <Link
+                        href={`/labs/${safeLabs[currentSection.labIndex].slug || '#'}`}
+                        className="inline-flex items-center bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors"
+                      >
+                        Start Lab
+                      </Link>
+                    </div>
+                  )}
                   
-                  <div id={`${currentSection.title.toLowerCase().replace(/\s+/g, '-')}-summary`}>
-                    <h2>Summary</h2>
-                    <p>
-                      In this section, we've covered the fundamentals of {currentSection.title}, 
-                      including its implementation, common use cases, and best practices.
-                    </p>
+                  {/* Completion checkbox */}
+                  <div className="mt-8 pt-4 border-t border-gray-100">
+                    <label className="flex items-center gap-2 cursor-pointer">
+                      <input 
+                        type="checkbox" 
+                        checked={completedSections.includes(currentPage)}
+                        onChange={(e) => {
+                          if (e.target.checked) {
+                            setCompletedSections([...completedSections, currentPage]);
+                          } else {
+                            setCompletedSections(completedSections.filter(idx => idx !== currentPage));
+                          }
+                        }}
+                        className="h-5 w-5 text-indigo-600 rounded border-gray-300 focus:ring-indigo-500"
+                      />
+                      <span className="text-gray-700">Mark as completed</span>
+                    </label>
                   </div>
                 </div>
-                
-                {/* Lab for this topic if available */}
-                {isTopicSection(currentSection) && currentSection.labIndex !== null && currentSection.labIndex < safeLabs.length && (
-                  <div className="mt-8 p-6 border-2 rounded-lg bg-blue-50 border-blue-100 shadow-sm transform transition-transform hover:scale-[1.01]">
-                    <h3 className="text-lg font-semibold mb-3 flex items-center gap-2">
-                      <FaFlask className="text-blue-600" /> Lab Exercise
-                    </h3>
-                    <p className="mb-4">{safeLabs[currentSection.labIndex].description || 'Practice what you learned in this section with a hands-on lab.'}</p>
-                    <Link
-                      href={`/labs/${safeLabs[currentSection.labIndex].slug || '#'}`}
-                      className="inline-flex items-center bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors"
-                    >
-                      Start Lab
-                    </Link>
-                  </div>
-                )}
-                
-                {/* Completion checkbox */}
-                <div className="mt-8 pt-4 border-t border-gray-100">
-                  <label className="flex items-center gap-2 cursor-pointer">
-                    <input 
-                      type="checkbox" 
-                      checked={completedSections.includes(currentPage)}
-                      onChange={(e) => {
-                        if (e.target.checked) {
-                          setCompletedSections([...completedSections, currentPage]);
-                        } else {
-                          setCompletedSections(completedSections.filter(idx => idx !== currentPage));
-                        }
-                      }}
-                      className="h-5 w-5 text-indigo-600 rounded border-gray-300 focus:ring-indigo-500"
-                    />
-                    <span className="text-gray-700">Mark as completed</span>
-                  </label>
-                </div>
-              </div>
-            )}
+              )}
+            </div>
           </div>
           
           {/* Navigation buttons with keyboard shortcut hints */}
-          <div className="flex justify-between items-center mt-8 max-w-3xl mx-auto">
+          <div className="flex justify-between items-center mt-8 max-w-4xl mx-auto">
             <button
               onClick={() => goToPage(currentPage - 1)}
               className={`inline-flex items-center px-4 py-2 rounded-md text-sm font-medium ${
@@ -779,26 +877,17 @@ func example() {
       </div>
       <Footer />
       
-      {/* Certificate Modal */}
-      <CertificateModal 
-        isOpen={showCertificate} 
-        onClose={() => setShowCertificate(false)} 
-        course={course}
-      />
+      {/* Certificate Modal - only shown after component is mounted */}
+      {isMounted && (
+        <CertificateModal 
+          isOpen={showCertificate} 
+          onClose={() => setShowCertificate(false)} 
+          course={course}
+        />
+      )}
     </div>
   );
 }
-
-// Add some global styles
-const globalStyles = `
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(-10px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  .animate-fadeIn {
-    animation: fadeIn 0.5s ease-out;
-  }
-`;
 
 // Export the globalStyles so they can be added to _app.tsx
 export { globalStyles }; 
