@@ -11,8 +11,9 @@ const nextConfig = {
   reactStrictMode: true,
   pageExtensions: ['js', 'jsx', 'ts', 'tsx', 'md', 'mdx'],
   images: {
-    domains: ['golangmastery.github.io'],
+    domains: ['golang.org'],
     unoptimized: true,
+    dangerouslyAllowSVG: true,
   },
   webpack: (config) => {
     return config;
