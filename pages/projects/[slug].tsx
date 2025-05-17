@@ -97,17 +97,13 @@ export default function ProjectPage({ frontmatter, mdxSource }: ProjectPageProps
             <p className="text-lg text-gray-700 mb-4">{frontmatter.description}</p>
             <div className="flex gap-4">
               {frontmatter.demoUrl && (
-                <Link href={frontmatter.demoUrl}>
-                  <a target="_blank" rel="noopener noreferrer" className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors">
-                    Live Demo
-                  </a>
+                <Link href={frontmatter.demoUrl} target="_blank" rel="noopener noreferrer" className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors">
+                  Live Demo
                 </Link>
               )}
               {frontmatter.repoUrl && (
-                <Link href={frontmatter.repoUrl}>
-                  <a target="_blank" rel="noopener noreferrer" className="bg-gray-800 text-white px-4 py-2 rounded-md hover:bg-gray-900 transition-colors">
-                    View Code
-                  </a>
+                <Link href={frontmatter.repoUrl} target="_blank" rel="noopener noreferrer" className="bg-gray-800 text-white px-4 py-2 rounded-md hover:bg-gray-900 transition-colors">
+                  View Code
                 </Link>
               )}
             </div>

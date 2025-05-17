@@ -12,10 +12,9 @@ const nextConfig = {
     unoptimized: true,
     dangerouslyAllowSVG: true,
   },
+  // For static site export
   output: 'export',
-  // If your repository name is 'golangmastery.githhub.io', basePath and assetPrefix are usually not needed
-  // when deploying to USERNAME.github.io/REPOSITORY_NAME if REPOSITORY_NAME is the same as in the URL.
-  // However, if deploying to a custom domain or the root USERNAME.github.io, they are not needed.
+  // Remove these if not needed for your deployment
   // assetPrefix: process.env.NODE_ENV === 'production' ? '/golangmastery.githhub.io' : undefined,
   // basePath: process.env.NODE_ENV === 'production' ? '/golangmastery.githhub.io' : undefined,
 };

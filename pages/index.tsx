@@ -125,15 +125,11 @@ export default function Home() {
               </div>
             </div>
             <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
-              <Link href="/courses/quick-start-with-golang">
-                <a className="bg-blue-600 text-white px-8 py-3 rounded-md font-medium hover:bg-blue-700 transition-colors text-center">
-                  Start Learning
-                </a>
+              <Link href="/courses/quick-start-with-golang" className="bg-blue-600 text-white px-8 py-3 rounded-md font-medium hover:bg-blue-700 transition-colors text-center">
+                Start Learning
               </Link>
-              <Link href="/projects">
-                <a className="bg-white text-blue-600 border border-blue-600 px-8 py-3 rounded-md font-medium hover:bg-blue-50 transition-colors text-center">
-                  Explore Projects
-                </a>
+              <Link href="/projects" className="bg-white text-blue-600 border border-blue-600 px-8 py-3 rounded-md font-medium hover:bg-blue-50 transition-colors text-center">
+                Explore Projects
               </Link>
             </div>
           </div>
@@ -229,10 +225,8 @@ export default function Home() {
                     <p className="text-gray-600 mb-4 line-clamp-3">{course.description}</p>
                     <div className="flex justify-between items-center">
                       <span className="text-sm text-gray-500">{course.labCount} labs</span>
-                      <Link href={`/courses/${course.slug}`}>
-                        <a className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors">
-                          Start Learning
-                        </a>
+                      <Link href={`/courses/${course.slug}`} className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors">
+                        Start Learning
                       </Link>
                     </div>
                   </div>
@@ -264,10 +258,8 @@ export default function Home() {
                     </div>
                     <p className="text-gray-600 mb-4 line-clamp-3">{project.description}</p>
                     <div className="flex justify-end">
-                      <Link href={`/projects/${project.slug}`}>
-                        <a className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors">
-                          Start Project
-                        </a>
+                      <Link href={`/projects/${project.slug}`} className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors">
+                        Start Project
                       </Link>
                     </div>
                   </div>
@@ -276,10 +268,8 @@ export default function Home() {
             </div>
           )}
           <div className="text-center mt-12">
-            <Link href={activeTab === 'learn' ? "/courses" : "/projects"}>
-              <a className="text-blue-600 font-medium hover:text-blue-800 underline">
-                View all {activeTab === 'learn' ? 'courses' : 'projects'} →
-              </a>
+            <Link href={activeTab === 'learn' ? "/courses" : "/projects"} className="text-blue-600 font-medium hover:text-blue-800 underline">
+              View all {activeTab === 'learn' ? 'courses' : 'projects'} →
             </Link>
           </div>
         </div>

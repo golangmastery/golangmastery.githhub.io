@@ -35,43 +35,35 @@ export default function Footer() {
             <h4 className="text-lg font-semibold mb-6 text-white">Learning Path</h4>
             <ul className="space-y-3">
               <li>
-                <Link href="/courses">
-                  <a className="text-gray-400 hover:text-white transition-colors flex items-center">
-                    <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                    </svg>
-                    Learn Golang
-                  </a>
+                <Link href="/courses" className="text-gray-400 hover:text-white transition-colors flex items-center">
+                  <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                  Learn Golang
                 </Link>
               </li>
               <li>
-                <Link href="/projects">
-                  <a className="text-gray-400 hover:text-white transition-colors flex items-center">
-                    <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                    </svg>
-                    Golang Projects
-                  </a>
+                <Link href="/projects" className="text-gray-400 hover:text-white transition-colors flex items-center">
+                  <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                  Golang Projects
                 </Link>
               </li>
               <li>
-                <Link href="/tutorials">
-                  <a className="text-gray-400 hover:text-white transition-colors flex items-center">
-                    <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                    </svg>
-                    Tutorials
-                  </a>
+                <Link href="/tutorials" className="text-gray-400 hover:text-white transition-colors flex items-center">
+                  <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                  Tutorials
                 </Link>
               </li>
               <li>
-                <Link href="/roadmap">
-                  <a className="text-gray-400 hover:text-white transition-colors flex items-center">
-                    <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                    </svg>
-                    Learning Roadmap
-                  </a>
+                <Link href="/roadmap" className="text-gray-400 hover:text-white transition-colors flex items-center">
+                  <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                  Learning Roadmap
                 </Link>
               </li>
             </ul>
@@ -80,43 +72,35 @@ export default function Footer() {
             <h4 className="text-lg font-semibold mb-6 text-white">Resources</h4>
             <ul className="space-y-3">
               <li>
-                <Link href="/playground">
-                  <a className="text-gray-400 hover:text-white transition-colors flex items-center">
-                    <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                    </svg>
-                    Golang Playground
-                  </a>
+                <Link href="/playground" className="text-gray-400 hover:text-white transition-colors flex items-center">
+                  <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                  Golang Playground
                 </Link>
               </li>
               <li>
-                <Link href="/cheatsheet">
-                  <a className="text-gray-400 hover:text-white transition-colors flex items-center">
-                    <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                    </svg>
-                    Golang Cheat Sheet
-                  </a>
+                <Link href="/cheatsheet" className="text-gray-400 hover:text-white transition-colors flex items-center">
+                  <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                  Golang Cheat Sheet
                 </Link>
               </li>
               <li>
-                <Link href="/forum">
-                  <a className="text-gray-400 hover:text-white transition-colors flex items-center">
-                    <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                    </svg>
-                    Community Forum
-                  </a>
+                <Link href="/forum" className="text-gray-400 hover:text-white transition-colors flex items-center">
+                  <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                  Community Forum
                 </Link>
               </li>
               <li>
-                <Link href="/blog">
-                  <a className="text-gray-400 hover:text-white transition-colors flex items-center">
-                    <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                    </svg>
-                    Blog
-                  </a>
+                <Link href="/blog" className="text-gray-400 hover:text-white transition-colors flex items-center">
+                  <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                  Blog
                 </Link>
               </li>
             </ul>
@@ -143,14 +127,14 @@ export default function Footer() {
           <div className="flex flex-col md:flex-row justify-between items-center">
             <p>© {new Date().getFullYear()} GolangMastery. All rights reserved.</p>
             <div className="flex space-x-6 mt-4 md:mt-0">
-              <Link href="/privacy">
-                <a className="text-gray-500 hover:text-gray-300 transition-colors">Privacy Policy</a>
+              <Link href="/privacy" className="text-gray-500 hover:text-gray-300 transition-colors">
+                Privacy Policy
               </Link>
-              <Link href="/terms">
-                <a className="text-gray-500 hover:text-gray-300 transition-colors">Terms of Service</a>
+              <Link href="/terms" className="text-gray-500 hover:text-gray-300 transition-colors">
+                Terms of Service
               </Link>
-              <Link href="/contact">
-                <a className="text-gray-500 hover:text-gray-300 transition-colors">Contact Us</a>
+              <Link href="/contact" className="text-gray-500 hover:text-gray-300 transition-colors">
+                Contact Us
               </Link>
             </div>
           </div>
