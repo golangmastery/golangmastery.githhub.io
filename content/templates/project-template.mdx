@@ -1,0 +1,261 @@
+---
+title: 'Project Title Here'
+slug: 'project-slug-here'
+coverImage: '/images/projects/project-image.png'
+description: 'A brief description of the project (1-2 sentences)'
+duration: '2-3 hours' # Estimated time to complete
+level: 'Intermediate' # Beginner, Intermediate, or Advanced
+tags: ['Go', 'Tag2', 'Tag3']
+prerequisites: ['prerequisite-lab-slug'] # Slugs of prerequisite labs
+githubRepo: 'username/repo-name' # Optional GitHub repository
+---
+
+# Project Title Here
+
+<Callout type="info">
+  In this project, you'll build [brief description of what the student will build].
+</Callout>
+
+## Project Overview
+
+Provide a brief overview of the project, including:
+
+- What the student will build
+- What skills they will practice
+- What the final result will look like
+- Why this project is valuable for learning
+
+## Learning Objectives
+
+By completing this project, you will:
+
+- Objective 1
+- Objective 2
+- Objective 3
+
+## Prerequisites
+
+Before starting this project, you should:
+
+- Have a solid understanding of Go fundamentals
+- Be familiar with [specific concept]
+- Have completed the [prerequisite lab name] lab
+
+## Project Structure
+
+Here's an overview of the project structure:
+
+<FileTree>
+project-name/
+├── cmd/
+│   └── main.go
+├── internal/
+│   ├── handlers/
+│   │   └── handlers.go
+│   ├── models/
+│   │   └── models.go
+│   └── service/
+│       └── service.go
+├── go.mod
+└── go.sum
+</FileTree>
+
+## Getting Started
+
+<Step number="1" title="Set up your environment">
+  First, make sure you have Go installed on your system. You can check by running:
+
+  <Terminal>
+  go version
+  </Terminal>
+
+  If Go is not installed, follow the instructions on the [official Go website](https://golang.org/doc/install).
+</Step>
+
+<Step number="2" title="Create a new project">
+  Create a new directory for your project and initialize a Go module:
+
+  <Terminal>
+  mkdir project-name
+  cd project-name
+  go mod init example.com/project-name
+  </Terminal>
+
+  This will create a new Go module with the specified module path.
+</Step>
+
+## Implementation
+
+<Step number="3" title="Create the main file">
+  Create a new file at `cmd/main.go` with the following content:
+
+  ```go
+  package main
+
+  import (
+      "fmt"
+      "log"
+      "net/http"
+  )
+
+  func main() {
+      http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+          fmt.Fprintf(w, "Hello, World!")
+      })
+
+      log.Println("Server starting on :8080")
+      log.Fatal(http.ListenAndServe(":8080", nil))
+  }
+  ```
+
+  This creates a simple HTTP server that responds with "Hello, World!" on the root path.
+</Step>
+
+<Step number="4" title="Create the models">
+  Create a new file at `internal/models/models.go` with the following content:
+
+  ```go
+  package models
+
+  // Item represents an item in our application
+  type Item struct {
+      ID          string `json:"id"`
+      Name        string `json:"name"`
+      Description string `json:"description"`
+      CreatedAt   string `json:"created_at"`
+  }
+  ```
+
+  This defines the data model for our application.
+</Step>
+
+<Step number="5" title="Run your application">
+  Run your application using the `go run` command:
+
+  <Terminal>
+  go run cmd/main.go
+  </Terminal>
+
+  You should see the output:
+
+  <Terminal>
+  Server starting on :8080
+  </Terminal>
+
+  You can now access your application at http://localhost:8080
+</Step>
+
+## Testing
+
+<Step number="6" title="Write tests for your application">
+  Create a new file at `internal/models/models_test.go` with the following content:
+
+  ```go
+  package models
+
+  import (
+      "testing"
+  )
+
+  func TestItem(t *testing.T) {
+      item := Item{
+          ID:          "1",
+          Name:        "Test Item",
+          Description: "This is a test item",
+          CreatedAt:   "2023-01-01T00:00:00Z",
+      }
+
+      if item.ID != "1" {
+          t.Errorf("Expected ID to be 1, got %s", item.ID)
+      }
+
+      if item.Name != "Test Item" {
+          t.Errorf("Expected Name to be 'Test Item', got %s", item.Name)
+      }
+  }
+  ```
+
+  Run the tests using the `go test` command:
+
+  <Terminal>
+  go test ./...
+  </Terminal>
+</Step>
+
+## Explanation
+
+<Callout type="info" title="How it works">
+  Explain the key concepts used in the code above. For example:
+  
+  - The HTTP server is created using Go's standard library
+  - The models package defines the data structures used in the application
+  - The handlers package contains the HTTP request handlers
+</Callout>
+
+## Challenges
+
+Now that you've built the basic application, try these challenges to extend it:
+
+### Challenge 1: Add CRUD operations
+
+Implement Create, Read, Update, and Delete operations for the `Item` model.
+
+<details>
+  <summary>Hint</summary>
+  
+  You'll need to:
+  
+  1. Create an in-memory store or connect to a database
+  2. Add handlers for each CRUD operation
+  3. Implement proper error handling
+</details>
+
+### Challenge 2: Add authentication
+
+Add basic authentication to your API.
+
+<details>
+  <summary>Hint</summary>
+  
+  You can use:
+  
+  1. HTTP Basic Authentication
+  2. JWT tokens
+  3. A middleware approach to protect routes
+</details>
+
+## Deployment (Optional)
+
+If you want to deploy your application, here are some options:
+
+- Deploy to a VPS like DigitalOcean or Linode
+- Use a container service like Docker and Kubernetes
+- Deploy to a serverless platform like AWS Lambda
+
+## Summary
+
+In this project, you built:
+
+- A web server using Go's standard library
+- A simple API with a data model
+- Tests for your application
+
+You practiced:
+
+- Structuring a Go application
+- Working with HTTP in Go
+- Testing Go code
+
+## Next Steps
+
+Now that you've completed this project, you can:
+
+- Extend it with the suggested challenges
+- Move on to the next project: [Next Project Title](link-to-next-project)
+- Explore more about [related topic]
+
+## Additional Resources
+
+- [Official Go Documentation](https://golang.org/doc/)
+- [Go by Example](https://gobyexample.com/)
+- [Effective Go](https://golang.org/doc/effective_go)

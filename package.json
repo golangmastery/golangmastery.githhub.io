@@ -1,0 +1,44 @@
+{
+  "name": "golangmastery.githhub.io",
+  "version": "1.0.0",
+  "description": "Golang Mastery - Learn Golang with Interactive Labs",
+  "main": "index.js",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "export": "next build && next export -o out",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/golangmastery/golangmastery.githhub.io.git"
+  },
+  "keywords": ["golang", "learning", "programming", "tutorials", "labs"],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/golangmastery/golangmastery.githhub.io/issues"
+  },
+  "homepage": "https://github.com/golangmastery/golangmastery.githhub.io#readme",
+  "dependencies": {
+    "@mdx-js/loader": "^1.6.22",
+    "@mdx-js/react": "^1.6.22",
+    "@next/mdx": "^12.3.4",
+    "@types/node": "^16.18.68",
+    "@types/react": "^17.0.65",
+    "@types/react-dom": "^17.0.20",
+    "autoprefixer": "^10.4.14",
+    "gray-matter": "^4.0.3",
+    "next": "^12.3.4",
+    "next-mdx-remote": "^3.0.8",
+    "postcss": "^8.4.24",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "rehype-highlight": "^5.0.2",
+    "rehype-slug": "^4.0.1",
+    "remark-gfm": "^1.0.0",
+    "tailwindcss": "^3.3.2",
+    "typescript": "^4.9.5"
+  }
+}

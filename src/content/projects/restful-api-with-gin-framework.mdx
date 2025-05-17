@@ -1,0 +1,89 @@
+---
+title: 'RESTful API with Gin Framework'
+slug: 'restful-api-with-gin-framework'
+coverImage: '/images/projects/restful-api-gin.png'
+description: 'Build a RESTful API using the Gin web framework. Implement CRUD operations, middleware, and authentication.'
+level: 'Intermediate'
+tags: ['Go', 'Web Development', 'Gin']
+---
+
+# RESTful API with Gin Framework
+
+In this project, you'll build a RESTful API using the Gin web framework. Gin is a high-performance HTTP web framework written in Go that makes it easy to build web applications and microservices.
+
+## Project Overview
+
+You'll create a RESTful API for a simple book management system that allows users to:
+
+- Create new books
+- Retrieve books (single book or all books)
+- Update existing books
+- Delete books
+- Authenticate users
+- Implement middleware for logging and authentication
+
+## What You'll Learn
+
+By completing this project, you'll learn:
+
+- How to use the Gin web framework
+- How to design and implement a RESTful API
+- How to handle JSON data
+- How to implement CRUD operations
+- How to use middleware for cross-cutting concerns
+- How to implement basic authentication
+
+## Prerequisites
+
+To complete this project, you should have:
+
+- Basic knowledge of Go programming
+- Understanding of HTTP and RESTful API concepts
+- Familiarity with JSON
+
+## Project Structure
+
+The project is divided into several steps:
+
+1. Setting up the project and installing Gin
+2. Creating the book data structure
+3. Implementing CRUD operations
+4. Adding middleware for logging
+5. Implementing authentication
+6. Testing the API with curl or Postman
+
+## Getting Started
+
+Let's start by setting up the project and installing the Gin framework.
+
+```go
+package main
+
+import (
+    "net/http"
+    "github.com/gin-gonic/gin"
+)
+
+type Book struct {
+    ID     string `json:"id"`
+    Title  string `json:"title"`
+    Author string `json:"author"`
+    Year   int    `json:"year"`
+}
+
+var books = []Book{
+    {ID: "1", Title: "The Go Programming Language", Author: "Alan A. A. Donovan and Brian W. Kernighan", Year: 2015},
+    {ID: "2", Title: "Go in Action", Author: "William Kennedy", Year: 2015},
+    {ID: "3", Title: "Concurrency in Go", Author: "Katherine Cox-Buday", Year: 2017},
+}
+
+func main() {
+    router := gin.Default()
+
+    // We'll implement the API endpoints here
+
+    router.Run(":8080")
+}
+```
+
+Follow the step-by-step instructions in this project to build your own RESTful API with Gin!

@@ -1,0 +1,31 @@
+/* Custom styles */
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Card hover effect */
+.card:hover {
+  transform: scale(1.02);
+  transition: transform 0.3s ease;
+}
+
+/* Button hover effects */
+.bg-blue-600:hover {
+  background-color: #2563eb;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}

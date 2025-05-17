@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Golang Mastery - Learn Golang with Interactive Labs</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <style>
+    .line-clamp-3 {
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    html {
+      scroll-behavior: smooth;
+    }
+    .card:hover {
+      transform: scale(1.02);
+      transition: transform 0.3s ease;
+    }
+  </style>
+</head>
+<body class="bg-gray-50">
+  <header class="bg-white shadow-sm">
+    <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+      <a href="/" class="flex items-center space-x-2">
+        <div class="font-bold text-xl text-blue-600">GolangMastery</div>
+      </a>
+      <nav class="hidden md:flex space-x-8">
+        <a href="#learn" class="text-gray-600 hover:text-blue-600 transition-colors">Learn</a>
+        <a href="#projects" class="text-gray-600 hover:text-blue-600 transition-colors">Projects</a>
+        <a href="#" class="text-gray-600 hover:text-blue-600 transition-colors">Pricing</a>
+      </nav>
+      <div class="flex space-x-4">
+        <a href="#" class="text-gray-600 hover:text-blue-600 transition-colors">Log In</a>
+        <a href="#" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors">Join For Free</a>
+      </div>
+    </div>
+  </header>
+
+  <section class="bg-gradient-to-r from-blue-50 to-indigo-50 py-16">
+    <div class="container mx-auto px-4 flex flex-col md:flex-row items-center">
+      <div class="md:w-1/2 mb-8 md:mb-0">
+        <div class="mx-auto w-64 h-64 flex items-center justify-center">
+          <img src="https://golang.org/lib/godoc/images/go-logo-blue.svg" alt="Golang Logo" class="w-full h-full object-contain">
+        </div>
+      </div>
+      <div class="md:w-1/2 text-center md:text-left">
+        <h1 class="text-4xl md:text-5xl font-bold mb-4 text-gray-800">Golang</h1>
+        <p class="text-lg text-gray-600 mb-6">
+          Golang is a versatile, high-level programming language. This Skill Tree offers a systematic way to learn Go. 
+          It's perfect for programming beginners, providing a structured roadmap to grasp Go syntax, data structures, 
+          and concurrency. Hands-on, non-video courses and coding exercises in an interactive Go playground help you 
+          develop practical skills to write clean and efficient Go code for various applications.
+        </p>
+        <div class="flex flex-wrap justify-center md:justify-start gap-4">
+          <span class="text-gray-600 font-medium">40 skills</span>
+          <span class="text-gray-600 font-medium">|</span>
+          <span class="text-gray-600 font-medium">10 courses</span>
+          <span class="text-gray-600 font-medium">|</span>
+          <span class="text-gray-600 font-medium">25 projects</span>
+        </div>
+        <div class="mt-8">
+          <a href="#learn" class="bg-blue-600 text-white px-6 py-3 rounded-md font-medium hover:bg-blue-700 transition-colors">
+            Start Learning
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-12 bg-white" id="learn">
+    <div class="container mx-auto px-4">
+      <div class="flex border-b border-gray-200 mb-8">
+        <button
+          class="py-4 px-6 font-medium text-lg text-blue-600 border-b-2 border-blue-600"
+          id="learn-tab"
+          onclick="switchTab('learn')"
+        >
+          Learn Skills
+        </button>
+        <button
+          class="py-4 px-6 font-medium text-lg text-gray-500 hover:text-gray-700"
+          id="build-tab"
+          onclick="switchTab('build')"
+        >
+          Build Projects
+        </button>
+      </div>
+
+      <div id="learn-content" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <!-- Course Cards -->
+        <div class="bg-white rounded-lg shadow-md overflow-hidden transition-transform duration-300 hover:shadow-lg hover:scale-[1.02]">
+          <div class="h-48 w-full bg-blue-100 flex items-center justify-center">
+            <div class="text-blue-600 text-5xl font-bold">Go</div>
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-bold mb-2">Quick Start with Golang</h3>
+            <div class="flex items-center space-x-2 mb-4">
+              <span class="px-2 py-1 text-xs rounded-full bg-green-100 text-green-800">Beginner</span>
+              <span class="px-2 py-1 text-xs bg-gray-100 text-gray-800 rounded-full">Go</span>
+              <span class="px-2 py-1 text-xs bg-gray-100 text-gray-800 rounded-full">Programming</span>
+            </div>
+            <p class="text-gray-600 mb-4 line-clamp-3">
+              Master Golang fundamentals in this hands-on course designed for beginners. Learn essential concepts like data types, control structures, functions, packages, and data structures through interactive labs and practical challenges.
+            </p>
+            <div class="flex justify-between items-center">
+              <span class="text-sm text-gray-500">10 labs</span>
+              <a href="courses/quick-start-with-golang.html" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors">
+                Start Learning
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-lg shadow-md overflow-hidden transition-transform duration-300 hover:shadow-lg hover:scale-[1.02]">
+          <div class="h-48 w-full bg-blue-100 flex items-center justify-center">
+            <div class="text-blue-600 text-5xl font-bold">Go</div>
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-bold mb-2">Concurrent Programming with Go</h3>
+            <div class="flex items-center space-x-2 mb-4">
+              <span class="px-2 py-1 text-xs rounded-full bg-yellow-100 text-yellow-800">Intermediate</span>
+              <span class="px-2 py-1 text-xs bg-gray-100 text-gray-800 rounded-full">Go</span>
+              <span class="px-2 py-1 text-xs bg-gray-100 text-gray-800 rounded-full">Concurrency</span>
+            </div>
+            <p class="text-gray-600 mb-4 line-clamp-3">
+              Learn how to write concurrent programs in Go using goroutines and channels. This course covers concurrency patterns, synchronization, and best practices for writing efficient concurrent code in Go.
+            </p>
+            <div class="flex justify-between items-center">
+              <span class="text-sm text-gray-500">5 labs</span>
+              <a href="courses/concurrent-programming-with-go.html" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors">
+                Start Learning
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-lg shadow-md overflow-hidden transition-transform duration-300 hover:shadow-lg hover:scale-[1.02]">
+          <div class="h-48 w-full bg-blue-100 flex items-center justify-center">
+            <div class="text-blue-600 text-5xl font-bold">Go</div>
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-bold mb-2">Web Development with Go</h3>
+            <div class="flex items-center space-x-2 mb-4">
+              <span class="px-2 py-1 text-xs rounded-full bg-yellow-100 text-yellow-800">Intermediate</span>
+              <span class="px-2 py-1 text-xs bg-gray-100 text-gray-800 rounded-full">Go</span>
+              <span class="px-2 py-1 text-xs bg-gray-100 text-gray-800 rounded-full">Web Development</span>
+            </div>
+            <p class="text-gray-600 mb-4 line-clamp-3">
+              Build web applications with Go's standard library and popular frameworks. Learn how to create RESTful APIs, handle HTTP requests, and connect to databases.
+            </p>
+            <div class="flex justify-between items-center">
+              <span class="text-sm text-gray-500">5 labs</span>
+              <a href="courses/web-development-with-go.html" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors">
+                Start Learning
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="build-content" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 hidden" id="projects">
+        <!-- Project Cards -->
+        <div class="bg-white rounded-lg shadow-md overflow-hidden transition-transform duration-300 hover:shadow-lg hover:scale-[1.02]">
+          <div class="h-48 w-full bg-blue-100 flex items-center justify-center">
+            <div class="text-blue-600 text-5xl font-bold">Go</div>
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-bold mb-2">Build a CLI Task Manager</h3>
+            <div class="flex items-center space-x-2 mb-4">
+              <span class="px-2 py-1 text-xs rounded-full bg-green-100 text-green-800">Beginner</span>
+              <span class="px-2 py-1 text-xs bg-gray-100 text-gray-800 rounded-full">Go</span>
+              <span class="px-2 py-1 text-xs bg-gray-100 text-gray-800 rounded-full">CLI</span>
+            </div>
+            <p class="text-gray-600 mb-4 line-clamp-3">
+              Create a command-line task manager application with Go. Learn how to handle user input, store data, and build a useful CLI tool.
+            </p>
+            <div class="flex justify-end">
+              <a href="projects/build-a-cli-task-manager.html" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors">
+                Start Project
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-lg shadow-md overflow-hidden transition-transform duration-300 hover:shadow-lg hover:scale-[1.02]">
+          <div class="h-48 w-full bg-blue-100 flex items-center justify-center">
+            <div class="text-blue-600 text-5xl font-bold">Go</div>
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-bold mb-2">RESTful API with Gin Framework</h3>
+            <div class="flex items-center space-x-2 mb-4">
+              <span class="px-2 py-1 text-xs rounded-full bg-yellow-100 text-yellow-800">Intermediate</span>
+              <span class="px-2 py-1 text-xs bg-gray-100 text-gray-800 rounded-full">Go</span>
+              <span class="px-2 py-1 text-xs bg-gray-100 text-gray-800 rounded-full">Web Development</span>
+              <span class="px-2 py-1 text-xs bg-gray-100 text-gray-800 rounded-full">Gin</span>
+            </div>
+            <p class="text-gray-600 mb-4 line-clamp-3">
+              Build a RESTful API using the Gin web framework. Implement CRUD operations, middleware, and authentication.
+            </p>
+            <div class="flex justify-end">
+              <a href="projects/restful-api-with-gin-framework.html" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors">
+                Start Project
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-lg shadow-md overflow-hidden transition-transform duration-300 hover:shadow-lg hover:scale-[1.02]">
+          <div class="h-48 w-full bg-blue-100 flex items-center justify-center">
+            <div class="text-blue-600 text-5xl font-bold">Go</div>
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-bold mb-2">Real-time Chat Application</h3>
+            <div class="flex items-center space-x-2 mb-4">
+              <span class="px-2 py-1 text-xs rounded-full bg-yellow-100 text-yellow-800">Intermediate</span>
+              <span class="px-2 py-1 text-xs bg-gray-100 text-gray-800 rounded-full">Go</span>
+              <span class="px-2 py-1 text-xs bg-gray-100 text-gray-800 rounded-full">WebSockets</span>
+              <span class="px-2 py-1 text-xs bg-gray-100 text-gray-800 rounded-full">Real-time</span>
+            </div>
+            <p class="text-gray-600 mb-4 line-clamp-3">
+              Create a real-time chat application using Go and WebSockets. Learn how to handle concurrent connections and real-time communication.
+            </p>
+            <div class="flex justify-end">
+              <a href="projects/real-time-chat-application.html" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors">
+                Start Project
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-16 bg-gray-50">
+    <div class="container mx-auto px-4">
+      <h2 class="text-3xl font-bold text-center mb-12">Explore Related Skill Trees</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <a href="#" class="flex flex-col items-center p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow bg-white">
+          <div class="w-24 h-24 mb-4 bg-blue-100 rounded-full flex items-center justify-center">
+            <span class="text-blue-600 text-3xl font-bold">Web</span>
+          </div>
+          <h3 class="text-xl font-semibold mb-2">Web Development</h3>
+        </a>
+        <a href="#" class="flex flex-col items-center p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow bg-white">
+          <div class="w-24 h-24 mb-4 bg-blue-100 rounded-full flex items-center justify-center">
+            <span class="text-blue-600 text-3xl font-bold">DevOps</span>
+          </div>
+          <h3 class="text-xl font-semibold mb-2">DevOps</h3>
+        </a>
+        <a href="#" class="flex flex-col items-center p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow bg-white">
+          <div class="w-24 h-24 mb-4 bg-blue-100 rounded-full flex items-center justify-center">
+            <span class="text-blue-600 text-3xl font-bold">Micro</span>
+          </div>
+          <h3 class="text-xl font-semibold mb-2">Microservices</h3>
+        </a>
+      </div>
+    </div>
+  </section>
+  
+  <section class="py-16 bg-blue-600 text-white">
+    <div class="container mx-auto px-4 text-center">
+      <h2 class="text-3xl font-bold mb-6">Join Our Discord and Learn Together</h2>
+      <p class="text-lg mb-8 max-w-2xl mx-auto">
+        Connect with other Golang enthusiasts, get help with your code, and share your projects.
+      </p>
+      <a href="#" class="bg-white text-blue-600 px-6 py-3 rounded-md font-medium hover:bg-gray-100 transition-colors">
+        Join Now
+      </a>
+    </div>
+  </section>
+
+  <footer class="bg-gray-800 text-white py-12">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div>
+          <h3 class="text-xl font-bold mb-4">GolangMastery</h3>
+          <p class="text-gray-300">
+            Learn Golang with hands-on labs and projects. Master Go programming with our structured learning path.
+          </p>
+        </div>
+        <div>
+          <h4 class="text-lg font-semibold mb-4">Learning Path</h4>
+          <ul class="space-y-2">
+            <li>
+              <a href="#learn" class="text-gray-300 hover:text-white transition-colors">
+                Learn Golang
+              </a>
+            </li>
+            <li>
+              <a href="#projects" class="text-gray-300 hover:text-white transition-colors">
+                Golang Projects
+              </a>
+            </li>
+            <li>
+              <a href="#" class="text-gray-300 hover:text-white transition-colors">
+                Tutorials
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="text-lg font-semibold mb-4">Resources</h4>
+          <ul class="space-y-2">
+            <li>
+              <a href="#" class="text-gray-300 hover:text-white transition-colors">
+                Golang Playground
+              </a>
+            </li>
+            <li>
+              <a href="#" class="text-gray-300 hover:text-white transition-colors">
+                Golang Cheat Sheet
+              </a>
+            </li>
+            <li>
+              <a href="#" class="text-gray-300 hover:text-white transition-colors">
+                Community Forum
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="text-lg font-semibold mb-4">Connect</h4>
+          <ul class="space-y-2">
+            <li>
+              <a href="#" class="text-gray-300 hover:text-white transition-colors">
+                GitHub
+              </a>
+            </li>
+            <li>
+              <a href="#" class="text-gray-300 hover:text-white transition-colors">
+                Twitter
+              </a>
+            </li>
+            <li>
+              <a href="#" class="text-gray-300 hover:text-white transition-colors">
+                Discord
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="mt-8 pt-8 border-t border-gray-700 text-center text-gray-400">
+        <p>© <span id="current-year"></span> GolangMastery. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Set current year in footer
+    document.getElementById('current-year').textContent = new Date().getFullYear();
+
+    // Tab switching functionality
+    function switchTab(tab) {
+      const learnTab = document.getElementById('learn-tab');
+      const buildTab = document.getElementById('build-tab');
+      const learnContent = document.getElementById('learn-content');
+      const buildContent = document.getElementById('build-content');
+
+      if (tab === 'learn') {
+        learnTab.classList.add('text-blue-600', 'border-b-2', 'border-blue-600');
+        learnTab.classList.remove('text-gray-500');
+        buildTab.classList.remove('text-blue-600', 'border-b-2', 'border-blue-600');
+        buildTab.classList.add('text-gray-500');
+        learnContent.classList.remove('hidden');
+        buildContent.classList.add('hidden');
+      } else {
+        buildTab.classList.add('text-blue-600', 'border-b-2', 'border-blue-600');
+        buildTab.classList.remove('text-gray-500');
+        learnTab.classList.remove('text-blue-600', 'border-b-2', 'border-blue-600');
+        learnTab.classList.add('text-gray-500');
+        buildContent.classList.remove('hidden');
+        learnContent.classList.add('hidden');
+      }
+    }
+  </script>
+</body>
+</html>

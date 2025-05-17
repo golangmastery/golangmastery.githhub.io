@@ -1,0 +1,146 @@
+---
+title: 'Real-time Chat Application'
+slug: 'real-time-chat-application'
+coverImage: '/images/projects/real-time-chat.png'
+description: 'Create a real-time chat application using Go and WebSockets. Learn how to handle concurrent connections and real-time communication.'
+level: 'Intermediate'
+tags: ['Go', 'WebSockets', 'Real-time']
+---
+
+# Real-time Chat Application
+
+In this project, you'll build a real-time chat application using Go and WebSockets. This project will help you understand how to implement real-time communication between clients and servers.
+
+## Project Overview
+
+You'll create a chat application that allows users to:
+
+- Join chat rooms
+- Send messages to all users in a room
+- Receive messages in real-time
+- See who is online in a room
+- Leave chat rooms
+
+## What You'll Learn
+
+By completing this project, you'll learn:
+
+- How to use WebSockets in Go
+- How to handle concurrent connections
+- How to broadcast messages to multiple clients
+- How to manage chat rooms and users
+- How to create a simple web interface for the chat
+
+## Prerequisites
+
+To complete this project, you should have:
+
+- Basic knowledge of Go programming
+- Understanding of HTTP and web concepts
+- Familiarity with concurrency in Go
+- Basic knowledge of HTML, CSS, and JavaScript
+
+## Project Structure
+
+The project is divided into several steps:
+
+1. Setting up the project
+2. Implementing the WebSocket server
+3. Creating chat rooms and user management
+4. Handling messages and broadcasting
+5. Building a web interface
+6. Testing and refining the application
+
+## Getting Started
+
+Let's start by setting up the project and implementing the WebSocket server.
+
+```go
+package main
+
+import (
+    "fmt"
+    "log"
+    "net/http"
+    "github.com/gorilla/websocket"
+)
+
+var upgrader = websocket.Upgrader{
+    ReadBufferSize:  1024,
+    WriteBufferSize: 1024,
+    CheckOrigin: func(r *http.Request) bool {
+        return true // Allow all connections
+    },
+}
+
+type Client struct {
+    conn *websocket.Conn
+    room string
+    username string
+}
+
+type Message struct {
+    Type    string `json:"type"`
+    Content string `json:"content"`
+    Sender  string `json:"sender"`
+    Room    string `json:"room"`
+}
+
+var clients = make(map[*Client]bool)
+var broadcast = make(chan Message)
+
+func handleConnections(w http.ResponseWriter, r *http.Request) {
+    // Upgrade initial GET request to a WebSocket
+    ws, err := upgrader.Upgrade(w, r, nil)
+    if err != nil {
+        log.Fatal(err)
+    }
+    defer ws.Close()
+
+    // Create a new client
+    client := &Client{conn: ws, room: "general", username: "anonymous"}
+    clients[client] = true
+
+    // We'll implement the message handling here
+}
+
+func handleMessages() {
+    for {
+        // Grab the next message from the broadcast channel
+        msg := <-broadcast
+
+        // Send it out to every client
+        for client := range clients {
+            if client.room == msg.Room {
+                err := client.conn.WriteJSON(msg)
+                if err != nil {
+                    log.Printf("error: %v", err)
+                    client.conn.Close()
+                    delete(clients, client)
+                }
+            }
+        }
+    }
+}
+
+func main() {
+    // Create a simple file server
+    fs := http.FileServer(http.Dir("./public"))
+    http.Handle("/", fs)
+
+    // Configure WebSocket route
+    http.HandleFunc("/ws", handleConnections)
+
+    // Start listening for incoming chat messages
+    go handleMessages()
+
+    // Start the server
+    fmt.Println("Server starting at localhost:8080")
+    err := http.ListenAndServe(":8080", nil)
+    if err != nil {
+        log.Fatal("ListenAndServe: ", err)
+    }
+}
+```
+
+Follow the step-by-step instructions in this project to build your own real-time chat application!

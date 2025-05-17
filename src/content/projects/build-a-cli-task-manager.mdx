@@ -1,0 +1,92 @@
+---
+title: 'Build a CLI Task Manager'
+slug: 'build-a-cli-task-manager'
+coverImage: '/images/projects/cli-task-manager.png'
+description: 'Create a command-line task manager application with Go. Learn how to handle user input, store data, and build a useful CLI tool.'
+level: 'Beginner'
+tags: ['Go', 'CLI']
+---
+
+# Build a CLI Task Manager
+
+In this project, you'll build a command-line task manager application using Go. This project will help you apply your Go knowledge to create a practical tool that you can use in your daily life.
+
+## Project Overview
+
+You'll create a CLI application that allows users to:
+
+- Add new tasks
+- List all tasks
+- Mark tasks as completed
+- Delete tasks
+- Save tasks to a file
+- Load tasks from a file
+
+## What You'll Learn
+
+By completing this project, you'll learn:
+
+- How to create a command-line interface in Go
+- How to handle user input
+- How to work with files for data persistence
+- How to structure a Go application
+- How to use Go's standard library
+
+## Prerequisites
+
+To complete this project, you should have:
+
+- Basic knowledge of Go programming
+- Understanding of functions and data structures in Go
+- Familiarity with error handling in Go
+
+## Project Structure
+
+The project is divided into several steps:
+
+1. Setting up the project
+2. Creating the task data structure
+3. Implementing task operations (add, list, complete, delete)
+4. Adding file persistence
+5. Building the command-line interface
+6. Testing and refining the application
+
+## Getting Started
+
+Let's start by setting up the project structure and creating the task data structure.
+
+```go
+package main
+
+import (
+    "fmt"
+    "os"
+    "time"
+)
+
+type Task struct {
+    ID        int
+    Title     string
+    Completed bool
+    CreatedAt time.Time
+}
+
+type TaskManager struct {
+    Tasks []Task
+    NextID int
+}
+
+func NewTaskManager() *TaskManager {
+    return &TaskManager{
+        Tasks: []Task{},
+        NextID: 1,
+    }
+}
+
+func main() {
+    fmt.Println("Task Manager")
+    // We'll implement the main functionality here
+}
+```
+
+Follow the step-by-step instructions in this project to build your own CLI task manager!

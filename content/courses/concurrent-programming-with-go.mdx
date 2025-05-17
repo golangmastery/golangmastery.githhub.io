@@ -1,0 +1,114 @@
+---
+title: 'Concurrent Programming with Go'
+slug: 'concurrent-programming-with-go'
+coverImage: '/images/courses/concurrent-programming-with-go.png'
+description: "Learn how to write concurrent programs in Go using goroutines and channels. This course covers concurrency patterns, synchronization, and best practices for writing efficient concurrent code in Go."
+level: 'Intermediate'
+tags: ['Go', 'Concurrency']
+labs:
+  - title: 'Introduction to Goroutines'
+    slug: 'introduction-to-goroutines'
+    description: "Learn about goroutines, Go's lightweight threads for concurrent execution."
+  - title: 'Channels Basics'
+    slug: 'channels-basics'
+    description: 'Understand how to use channels for communication between goroutines.'
+  - title: 'Buffered Channels'
+    slug: 'buffered-channels'
+    description: 'Learn about buffered channels and when to use them.'
+  - title: 'Select Statement'
+    slug: 'select-statement'
+    description: 'Master the select statement for handling multiple channel operations.'
+  - title: 'Mutex and Atomic Operations'
+    slug: 'mutex-and-atomic-operations'
+    description: 'Learn about mutual exclusion and atomic operations for safe concurrent access.'
+---
+
+# Concurrent Programming with Go
+
+Welcome to the Concurrent Programming with Go course! This course will teach you how to write efficient concurrent programs using Go's powerful concurrency primitives.
+
+## What You'll Learn
+
+In this course, you'll learn:
+
+- How to create and manage goroutines
+- Communication between goroutines using channels
+- Synchronization techniques
+- Concurrency patterns
+- Best practices for writing concurrent code
+
+## Prerequisites
+
+To get the most out of this course, you should have:
+
+- Basic knowledge of Go programming
+- Understanding of functions and data structures in Go
+- Familiarity with error handling in Go
+
+If you're new to Go, we recommend completing the "Quick Start with Golang" course first.
+
+## Why Concurrency in Go?
+
+Concurrency is one of Go's strongest features. Go was designed with concurrency in mind, making it easier to write programs that can perform multiple tasks simultaneously. This is especially important in today's world, where applications need to handle multiple requests, process large amounts of data, and provide responsive user interfaces.
+
+Go's approach to concurrency is different from many other languages. Instead of using threads and locks, Go uses goroutines and channels, which provide a simpler and more efficient way to write concurrent code.
+
+## Sample Code
+
+Here's a simple example of using goroutines:
+
+```go
+package main
+
+import (
+    "fmt"
+    "time"
+)
+
+func sayHello() {
+    fmt.Println("Hello from goroutine!")
+}
+
+func main() {
+    go sayHello() // Start a new goroutine
+    
+    // Wait for the goroutine to finish
+    time.Sleep(100 * time.Millisecond)
+    
+    fmt.Println("Hello from main function!")
+}
+```
+
+And here's an example of using channels for communication between goroutines:
+
+```go
+package main
+
+import "fmt"
+
+func sum(s []int, c chan int) {
+    sum := 0
+    for _, v := range s {
+        sum += v
+    }
+    c <- sum // Send sum to channel
+}
+
+func main() {
+    s := []int{7, 2, 8, -9, 4, 0}
+    
+    c := make(chan int)
+    go sum(s[:len(s)/2], c)
+    go sum(s[len(s)/2:], c)
+    
+    x, y := <-c, <-c // Receive from channel
+    
+    fmt.Println(x, y, x+y)
+}
+```
+
+## Getting Started
+
+To get started, click on the first lab: "Introduction to Goroutines". This will introduce you to goroutines, Go's lightweight threads for concurrent execution.
+
+Happy concurrent programming!

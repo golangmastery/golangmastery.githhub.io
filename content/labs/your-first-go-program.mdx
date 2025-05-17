@@ -1,0 +1,389 @@
+---
+title: 'Your First Go Program'
+slug: 'your-first-go-program'
+description: 'Write your first Go program and understand the basic structure of Go code.'
+duration: '20 minutes'
+level: 'Beginner'
+tags: ['Go', 'Basics']
+prerequisites: []
+---
+
+# Your First Go Program
+
+<Callout type="info">
+  This lab will guide you through writing your first Go program and understanding the basic structure of Go code.
+</Callout>
+
+## Learning Objectives
+
+By the end of this lab, you will be able to:
+
+- Set up a Go development environment
+- Create and run a simple Go program
+- Understand the basic structure of a Go program
+- Use the `fmt` package for output
+
+## Introduction
+
+Go (or Golang) is a statically typed, compiled programming language designed at Google. It's known for its simplicity, efficiency, and built-in concurrency features. In this lab, we'll write our first Go program and explore the basic structure of Go code.
+
+## Setup
+
+<Step number="1" title="Set up your environment">
+  First, make sure you have Go installed on your system. You can check by running:
+
+  <Terminal>
+  go version
+  </Terminal>
+
+  If Go is not installed, follow the instructions on the [official Go website](https://golang.org/doc/install).
+</Step>
+
+<Step number="2" title="Create a new project">
+  Create a new directory for your project:
+
+  <Terminal>
+  mkdir hello-world
+  cd hello-world
+  </Terminal>
+
+  Initialize a new Go module:
+
+  <Terminal>
+  go mod init example.com/hello-world
+  </Terminal>
+
+  This creates a `go.mod` file that defines your module and its dependencies.
+</Step>
+
+## Writing Your First Go Program
+
+<Step number="3" title="Create your first Go file">
+  Create a new file called `main.go` with the following content:
+
+  ```go
+  package main
+
+  import "fmt"
+
+  func main() {
+      fmt.Println("Hello, Go!")
+  }
+  ```
+
+  Let's break down this code:
+
+  <ul>
+    <li>`package main`: Every Go file starts with a package declaration. The `main` package is special - it defines an executable program rather than a library.</li>
+    <li>`import "fmt"`: This imports the `fmt` package, which contains functions for formatted I/O.</li>
+    <li>`func main()`: The `main` function is the entry point of your program. When you run your program, execution starts here.</li>
+    <li>`fmt.Println("Hello, Go!")`: This calls the `Println` function from the `fmt` package to print text to the console.</li>
+  </ul>
+</Step>
+
+<Step number="4" title="Run your program">
+  Run your program using the `go run` command:
+
+  <Terminal>
+  go run main.go
+  </Terminal>
+
+  You should see the output:
+
+  <Terminal>
+  Hello, Go!
+  </Terminal>
+
+  Congratulations! You've just written and run your first Go program.
+</Step>
+
+## Building Your Program
+
+<Step number="5" title="Build an executable">
+  The `go run` command compiles and runs your program in one step. To build an executable file that you can run later, use the `go build` command:
+
+  <Terminal>
+  go build
+  </Terminal>
+
+  This creates an executable file named after your module (in this case, `hello-world` or `hello-world.exe` on Windows).
+
+  Run the executable:
+
+  <Terminal>
+  ./hello-world  # On Unix-like systems
+  hello-world.exe  # On Windows
+  </Terminal>
+
+  You should see the same output as before:
+
+  <Terminal>
+  Hello, Go!
+  </Terminal>
+</Step>
+
+## Adding More Functionality
+
+<Step number="6" title="Enhance your program">
+  Let's modify our program to make it more interactive. Update `main.go` with the following code:
+
+  ```go
+  package main
+
+  import (
+      "fmt"
+      "time"
+  )
+
+  func main() {
+      name := "Gopher"
+      currentTime := time.Now()
+
+      fmt.Println("Hello,", name + "!")
+      fmt.Println("The current time is:", currentTime.Format("15:04:05"))
+
+      // Using Printf for formatted output
+      fmt.Printf("Today is %s, %d %s %d\n",
+          currentTime.Weekday(),
+          currentTime.Day(),
+          currentTime.Month(),
+          currentTime.Year())
+  }
+  ```
+
+  This enhanced program:
+
+  <ul>
+    <li>Imports the `time` package to work with dates and times</li>
+    <li>Uses variables to store a name and the current time</li>
+    <li>Demonstrates string concatenation with the `+` operator</li>
+    <li>Uses `Printf` for formatted output with placeholders</li>
+  </ul>
+</Step>
+
+<Step number="7" title="Run the enhanced program">
+  Run your enhanced program:
+
+  <Terminal>
+  go run main.go
+  </Terminal>
+
+  You should see output similar to this (with the current date and time):
+
+  <Terminal>
+  Hello, Gopher!
+  The current time is: 14:30:45
+  Today is Monday, 15 May 2023
+  </Terminal>
+</Step>
+
+## Exercises
+
+Now it's your turn to practice what you've learned. Complete the following exercises:
+
+### Exercise 1: Personalize the greeting
+
+Modify the program to ask for the user's name and then greet them.
+
+<details>
+  <summary>Solution</summary>
+
+  ```go
+  package main
+
+  import (
+      "bufio"
+      "fmt"
+      "os"
+      "strings"
+      "time"
+  )
+
+  func main() {
+      // Create a reader to read from standard input
+      reader := bufio.NewReader(os.Stdin)
+
+      // Prompt for name
+      fmt.Print("Enter your name: ")
+
+      // Read the input until a newline
+      name, _ := reader.ReadString('\n')
+
+      // Trim whitespace (including the newline)
+      name = strings.TrimSpace(name)
+
+      // Get current time
+      currentTime := time.Now()
+
+      // Greet the user
+      fmt.Println("Hello,", name + "!")
+      fmt.Println("The current time is:", currentTime.Format("15:04:05"))
+
+      // Using Printf for formatted output
+      fmt.Printf("Today is %s, %d %s %d\n",
+          currentTime.Weekday(),
+          currentTime.Day(),
+          currentTime.Month(),
+          currentTime.Year())
+  }
+  ```
+</details>
+
+### Exercise 2: Add a custom greeting based on the time of day
+
+Extend the program to provide a different greeting based on the time of day (morning, afternoon, evening).
+
+<details>
+  <summary>Solution</summary>
+
+  ```go
+  package main
+
+  import (
+      "bufio"
+      "fmt"
+      "os"
+      "strings"
+      "time"
+  )
+
+  func main() {
+      // Create a reader to read from standard input
+      reader := bufio.NewReader(os.Stdin)
+
+      // Prompt for name
+      fmt.Print("Enter your name: ")
+
+      // Read the input until a newline
+      name, _ := reader.ReadString('\n')
+
+      // Trim whitespace (including the newline)
+      name = strings.TrimSpace(name)
+
+      // Get current time
+      currentTime := time.Now()
+      hour := currentTime.Hour()
+
+      // Determine greeting based on time of day
+      var greeting string
+      if hour < 12 {
+          greeting = "Good morning"
+      } else if hour < 18 {
+          greeting = "Good afternoon"
+      } else {
+          greeting = "Good evening"
+      }
+
+      // Greet the user
+      fmt.Printf("%s, %s!\n", greeting, name)
+      fmt.Println("The current time is:", currentTime.Format("15:04:05"))
+
+      // Using Printf for formatted output
+      fmt.Printf("Today is %s, %d %s %d\n",
+          currentTime.Weekday(),
+          currentTime.Day(),
+          currentTime.Month(),
+          currentTime.Year())
+  }
+  ```
+</details>
+
+## Challenge (Optional)
+
+For an extra challenge, try to implement a program that:
+
+- Asks the user for their birth year
+- Calculates and displays their age
+- Tells them if it's their birthday today
+
+<details>
+  <summary>Solution</summary>
+
+  ```go
+  package main
+
+  import (
+      "bufio"
+      "fmt"
+      "os"
+      "strconv"
+      "strings"
+      "time"
+  )
+
+  func main() {
+      reader := bufio.NewReader(os.Stdin)
+
+      // Get current time
+      currentTime := time.Now()
+      currentYear := currentTime.Year()
+
+      // Prompt for birth year
+      fmt.Print("Enter your birth year: ")
+      birthYearStr, _ := reader.ReadString('\n')
+      birthYearStr = strings.TrimSpace(birthYearStr)
+
+      // Convert string to integer
+      birthYear, err := strconv.Atoi(birthYearStr)
+      if err != nil {
+          fmt.Println("Invalid year. Please enter a valid number.")
+          return
+      }
+
+      // Calculate age
+      age := currentYear - birthYear
+
+      // Display age
+      fmt.Printf("You are approximately %d years old.\n", age)
+
+      // Prompt for birth month and day
+      fmt.Print("Enter your birth month (1-12): ")
+      birthMonthStr, _ := reader.ReadString('\n')
+      birthMonthStr = strings.TrimSpace(birthMonthStr)
+
+      fmt.Print("Enter your birth day (1-31): ")
+      birthDayStr, _ := reader.ReadString('\n')
+      birthDayStr = strings.TrimSpace(birthDayStr)
+
+      // Convert to integers
+      birthMonth, err1 := strconv.Atoi(birthMonthStr)
+      birthDay, err2 := strconv.Atoi(birthDayStr)
+
+      if err1 != nil || err2 != nil || birthMonth < 1 || birthMonth > 12 || birthDay < 1 || birthDay > 31 {
+          fmt.Println("Invalid date. Skipping birthday check.")
+          return
+      }
+
+      // Check if today is their birthday
+      if currentTime.Month() == time.Month(birthMonth) && currentTime.Day() == birthDay {
+          fmt.Println("🎉 Happy Birthday! 🎂")
+      } else {
+          fmt.Println("Today is not your birthday.")
+      }
+  }
+  ```
+</details>
+
+## Summary
+
+In this lab, you learned:
+
+- How to set up a Go development environment
+- The basic structure of a Go program
+- How to create, build, and run Go code
+- How to use the `fmt` package for output
+- How to work with variables and the `time` package
+
+## Next Steps
+
+Now that you've completed this lab, you can:
+
+- Move on to the next lab: [Go Data Types and Variables](/labs/go-data-types-and-variables)
+- Explore more about Go's standard library
+- Practice by writing more simple Go programs
+
+## Additional Resources
+
+- [Official Go Documentation](https://golang.org/doc/)
+- [Go by Example: Hello World](https://gobyexample.com/hello-world)
+- [A Tour of Go](https://tour.golang.org/welcome/1)
