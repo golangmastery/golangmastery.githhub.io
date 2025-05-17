@@ -268,7 +268,7 @@ const TableOfContents = ({ headings }) => {
       <ul className="space-y-2">
         {headings.map((heading, index) => (
           <li key={index} className={`${heading.level > 2 ? 'ml-4' : ''}`}>
-            <a
+            <Link
               href={`#${heading.id}`}
               className={`text-blue-600 hover:text-blue-800 hover:underline flex items-center ${
                 heading.level === 2 ? 'font-medium' : ''
@@ -286,7 +286,7 @@ const TableOfContents = ({ headings }) => {
                 )}
               </span>
               {heading.text}
-            </a>
+            </Link>
           </li>
         ))}
       </ul>
@@ -308,15 +308,24 @@ const createHeadingWithAnchor = (level, className) => {
       },
       <>
         {props.children}
-        <a
-          href={`#${id}`}
+        <button
+          onClick={() => {
+            // Create a URL object to get the pathname without query params
+            const url = new URL(window.location.href);
+            // Update the hash
+            url.hash = id;
+            // Update browser history
+            window.history.pushState({}, '', url.toString());
+            // Copy to clipboard
+            navigator.clipboard.writeText(url.toString());
+          }}
           className="ml-2 text-gray-400 opacity-0 hover:opacity-100 group-hover:opacity-70 transition-opacity duration-200"
-          aria-label={`Link to ${props.children}`}
+          aria-label={`Copy link to ${props.children}`}
         >
           <svg className="w-4 h-4 inline" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
             <path fillRule="evenodd" d="M12.586 4.586a2 2 0 112.828 2.828l-3 3a2 2 0 01-2.828 0 1 1 0 00-1.414 1.414 4 4 0 005.656 0l3-3a4 4 0 00-5.656-5.656l-1.5 1.5a1 1 0 101.414 1.414l1.5-1.5zm-5 5a2 2 0 012.828 0 1 1 0 101.414-1.414 4 4 0 00-5.656 0l-3 3a4 4 0 105.656 5.656l1.5-1.5a1 1 0 10-1.414-1.414l-1.5 1.5a2 2 0 11-2.828-2.828l3-3z" clipRule="evenodd" />
           </svg>
-        </a>
+        </button>
       </>
     );
   };
@@ -332,27 +341,24 @@ const MDXComponents = {
     <p className="my-4 text-gray-700 leading-relaxed text-lg" {...props} />
   ),
 
-  a: props => {
-    // Check if it's an external link
-    const isExternal = props.href?.startsWith('http') || props.href?.startsWith('https');
+  a: ({ href, children, ...props }) => {
+    if (href && href.startsWith('/')) {
+      return (
+        <Link href={href} className="text-blue-600 hover:text-blue-800 underline" {...props}>
+          {children}
+        </Link>
+      );
+    }
 
-    return (
-      <Link href={props.href || '#'}>
-        <a
-          className="text-blue-600 hover:text-blue-800 font-medium transition-colors duration-200 border-b border-blue-200 hover:border-blue-500"
-          target={isExternal ? "_blank" : undefined}
-          rel={isExternal ? "noopener noreferrer" : undefined}
-          {...props}
-        >
-          {props.children}
-          {isExternal && (
-            <svg className="w-3.5 h-3.5 inline-block ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-            </svg>
-          )}
+    if (href && (href.startsWith('http') || href.startsWith('mailto:'))) {
+      return (
+        <a href={href} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 underline" {...props}>
+          {children}
         </a>
-      </Link>
-    );
+      );
+    }
+
+    return <a href={href} className="text-blue-600 hover:text-blue-800 underline" {...props}>{children}</a>;
   },
 
   ul: props => (

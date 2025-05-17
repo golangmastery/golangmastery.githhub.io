@@ -11,11 +11,25 @@ const MDXComponents: MDXComponentsProps = {
   h3: (props: any) => <h3 className="text-xl font-bold mt-4 mb-2" {...props} />,
   h4: (props: any) => <h4 className="text-lg font-bold mt-3 mb-2" {...props} />,
   p: (props: any) => <p className="my-4 text-gray-700" {...props} />,
-  a: (props: any) => (
-    <Link href={props.href} className="text-blue-600 hover:text-blue-800 underline">
-      {props.children}
-    </Link>
-  ),
+  a: (props: any) => {
+    if (props.href && (props.href.startsWith('/') || props.href.startsWith('#'))) {
+      return (
+        <Link href={props.href} className="text-blue-600 hover:text-blue-800 underline">
+          {props.children}
+        </Link>
+      );
+    }
+    return (
+      <a
+        href={props.href}
+        className="text-blue-600 hover:text-blue-800 underline"
+        target={props.href.startsWith('http') ? "_blank" : undefined}
+        rel={props.href.startsWith('http') ? "noopener noreferrer" : undefined}
+      >
+        {props.children}
+      </a>
+    );
+  },
   ul: (props: any) => <ul className="list-disc pl-6 my-4" {...props} />,
   ol: (props: any) => <ol className="list-decimal pl-6 my-4" {...props} />,
   li: (props: any) => <li className="mb-1" {...props} />,

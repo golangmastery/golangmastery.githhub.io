@@ -91,7 +91,7 @@ export default function Home() {
                 alt="Go Gopher Mascot"
                 width={320}
                 height={320}
-                objectFit="contain"
+                style={{ objectFit: "contain" }}
               />
             </div>
           </div>
