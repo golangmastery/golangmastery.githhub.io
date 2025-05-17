@@ -322,21 +322,41 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     return { notFound: true };
   }
 
-  // Load MDX content for the course
-  const mdxFile = getContentFileBySlug('courses', course.slug);
+  // Load MDX content for the course - with error handling
   let mdxSource: MDXRemoteSerializeResult | null = null;
   let labs: any[] = [];
-  if (mdxFile && mdxFile.content) {
-    mdxSource = await serializeMdx(mdxFile.content);
-    if (mdxFile.frontmatter && Array.isArray(mdxFile.frontmatter.labs)) {
-      labs = mdxFile.frontmatter.labs;
+  
+  try {
+    const mdxFile = getContentFileBySlug('courses', course.slug);
+    if (mdxFile && mdxFile.content) {
+      mdxSource = await serializeMdx(mdxFile.content);
+      if (mdxFile.frontmatter && Array.isArray(mdxFile.frontmatter.labs)) {
+        labs = mdxFile.frontmatter.labs;
+      }
     }
+  } catch (error) {
+    console.warn(`Warning: MDX file not found for course ${course.slug}. Using fallback content.`);
+    // Continue with empty/null mdxSource - the UI will handle this case
   }
 
-  return { props: { course, mdxSource, labs } };
+  // Provide default fallback content when MDX is missing
+  const fallbackContent = {
+    title: course.title,
+    description: course.description,
+    // Any other fields that might be needed
+  };
+
+  return { 
+    props: { 
+      course, 
+      mdxSource, 
+      labs,
+      fallbackContent 
+    } 
+  };
 };
 
-export default function CourseDetail({ course, mdxSource, labs }: { course: Course, mdxSource: MDXRemoteSerializeResult, labs: any[] }) {
+export default function CourseDetail({ course, mdxSource, labs, fallbackContent }: { course: Course, mdxSource: MDXRemoteSerializeResult, labs: any[], fallbackContent: any }) {
   const router = useRouter();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);
@@ -713,11 +733,49 @@ export default function CourseDetail({ course, mdxSource, labs }: { course: Cour
               )}
               
               {/* Overview page (first page) */}
-              {currentPage === 0 && mdxSource && (
+              {currentPage === 0 && (
                 <ReadableContent>
-                  <div className="prose prose-lg prose-indigo max-w-none">
-                    <MDXRemote {...mdxSource} components={MDXComponents} />
-                  </div>
+                  {mdxSource ? (
+                    <div className="prose prose-lg prose-indigo max-w-none">
+                      <MDXRemote {...mdxSource} components={MDXComponents} />
+                    </div>
+                  ) : (
+                    <div className="prose prose-lg prose-indigo max-w-none">
+                      <h2>Course Overview</h2>
+                      <p>{course.description}</p>
+                      
+                      <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 my-6">
+                        <p className="text-yellow-800">
+                          The full course content is being developed and will be available soon. 
+                          You can explore the course topics in the sidebar.
+                        </p>
+                      </div>
+                      
+                      <h3>What you'll learn</h3>
+                      <ul>
+                        {course.topics.map((topic, index) => (
+                          <li key={index}>{topic}</li>
+                        ))}
+                      </ul>
+                      
+                      <h3>About this course</h3>
+                      <p>
+                        This {course.level} level course is designed to help you master Go programming
+                        skills through practical examples and hands-on exercises. The course is taught by {course.instructor},
+                        and includes interactive labs to reinforce your learning.
+                      </p>
+                      
+                      <h3>Prerequisites</h3>
+                      <p>
+                        To get the most out of this course, you should have:
+                      </p>
+                      <ul>
+                        <li>Basic understanding of Go programming syntax</li>
+                        <li>Familiarity with programming concepts</li>
+                        <li>A development environment with Go installed</li>
+                      </ul>
+                    </div>
+                  )}
                 </ReadableContent>
               )}
               
