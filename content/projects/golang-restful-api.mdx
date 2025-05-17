@@ -1,0 +1,58 @@
+---
+title: RESTful API with Gin Framework
+description: Build a RESTful API using the Gin web framework. Implement CRUD operations, middleware, and authentication.
+coverImage: /images/projects/restful-api-gin.png
+difficulty: Intermediate
+technologies: [Go, Web Development, Gin]
+demoUrl: https://example.com/demo
+repoUrl: https://github.com/example/restful-api-go
+---
+
+# Building a RESTful API with Gin Framework
+
+In this project, you'll build a complete RESTful API using Gin, a popular web framework for Go. You'll implement all the CRUD operations, error handling, middleware, and JWT authentication.
+
+## Project Overview
+
+The API you'll build will be a simple task management system with the following features:
+
+- User registration and authentication
+- Creating, reading, updating, and deleting tasks
+- Assigning tasks to users
+- Marking tasks as complete
+
+## What You'll Learn
+
+- How to structure a web API in Go
+- Using the Gin framework for routing and middleware
+- Implementing JWT authentication
+- Connecting to a database with GORM
+- Testing API endpoints
+- Error handling best practices
+
+## Prerequisites
+
+- Basic knowledge of Go
+- Understanding of HTTP and REST principles
+- Familiarity with databases (PostgreSQL will be used)
+
+## Project Structure
+
+```
+restful-api/
+├── main.go
+├── controllers/
+│   ├── auth_controller.go
+│   └── task_controller.go
+├── models/
+│   ├── user.go
+│   └── task.go
+├── middleware/
+│   └── auth_middleware.go
+├── routes/
+│   └── routes.go
+└── config/
+    └── database.go
+```
+
+Let's get started building your Go RESTful API! 

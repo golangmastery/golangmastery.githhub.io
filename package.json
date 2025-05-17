@@ -14,7 +14,13 @@
     "type": "git",
     "url": "git+https://github.com/golangmastery/golangmastery.githhub.io.git"
   },
-  "keywords": ["golang", "learning", "programming", "tutorials", "labs"],
+  "keywords": [
+    "golang",
+    "learning",
+    "programming",
+    "tutorials",
+    "labs"
+  ],
   "author": "",
   "license": "ISC",
   "bugs": {
@@ -31,12 +37,13 @@
     "autoprefixer": "^10.4.14",
     "gray-matter": "^4.0.3",
     "next": "^12.3.4",
-    "next-mdx-remote": "^3.0.8",
+    "next-mdx-remote": "^5.0.0",
     "postcss": "^8.4.24",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "rehype-highlight": "^5.0.2",
     "rehype-slug": "^4.0.1",
+    "remark": "^13.0.0",
     "remark-gfm": "^1.0.0",
     "tailwindcss": "^3.3.2",
     "typescript": "^4.9.5"

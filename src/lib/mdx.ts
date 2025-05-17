@@ -2,9 +2,6 @@ import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
 import { serialize } from 'next-mdx-remote/serialize';
-import rehypeSlug from 'rehype-slug';
-import rehypeHighlight from 'rehype-highlight';
-import remarkGfm from 'remark-gfm';
 
 // Define the content types
 export type ContentType = 'courses' | 'projects';
@@ -22,7 +19,7 @@ export interface Frontmatter {
 }
 
 // Get the content directory
-const contentDirectory = path.join(process.cwd(), 'src/content');
+const contentDirectory = path.join(process.cwd(), 'content');
 
 // Get all content files for a specific type
 export function getAllContentFiles(type: ContentType): string[] {
@@ -64,10 +61,5 @@ export async function getAllContent(type: ContentType) {
 
 // Serialize MDX content
 export async function serializeMdx(content: string) {
-  return serialize(content, {
-    mdxOptions: {
-      remarkPlugins: [remarkGfm],
-      rehypePlugins: [rehypeSlug, rehypeHighlight],
-    },
-  });
+  return serialize(content);
 }
