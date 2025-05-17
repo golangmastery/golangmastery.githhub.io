@@ -12,10 +12,12 @@ const nextConfig = {
   pageExtensions: ['js', 'jsx', 'ts', 'tsx', 'md', 'mdx'],
   images: {
     domains: ['golang.org'],
+    unoptimized: true,
   },
   webpack: (config) => {
     return config;
   },
+  output: 'export',
 };
 
 module.exports = withMDX(nextConfig);
