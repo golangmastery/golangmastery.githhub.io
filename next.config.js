@@ -9,8 +9,13 @@ const nextConfig = {
         hostname: '**', // Adjust this for production
       },
     ],
+    unoptimized: true, // Required for static export with GitHub Pages
   },
-  output: 'standalone',
+  output: 'export', // Changed from 'standalone' to 'export' for static site generation
+  
+  // Base path for GitHub Pages
+  basePath: '',
+  assetPrefix: process.env.NODE_ENV === 'production' ? 'https://golangmastery.github.io' : '',
   
   // Disable typescript checking temporarily
   typescript: {
@@ -26,6 +31,9 @@ const nextConfig = {
     config.resolve.fallback = { fs: false };
     return config;
   },
+  
+  // Configure trailing slash for better compatibility with GitHub Pages
+  trailingSlash: true,
 };
 
 module.exports = nextConfig; 
