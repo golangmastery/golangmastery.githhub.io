@@ -16,7 +16,7 @@ export interface Course {
 
 const sangamInstructor = {
   instructor: 'Sangam Biradar',
-  instructorImage: '/images/instructors/sangam-biradar.jpg',
+  instructorImage: '/favicon.ico',
   instructorBio: 'Sangam Biradar is a DevOps and Cloud Native expert, CNCF Ambassador, and international speaker with a passion for teaching Go and modern cloud technologies.'
 };
 

@@ -1,0 +1,298 @@
+---
+title: "Functions in Go"
+description: "Learn how to create and use functions in Go, including function parameters, return values, and closures"
+order: 5
+---
+
+# Functions in Go
+
+Functions are the building blocks of Go programs. They encapsulate code that performs a specific task, allowing you to organize and reuse your code effectively.
+
+## Function Declaration
+
+A function in Go is declared using the `func` keyword:
+
+```go
+func functionName(parameter1 type1, parameter2 type2) returnType {
+    // Function body
+    return value
+}
+```
+
+Here's a simple example:
+
+```go
+func add(a int, b int) int {
+    return a + b
+}
+```
+
+## Calling Functions
+
+To use a function, you call it with appropriate arguments:
+
+```go
+sum := add(5, 3)
+fmt.Println(sum) // Outputs: 8
+```
+
+## Function Parameters
+
+### Basic Parameters
+
+Go requires you to specify the type for each parameter:
+
+```go
+func greet(name string, age int) {
+    fmt.Printf("Hello, %s! You are %d years old.\n", name, age)
+}
+```
+
+### Grouped Parameters
+
+If multiple parameters have the same type, you can group them:
+
+```go
+// Instead of this
+func add(a int, b int) int {
+    return a + b
+}
+
+// You can write this
+func add(a, b int) int {
+    return a + b
+}
+```
+
+### Variadic Parameters
+
+Go supports variadic functions that can take a variable number of arguments:
+
+```go
+func sum(numbers ...int) int {
+    total := 0
+    for _, num := range numbers {
+        total += num
+    }
+    return total
+}
+
+// Can be called with any number of arguments
+result1 := sum(1, 2)           // 3
+result2 := sum(1, 2, 3, 4, 5)  // 15
+```
+
+## Return Values
+
+### Single Return Value
+
+A function can return a single value:
+
+```go
+func square(n int) int {
+    return n * n
+}
+```
+
+### Multiple Return Values
+
+Go functions can return multiple values:
+
+```go
+func divide(a, b float64) (float64, error) {
+    if b == 0 {
+        return 0, errors.New("division by zero")
+    }
+    return a / b, nil
+}
+
+// When calling this function
+result, err := divide(10, 2)
+if err != nil {
+    fmt.Println("Error:", err)
+} else {
+    fmt.Println("Result:", result)
+}
+```
+
+### Named Return Values
+
+You can name the return values in the function signature:
+
+```go
+func split(sum int) (x, y int) {
+    x = sum * 4 / 9
+    y = sum - x
+    return // "naked" return - returns named return values
+}
+```
+
+## Anonymous Functions and Closures
+
+### Anonymous Functions
+
+Go supports anonymous functions, which can be assigned to variables or called immediately:
+
+```go
+// Assigning to a variable
+square := func(n int) int {
+    return n * n
+}
+fmt.Println(square(5)) // Outputs: 25
+
+// Immediately invoked function
+result := func(n int) int {
+    return n * n
+}(5)
+fmt.Println(result) // Outputs: 25
+```
+
+### Closures
+
+A closure is a function that references variables from outside its body:
+
+```go
+func makeCounter() func() int {
+    count := 0
+    return func() int {
+        count++
+        return count
+    }
+}
+
+counter := makeCounter()
+fmt.Println(counter()) // 1
+fmt.Println(counter()) // 2
+fmt.Println(counter()) // 3
+```
+
+Each closure has its own copy of the variables it closes over.
+
+## Defer Statement
+
+The `defer` statement delays the execution of a function until the surrounding function returns:
+
+```go
+func processFile(filename string) error {
+    f, err := os.Open(filename)
+    if err != nil {
+        return err
+    }
+    
+    // This will be executed when processFile returns
+    defer f.Close()
+    
+    // Process the file...
+    return nil
+}
+```
+
+Deferred functions are executed in LIFO (last-in, first-out) order.
+
+## Methods
+
+In Go, you can define methods on types. A method is a function with a special receiver argument:
+
+```go
+type Rectangle struct {
+    Width  float64
+    Height float64
+}
+
+// Method with a receiver of type Rectangle
+func (r Rectangle) Area() float64 {
+    return r.Width * r.Height
+}
+
+func main() {
+    rect := Rectangle{Width: 10, Height: 5}
+    fmt.Println("Area:", rect.Area()) // Outputs: Area: 50
+}
+```
+
+## Complete Example
+
+Here's a complete example showing various function concepts:
+
+```go
+package main
+
+import (
+    "fmt"
+    "errors"
+)
+
+// Basic function
+func add(a, b int) int {
+    return a + b
+}
+
+// Multiple return values
+func divide(a, b float64) (float64, error) {
+    if b == 0 {
+        return 0, errors.New("division by zero")
+    }
+    return a / b, nil
+}
+
+// Named return values
+func calculate(x, y int) (sum, difference int) {
+    sum = x + y
+    difference = x - y
+    return
+}
+
+// Variadic function
+func sum(nums ...int) int {
+    total := 0
+    for _, num := range nums {
+        total += num
+    }
+    return total
+}
+
+// Closure that creates a counter
+func makeCounter() func() int {
+    count := 0
+    return func() int {
+        count++
+        return count
+    }
+}
+
+func main() {
+    // Using the basic function
+    fmt.Println("5 + 3 =", add(5, 3))
+    
+    // Using multiple return values
+    result, err := divide(10, 2)
+    if err != nil {
+        fmt.Println("Error:", err)
+    } else {
+        fmt.Println("10 / 2 =", result)
+    }
+    
+    // Using named return values
+    sum, diff := calculate(8, 3)
+    fmt.Println("8 + 3 =", sum)
+    fmt.Println("8 - 3 =", diff)
+    
+    // Using the variadic function
+    fmt.Println("Sum of 1, 2, 3, 4 =", sum(1, 2, 3, 4))
+    
+    // Using a closure
+    counter := makeCounter()
+    fmt.Println("Count:", counter())
+    fmt.Println("Count:", counter())
+    fmt.Println("Count:", counter())
+}
+```
+
+## Exercise
+
+1. Write a function that takes a slice of integers and returns their average
+2. Create a function that returns both the minimum and maximum values from a slice
+3. Implement a simple calculator with functions for add, subtract, multiply, and divide
+4. Write a function that generates a closure to create a sequence of numbers
+
+In the next module, we'll explore Go's data structures in more detail, starting with arrays and slices. 

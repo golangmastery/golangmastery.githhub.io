@@ -1,0 +1,155 @@
+---
+title: "Variables and Data Types"
+description: "Learn about variables, data types, and how to work with them in Go"
+order: 3
+---
+
+# Variables and Data Types in Go
+
+Go is a statically typed language, which means variable types are checked at compile time. In this module, we'll explore Go's type system and how to work with variables.
+
+## Basic Types in Go
+
+Go has several built-in types:
+
+- **Numeric types**: 
+  - Integers: `int`, `int8`, `int16`, `int32`, `int64`, `uint`, `uint8`, `uint16`, `uint32`, `uint64`
+  - Floating point: `float32`, `float64`
+  - Complex: `complex64`, `complex128`
+- **Boolean type**: `bool` (values: `true` and `false`)
+- **String type**: `string` (UTF-8 encoded text)
+- **Error type**: `error`
+
+## Variable Declaration
+
+There are several ways to declare variables in Go:
+
+### Method 1: Explicit Type
+
+```go
+var name string = "Gopher"
+var age int = 25
+var isActive bool = true
+```
+
+### Method 2: Type Inference
+
+Go can infer the type from the value:
+
+```go
+var name = "Gopher"  // string type is inferred
+var age = 25         // int type is inferred
+var isActive = true  // bool type is inferred
+```
+
+### Method 3: Short Variable Declaration
+
+Inside functions, you can use the short declaration operator (`:=`):
+
+```go
+name := "Gopher"
+age := 25
+isActive := true
+```
+
+This is the most common form used inside functions.
+
+## Multiple Variable Declaration
+
+You can declare multiple variables at once:
+
+```go
+var x, y, z int = 10, 20, 30
+
+// Or with type inference
+var a, b, c = "hello", 50, true
+
+// Or with short declaration
+firstName, lastName, age := "Go", "pher", 25
+```
+
+## Zero Values
+
+Variables declared without an explicit initial value are given their zero value:
+
+```go
+var i int       // Zero value: 0
+var f float64   // Zero value: 0.0
+var b bool      // Zero value: false
+var s string    // Zero value: "" (empty string)
+```
+
+## Constants
+
+Constants are declared using the `const` keyword:
+
+```go
+const Pi = 3.14159
+const (
+    StatusOK = 200
+    StatusNotFound = 404
+)
+```
+
+Constants can be character, string, boolean, or numeric values.
+
+## Type Conversion
+
+Go doesn't automatically convert between types. You must explicitly convert:
+
+```go
+var i int = 42
+var f float64 = float64(i)
+var u uint = uint(f)
+```
+
+## Example: Working with Different Types
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+    // Different ways to declare variables
+    var a int = 10
+    var b = 20
+    c := 30
+    
+    // Zero values
+    var d int
+    var e string
+    var f bool
+    
+    // Constants
+    const Pi = 3.14
+    
+    fmt.Println("a:", a)
+    fmt.Println("b:", b)
+    fmt.Println("c:", c)
+    fmt.Println("d (zero value):", d)
+    fmt.Println("e (zero value):", e)
+    fmt.Println("f (zero value):", f)
+    fmt.Println("Pi:", Pi)
+}
+```
+
+## Type Checking in Action
+
+Go's type system helps catch errors at compile time:
+
+```go
+x := 10
+y := "hello"
+z := x + y  // This will cause a compile-time error
+```
+
+The above code won't compile because Go doesn't allow adding an integer and a string.
+
+## Exercise
+
+1. Create a program that declares variables of different types
+2. Try converting between different types
+3. Experiment with zero values and constants
+
+In the next module, we'll look at control structures in Go (if statements, loops, and switches). 

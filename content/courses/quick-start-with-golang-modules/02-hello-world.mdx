@@ -1,0 +1,71 @@
+---
+title: "Hello World in Go"
+description: "Write and understand your first Go program"
+order: 2
+---
+
+# Hello World in Go
+
+Let's start with the traditional "Hello World" program. This simple program will help you understand the basic structure of a Go application.
+
+## Your First Go Program
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+    fmt.Println("Hello World")
+}
+```
+
+Let's break down this program:
+
+- `package main`: Every Go file starts with a package declaration. The `main` package is special - it defines an executable program rather than a library.
+- `import "fmt"`: This imports the format package from the standard library, which provides formatting functions.
+- `func main()`: The entry point of the program. Execution begins in the `main` function.
+- `fmt.Println("Hello World")`: This prints the text "Hello World" to the console.
+
+## Running Your First Program
+
+To run this program, save it as `hello.go` and execute the following command:
+
+```bash
+go run hello.go
+```
+
+You should see `Hello World` printed to your console.
+
+## Building an Executable
+
+You can also compile your program into a standalone executable:
+
+```bash
+go build hello.go
+```
+
+This will create an executable file named `hello` (or `hello.exe` on Windows). You can run this executable directly:
+
+```bash
+./hello
+```
+
+## Understanding Go Program Structure
+
+Every Go program follows a similar structure:
+
+1. **Package Declaration**: All Go files begin with `package <name>`. Executable programs use `package main`.
+2. **Import Statements**: Import other packages that your code needs.
+3. **Functions and Variables**: Declare functions and variables. The `main()` function is required for executable programs.
+4. **Code Comments**: Add documentation to your code using `//` for single-line comments or `/* */` for multi-line comments.
+
+## Exercise
+
+Try modifying the "Hello World" program to:
+
+1. Print your name instead of "Hello World"
+2. Print multiple lines using multiple `fmt.Println()` calls
+3. Add comments to explain what the program does
+
+In the next module, we'll explore Go's variables and data types. 

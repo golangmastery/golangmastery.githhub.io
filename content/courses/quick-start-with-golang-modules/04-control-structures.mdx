@@ -1,0 +1,224 @@
+---
+title: "Control Structures"
+description: "Learn about conditional statements and loops in Go"
+order: 4
+---
+
+# Control Structures in Go
+
+Control structures direct the flow of your program's execution. Go provides simple, clean control structures to handle conditionals, loops, and switching between different execution paths.
+
+## Conditional Statements
+
+### If Statement
+
+The basic if statement in Go looks like this:
+
+```go
+if condition {
+    // code to execute if condition is true
+}
+```
+
+Notice that Go doesn't require parentheses around the condition, but the braces `{}` are mandatory.
+
+### If-Else Statement
+
+You can add an else clause to handle the case when the condition is false:
+
+```go
+if condition {
+    // code to execute if condition is true
+} else {
+    // code to execute if condition is false
+}
+```
+
+### If with Multiple Conditions
+
+For multiple conditions, use else if:
+
+```go
+if condition1 {
+    // code for condition1
+} else if condition2 {
+    // code for condition2
+} else {
+    // code for all other cases
+}
+```
+
+### If with a Short Statement
+
+Go allows you to execute a short statement before the condition:
+
+```go
+if x := getValue(); x > 10 {
+    fmt.Println("x is greater than 10")
+} else {
+    fmt.Println("x is less than or equal to 10")
+}
+```
+
+In this example, `x` is scoped to the if and else blocks only.
+
+## Loops
+
+Go has only one looping construct: the `for` loop. However, it's versatile and can be used in several ways.
+
+### Standard For Loop
+
+The standard for loop has three components: init statement, condition, and post statement:
+
+```go
+for i := 0; i < 10; i++ {
+    fmt.Println(i)
+}
+```
+
+### For Loop as a While Loop
+
+If you skip the init and post statements, you get a while-like loop:
+
+```go
+count := 0
+for count < 5 {
+    fmt.Println(count)
+    count++
+}
+```
+
+### Infinite Loop
+
+An infinite loop is created by omitting the condition:
+
+```go
+for {
+    fmt.Println("Forever!")
+    // Need a break statement or return to exit
+    break
+}
+```
+
+### For Loop with Range
+
+The `range` form of the for loop iterates over elements in collections like arrays, slices, strings, maps, and channels:
+
+```go
+// Iterating over a slice
+numbers := []int{1, 2, 3, 4, 5}
+for index, value := range numbers {
+    fmt.Printf("Index: %d, Value: %d\n", index, value)
+}
+
+// Iterating over a map
+colors := map[string]string{"red": "#ff0000", "green": "#00ff00"}
+for key, value := range colors {
+    fmt.Printf("Key: %s, Value: %s\n", key, value)
+}
+```
+
+### Break and Continue
+
+Use `break` to exit a loop and `continue` to skip to the next iteration:
+
+```go
+for i := 0; i < 10; i++ {
+    if i == 3 {
+        continue // Skip the rest of this iteration
+    }
+    if i == 8 {
+        break // Exit the loop completely
+    }
+    fmt.Println(i)
+}
+```
+
+## Switch Statement
+
+The switch statement provides a cleaner way to write multiple if-else statements:
+
+```go
+switch day {
+case "Monday":
+    fmt.Println("Start of work week")
+case "Friday":
+    fmt.Println("End of work week")
+case "Saturday", "Sunday": // Multiple cases
+    fmt.Println("Weekend!")
+default:
+    fmt.Println("Midweek")
+}
+```
+
+### Switch with No Expression
+
+A switch without an expression is equivalent to `switch true`:
+
+```go
+switch {
+case time.Hour < 12:
+    fmt.Println("Good morning!")
+case time.Hour < 17:
+    fmt.Println("Good afternoon!")
+default:
+    fmt.Println("Good evening!")
+}
+```
+
+### Fallthrough
+
+In Go, each case breaks automatically. To execute the next case, use the `fallthrough` keyword:
+
+```go
+switch num := 1; num {
+case 1:
+    fmt.Println("One")
+    fallthrough
+case 2:
+    fmt.Println("Less than three")
+case 3:
+    fmt.Println("Three or less")
+}
+```
+
+This will print "One" and "Less than three".
+
+## Example: Combining Control Structures
+
+Here's a complete example combining different control structures:
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+    // Using a for loop with an if statement
+    for i := 1; i <= 20; i++ {
+        if i%2 == 0 {
+            fmt.Printf("%d is even\n", i)
+        } else {
+            fmt.Printf("%d is odd\n", i)
+        }
+        
+        // Using a switch statement
+        switch {
+        case i%3 == 0 && i%5 == 0:
+            fmt.Println("  FizzBuzz")
+        case i%3 == 0:
+            fmt.Println("  Fizz")
+        case i%5 == 0:
+            fmt.Println("  Buzz")
+        }
+    }
+}
+```
+
+## Exercise
+
+1. Write a program that uses if statements to categorize numbers as positive, negative, or zero
+2. Create a loop that prints only the even numbers from 1 to 20
+3. Implement a simple FizzBuzz program using a switch statement
+
+In the next module, we'll explore functions in Go. 

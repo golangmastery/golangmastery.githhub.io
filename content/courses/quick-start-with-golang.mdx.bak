@@ -1,0 +1,2775 @@
+---
+title: "Quick Start with Golang"
+description: "Master Golang fundamentals in this hands-on course designed for beginners. Learn essential concepts like data types, control structures, functions, packages, and data structures through interactive labs and practical challenges."
+coverImage: /images/courses/quick-start-with-golang.png
+level: "Beginner"
+tags: ["Go", "Programming"]
+labs:
+  - title: Setting up Go Environment
+    slug: setup-go-environment
+    description: Learn how to install Go and set up your development environment.
+  - title: Your First Go Program
+    slug: your-first-go-program
+    description: Write and run your first Go program.
+  - title: Variables and Data Types
+    slug: variables-and-data-types
+    description: Learn about Go's variable declaration and basic data types.
+---
+
+### Let's Start With First Hello World Program
+
+```go
+package main
+
+// main package declaration
+import "fmt"
+
+// import libraries
+func main() {
+	// declare main function with func keyword followed by main()
+	fmt.Println("Hello World")
+	// fmt is format
+}
+
+// output: Hello World
+```
+
+[Run](https://play.golang.org/p/b5LpJFoesBI)
+
+* A complete program is created by linking a single, unimported package called the main package with all the packages it imports, transitively. The main package must have package name main and declare a function main that takes no arguments and returns no value. `func main() { ... }`
+    
+* Program execution begins by initializing the main package and then invoking the function main. When that function invocation returns, the program exits. It does not wait for other (non-main) go-routines to complete.
+    
+* Go: Meaning of the 'fmt' package acronym
+    
+* fmt is short for format.
+    
+* Package fmt implements formatted I/O with functions analogous to C's printf and scanf. The format 'verbs' are derived from C's but are simpler.
+    
+
+#### 1. Numeral systems - Decimal
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+	fmt.Println(42) 
+}
+```
+
+[Run](https://play.golang.org/p/79__Y2CzdPh)
+
+Output:  
+`42 Program exited.`
+
+#### 2. Numeral Systems - Binary
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+	fmt.Printf("%d - %b \n", 42, 42)
+}
+```
+
+[Run](https://play.golang.org/p/8oA-JOz0flp)
+
+Output: `42 - 101010 Program exited.` 
+
+In the above program, the annotation verb %b formats a number in binary (which represents 101010 in base 2 format) and the annotation verb %d formats a number in Base 10 (which represents 42 in base 10 format).
+
+Integer cheatsheet for fmt:
+
+```
+%b	base 2
+%c	the character represented by the corresponding Unicode code point
+%d	base 10
+%o	base 8
+%q	a single-quoted character literal safely escaped with Go syntax.
+%x	base 16, with lower-case letters for a-f
+%X	base 16, with upper-case letters for A-F
+%U	Unicode format: U+1234; same as "U+%04
+```
+
+#### 3\. Numeral systems - hexadecimal
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+	fmt.Printf("%d \t %b \t %#X \n", 42, 42, 42)
+}
+```
+
+[Run](https://play.golang.org/p/4vWR8_1Df3S)
+
+Output:
+`42 	 101010 	 0X2A`
+
+In the above program, the annotation verb %x formats a number in hexadecimal which represents 0X2A (base 16 format).
+
+Integer to hexadecimal cheatsheet:
+
+```
+%x	base 16, with lower-case letters for a-f
+%X	base 16, with upper-case letters for A-F
+```
+
+#### 4\. Print Decimal,Binary,Hexadecimal Number From 10 to 15 Using Loop
+
+* Numeral systems - using loop
+    
+    ```rust
+           package main
+    
+           import "fmt"
+    
+           func main() {
+         	for i := 1; i < 16; i++ {
+     	      fmt.Printf("%d \t %b \t %x \n", i, i, i)
+             }
+           }
+    ```
+    
+    [Run](https://play.golang.org/p/TxcV48laVMk)
+    
+
+output:
+
+```rust
+1 	 1 	 1 
+2 	 10 	 2 
+3 	 11 	 3 
+4 	 100 	 4 
+5 	 101 	 5 
+6 	 110 	 6 
+7 	 111 	 7 
+8 	 1000 	 8 
+9 	 1001 	 9 
+10 	 1010 	 a 
+11 	 1011 	 b 
+12 	 1100 	 c 
+13 	 1101 	 d 
+14 	 1110 	 e 
+15 	 1111 	 f 
+
+Program exited.
+```
+
+if your new to loop in GO so lets see some detailing of for loop in GO:
+
+```rust
+            	for i := 1; i < 16; i++ {
+```
+
+In above syntax of for its similar to other programming langaugae
+
+Go has only one looping construct, the for loop.
+
+The basic for loop has three components separated by semicolons:
+
+\-the init statement: executed before the first iteration  
+\-the condition expression: evaluated before every iteration  
+\-the post statement: executed at the end of every iteration.  
+
+The init statement will often be a short variable declaration, and the variables declared there are visible only in the scope of the for statement.
+
+The loop will stop iterating once the boolean condition evaluates to false.
+
+Note: Unlike other languages like C, Java, or JavaScript there are no parentheses surrounding the three components of the for statement and the braces { } are always required.
+
+as we seen decimal,binary and hexadecimal programs in Go , in this above program using loop you can print n number that convert number to any numeral system ( refer integer cheatsheet fmt) to convert number into different fmt format.quick suing simple Go program.
+
+#### 5\. Numeral Systems UTF-8
+
+* UTF-8 = Unicode Transformation Format - 8-bit
+* UTF-8 is a character encoding that assigns 1,112,064 characters a binary number from 1 byte (8 bits) to 4 bytes (32 bits) long.
+* Why is it necessary? Our computers use binary to store data. Inside a computer, information is a sequence of 0's and 1's. When writing a text file, the computer needs to store that in binary code. But what would the character 'a' represent in binary? That's why we have UTF-8 (and ASCII before it) - it provides a standard that says the letter 'a' will take the value of 01100010 in binary. It allows us to specify that a file is stored with the UTF-8 encoding, so the binary code must be interpreted with that in mind.
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+	for i := 60; i < 122; i++ {
+		fmt.Printf("%d \t %b \t %x \t %q \n", i, i, i, i)
+	}
+}
+```
+
+[Run](https://play.golang.org/p/pDZK6lHdtfL)
+
+Output:
+
+```
+60 	 111100 	 3c 	 '<' 
+61 	 111101 	 3d 	 '=' 
+62 	 111110 	 3e 	 '>' 
+63 	 111111 	 3f 	 '?' 
+64 	 1000000 	 40 	 '@' 
+65 	 1000001 	 41 	 'A' 
+66 	 1000010 	 42 	 'B' 
+67 	 1000011 	 43 	 'C' 
+68 	 1000100 	 44 	 'D' 
+69 	 1000101 	 45 	 'E' 
+70 	 1000110 	 46 	 'F' 
+71 	 1000111 	 47 	 'G' 
+72 	 1001000 	 48 	 'H' 
+73 	 1001001 	 49 	 'I' 
+74 	 1001010 	 4a 	 'J' 
+75 	 1001011 	 4b 	 'K' 
+76 	 1001100 	 4c 	 'L' 
+77 	 1001101 	 4d 	 'M' 
+78 	 1001110 	 4e 	 'N' 
+79 	 1001111 	 4f 	 'O' 
+80 	 1010000 	 50 	 'P' 
+81 	 1010001 	 51 	 'Q' 
+82 	 1010010 	 52 	 'R' 
+83 	 1010011 	 53 	 'S' 
+84 	 1010100 	 54 	 'T' 
+85 	 1010101 	 55 	 'U' 
+86 	 1010110 	 56 	 'V' 
+87 	 1010111 	 57 	 'W' 
+88 	 1011000 	 58 	 'X' 
+89 	 1011001 	 59 	 'Y' 
+90 	 1011010 	 5a 	 'Z' 
+91 	 1011011 	 5b 	 '[' 
+92 	 1011100 	 5c 	 '\' 
+93 	 1011101 	 5d 	 ']' 
+94 	 1011110 	 5e 	 '^' 
+95 	 1011111 	 5f 	 '_' 
+96 	 1100000 	 60 	 '`' 
+97 	 1100001 	 61 	 'a' 
+98 	 1100010 	 62 	 'b' 
+99 	 1100011 	 63 	 'c' 
+100 	 1100100 	 64 	 'd' 
+101 	 1100101 	 65 	 'e' 
+102 	 1100110 	 66 	 'f' 
+103 	 1100111 	 67 	 'g' 
+104 	 1101000 	 68 	 'h' 
+105 	 1101001 	 69 	 'i' 
+106 	 1101010 	 6a 	 'j' 
+107 	 1101011 	 6b 	 'k' 
+108 	 1101100 	 6c 	 'l' 
+109 	 1101101 	 6d 	 'm' 
+110 	 1101110 	 6e 	 'n' 
+111 	 1101111 	 6f 	 'o' 
+112 	 1110000 	 70 	 'p' 
+113 	 1110001 	 71 	 'q' 
+114 	 1110010 	 72 	 'r' 
+115 	 1110011 	 73 	 's' 
+116 	 1110100 	 74 	 't' 
+117 	 1110101 	 75 	 'u' 
+118 	 1110110 	 76 	 'v' 
+119 	 1110111 	 77 	 'w' 
+120 	 1111000 	 78 	 'x' 
+121 	 1111001 	 79 	 'y'
+```
+
+As we've seen with decimal, binary, and hexadecimal programs in Go, in this UTF-8 program, the annotation %q is used for UTF-8 character encoding. 
+
+Note: UTF-8 has been the dominant character encoding for the World Wide Web since 2009, and as of March 2018 accounted for 91.0% of all Web pages. The Internet Mail Consortium (IMC) recommends that all email programs be able to display and create mail using UTF-8, and the W3C recommends UTF-8 as the default encoding in XML and HTML.
+
+#### 6. Short Variable Declarations
+
+Inside a function, the `:=` short assignment statement can be used in place of a var declaration with implicit type.
+
+Outside a function, every statement begins with a keyword (var, func, and so on) and so the `:=` construct is not available.
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+	a := 10
+	b := "golang"
+	c := 4.17
+	d := true
+	e := "Hello"
+	f := `Do you like my hat?`
+	g := 'M'
+	fmt.Printf("%v \n", a)
+	fmt.Printf("%v \n", b)
+	fmt.Printf("%v \n", c)
+	fmt.Printf("%v \n", d)
+	fmt.Printf("%v \n", e)
+	fmt.Printf("%v \n", f)
+	fmt.Printf("%v \n", g)
+}
+```
+
+[Run](https://play.golang.org/p/4s_K8I_18ih)
+
+`%v` is the value in a default format. `%v` will give you the values of the variable.
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+	a := 10
+	b := "golang"
+	c := 4.17
+	d := true
+	e := "Hello"
+	f := `Do you like my hat?`
+	g := 'M'
+
+	fmt.Printf("%T \n", a)
+	fmt.Printf("%T \n", b)
+	fmt.Printf("%T \n", c)
+	fmt.Printf("%T \n", d)
+	fmt.Printf("%T \n", e)
+	fmt.Printf("%T \n", f)
+	fmt.Printf("%T \n", g)
+}
+```
+
+[Run](https://play.golang.org/p/9jf7xEZL-s8)  
+
+`%T` gives a Go-syntax representation of the type of the value. In this program, `%T` provides you the type of each variable.
+
+#### 7. Variables with Zero Values
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+	var a int
+	var b string
+	var c float64
+	var d bool
+
+	fmt.Printf("%v \n", a)
+	fmt.Printf("%v \n", b)
+	fmt.Printf("%v \n", c)
+	fmt.Printf("%v \n", d)
+
+	fmt.Println()
+}
+```
+
+In this program, we declare variables with their types, so they will have their default zero values: 0 for numeric types, empty string for string type, and false for bool type.
+
+#### 8. Deep Dive on Variables
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+	var message string
+	message = "Hello World."
+	fmt.Println(message)
+}
+```
+
+Let's start with a simple program where we declare a variable called `message` with the string type, assign the value "Hello World" to it, and then print that variable.
+
+Now let's declare more than one variable and print their values for better understanding:
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+	var message string
+	var a, b, c int
+	a = 1
+
+	message = "Hello World!"
+
+	fmt.Println(message, a, b, c)
+}
+```
+
+In this program, we initialize multiple variables at once. If you're a beginner to Golang, it's a good practice to try this out!
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+	var message = "Hello World!"
+	var a, b, c int = 1, 2, 3
+
+	fmt.Println(message, a, b, c)
+}
+```
+
+In this program, we're declaring variables without specifying their types explicitly.
+
+#### 9\. Deep Drive On Constants
+
+If you wanted to find out whether `const` was a keyword, how would you do so?
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+const
+
+func main() {
+	fmt.Println("Hello, playground")
+}
+```
+
+[The Go Programming Language Specification](https://golang.org/ref/spec) is a great place to start. The [Keywords](https://golang.org/ref/spec#Keywords) section holds the answer.
+
+```
+break        default      func         interface    select
+case         defer        go           map          struct
+chan         else         goto         package      switch
+const        fallthrough  if           range        type
+continue     for          import       return       var
+```
+
+So far we have looked at `case`, `break`, `switch`, `fallthrough`, `continue`, `else`, `for`, `if`, `switch`, and `var`.
+
+Let's make a few constants using the [Go playground](https://play.golang.org/p/et5Qf-Crsu). The Go compiler will figure out what type they are for you.
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+const a = 42
+const b = 42.78
+const c = "James Bond"
+
+func main() {
+	fmt.Println(a)
+	fmt.Println(b)
+	fmt.Println(c)
+	fmt.Printf("%T\n", a)
+	fmt.Printf("%T\n", b)
+	fmt.Printf("%T\n", c)
+}
+```
+
+An alternative way to declare several constants and assign values is using similar syntax to our `import` statement.
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+const (
+	a = 42
+	b = 42.78
+	c = "James Bond"
+)
+
+func main() {
+	fmt.Println(a)
+	fmt.Println(b)
+	fmt.Println(c)
+	fmt.Printf("%T\n", a)
+	fmt.Printf("%T\n", b)
+	fmt.Printf("%T\n", c)
+}
+```
+
+#### 10\. Loop Init, Condition, Post
+
+As you're learning Go, a good quick reference is [Go by Example](https://gobyexample.com/).
+
+For example, here's what it has for [for](https://gobyexample.com/for):
+
+```go
+package main
+import "fmt"
+func main() {
+	i := 1
+	for i <= 3 {
+		fmt.Println(i)
+		i = i + 1
+	}
+	for j := 7; j <= 9; j++ {
+		fmt.Println(j)
+	}
+	for n := 0; n <= 5; n++ {
+		if n%2 == 0 {
+			continue
+		}
+		fmt.Println(n)
+	}
+}
+```
+
+**Note**: There is no `while` loop in Go.
+
+The way to create a loop is to start with `for`, and the first thing you put in is an init statement, a condition, and a post, e.g.
+
+```go
+for init; condition; post {
+  // loop body
+}
+```
+
+Let's try a loop with an init statement initializing a variable `i` with the value `0`, the condition that `i` is less than or equal to `100`, and the post of incrementing `i` by `1` (`i++`). Remember, we can always check the Go spec. In this case, [IncDec statements](https://golang.org/ref/spec#IncDec_statements) has information explaining the `++` and `--` operators.
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	// for init; condition; post {}
+	for i := 0; i <= 100; i++ {
+		fmt.Println(i)
+	}
+}
+```
+
+[Play in Go Playground](https://play.golang.org/p/KGaFt09VB0)
+
+#### 11\. Loop - Nested Loops
+
+Now, we're going to see a loop within a loop. There will be an _outer_ loop, and it will run however many times it runs, and inside that _outer_ loop will be an _inner_ loop, which will loop as many times as it loops *each time* the outer loop loops.
+
+For example, if the outer loop loops 10 times, and the inner loop loops 5 times, the outer loop will loop once, then within that loop, the inner loop will loop 5 times, then the outer loop will loop its second time, and within that loop, the inner loop will loop 5 times, and so on...
+
+This is called nesting a loop - a loop within another loop. We can continue to nest loops within loops, but for now, we'll stick with just one loop within a loop.
+
+Let's give it a try:
+
+```go
+package main
+import (
+	"fmt"
+)
+func main() {
+	for i := 0; i <= 10; i++ {
+		for j := 0; j < 3; j++ {
+			fmt.Printf("Outer loop: %d\tInner loop: %d\n", i, j)
+		}
+	}
+}
+```
+
+[Play in Go Playground](https://play.golang.org/p/o0YaoYYAC8)
+
+Here we can see for each iteration of the outer loop, the inner loop prints out `0`, `1`, and `2`.
+
+Let's break this up and print `i` on the outer loop, and `j` on the inner loop. Try to do this with the output of the inner loop indented:
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	for i := 0; i <= 10; i++ {
+		fmt.Printf("Outer loop: %d\n", i)
+		for j := 0; j < 3; j++ {
+			fmt.Printf("\tInner loop: %d\n", j)
+		}
+	}
+}
+```
+
+[Play in Go Playground](https://play.golang.org/p/0Gd_NAXNyB)
+
+#### 12. Loop - For Statement
+
+Let's have a look at [For statements](https://golang.org/ref/spec#For_statements) in the [Go spec](https://golang.org/ref/spec).
+
+The `for` statement specifies *repeated execution of a block. There are three forms: The iteration may be controlled by a single condition, a* `for` clause, or a `range` clause.
+
+```
+ForStmt = "for" [ Condition | ForClause | RangeClause ] Block .
+Condition = Expression .
+```
+
+This is not valid Go syntax. It's called [Extended Backus–Naur form](https://en.wikipedia.org/wiki/Extended_Backus%E2%80%93Naur_form) (EBNF). EBNF is used to talk about a computer language.
+
+```go
+package main
+import (
+	"fmt"
+)
+func main() {
+	x := 1
+	for x < 10 {
+		fmt.Println(x)
+		x++
+	}
+	fmt.Println("done.")
+}
+```
+
+[Play in Go Playground](https://play.golang.org/p/f4L-KA59yQ)
+
+Continuing through the Go specification on [for statements](https://golang.org/ref/spec#For_statements), we come to "For statements with for clause," which looks like this:
+
+```go
+for i := 0; i < 10; i++ {
+	f(i)
+}
+```
+
+The specification explains, *A "for" statement with a ForClause is also controlled by its condition, but additionally it may specify an init and a post statement, such as an assignment, an increment or decrement statement.*
+
+Then, we have the EBNF explanation:
+
+```
+ForClause = [ InitStmt ] ";" [ Condition ] ";" [ PostStmt ] .
+```
+
+If we relate this to the example above, `i := 0` is the `InitStmt`, `i < 10` is the `Condition`, and `i++` is the `PostStmt`.
+
+Now, if we continue through the specification, it says:
+
+*The init statement may be a short variable declaration, but the post statement must not. Variables declared by the init statement are re-used in each iteration.*
+
+This further clarifies that the variable declared in the init statement is used in each iteration of the loop, and that we cannot have a short variable declaration in the post statement. Continuing:
+
+*If non-empty, the init statement is executed once before evaluating the condition for the first iteration; the post statement is executed after each execution of the block (and only if the block was executed).*
+
+So, in the example, the init statement `i := 0` is executed first. Then the condition `i < 10` is evaluated. *Then*, after the contents within the loop (the block) are executed, the post condition is executed.
+
+Let's take a look at another way we could iterate through a for loop, and `break` when we are done:
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	x := 1
+	for {
+		if x > 9 {
+			break
+		}
+		fmt.Println(x)
+		x++
+	}
+	fmt.Println("done.")
+}
+```
+
+[Play in Go Playground](https://play.golang.org/p/egX34wR3wX)
+
+That's an example of how we can use `for` on its own (without the init statement, condition, and post statement).
+
+In addition to the [Go Specification](https://golang.org/ref/spec), another great resource for Go documentation is [Effective Go](https://golang.org/doc/effective_go.html). Let's have a look at what it has to say about [For](https://golang.org/doc/effective_go.html#for):
+
+*The Go for loop is similar to—but not the same as—C's. It unifies for and while and there is no do-while. There are three forms, only one of which has semicolons.*
+
+In addition to the [Go Specification](https://golang.org/ref/spec), another great resource for Go documentation is [Effective Go](https://golang.org/doc/effective_go.html). Let's have a look at what it has to say about [For](https://golang.org/doc/effective_go.html#for)
+
+*The Go for loop is similar toâ€"but not the same asâ€"C's. It unifies for and while and there is no do-while. There are three forms, only one of which has semicolons.*
+
+```go
+// Like a C for
+for init; condition; post { }
+
+// Like a C while
+for condition { }
+
+// Like a C for(;;)
+for { }
+```
+
+Notice: how Effective Go jumps right to practical uses, whereas the Go Specification has a deeper explanation of the inner-workings. These two resources are excellent for diving into Go.
+
+#### 13 . Loop - Break & Continue
+
+According to the Go Specification, `break` and `continue` are [keywords](https://golang.org/ref/spec#Keywords).
+
+```rust
+break        default      func         interface    select
+case         defer        go           map          struct
+chan         else         goto         package      switch
+const        fallthrough  if           range        type
+continue     for          import       return       var
+```
+
+`break` will *break out* of a loop. It's a way to stop looping.
+
+`continue` will move on to the next iteration. Let's see it in action.
+
+*Aside* dividing and remainders
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	x := 83 / 40
+	y := 83 % 40
+	fmt.Println(x, y)
+}
+```
+
+[playground](https://play.golang.org/p/_BNQa7c8d8)
+
+*note*: `%` (modulo) is an [Arithmetic operator](https://golang.org/ref/spec#Arithmetic_operators) that gives the *remainder*.
+
+Back to `continue` in action. Let's say we want to iterate from `1` through to `100`, and print out only the even numbers, we can use `for`, `if`, and `continue`
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	x := 0
+	for {
+		x++
+
+		// break out of the loop (stop the loop)
+		// if x is greater than 100
+		if x > 100 {
+			break
+		}
+
+		// continue to the next iteration if the
+		// remainder of x divided by 2 is not 0
+		// (if x is not even)
+		if x%2 != 0 {
+			continue
+		}
+
+		fmt.Println(x)
+
+	}
+	fmt.Println("done.")
+}
+```
+
+[playground](https://play.golang.org/p/aVd3OVLtop)
+
+#### 14 . Generate Random number with math/crypto/rand in Go
+
+Random number is useful in many application. One such example is salting password to make in more secure. In this tutorial, we will learn how to generate random number in Go with math/rand library.
+
+```rust
+package main
+
+ import (
+      "fmt"
+      "math/rand"
+      "time"
+ )
+
+
+ func main() {
+    rand.Seed(time.Now().UnixNano())
+    fmt.Println(rand.Intn(100))
+ }
+```
+
+Run : `go run math-rand.go`
+
+Random number is useful in many applications. From salting password to enabling secure transactions.
+
+In this tutorial, we will learn how to generate random number in Go with crypto/rand library.
+
+```rust
+ package main
+
+ import "encoding/binary"
+ import "crypto/rand"
+
+ func main() {
+    var n int32
+    binary.Read(rand.Reader, binary.LittleEndian, &n)
+    println(n)
+ }
+```
+
+Run : `go run crytpo-rand.go`
+
+#### 15 . Loop - Printing ASCII
+
+We previously learned how to print the different characters of a string with format printing. Refer to the docmentation for a refresher on the [fmt](https://golang.org/pkg/fmt/) package.
+
+Loop through the numbers `33` through `122`, and print them out as numbers and text strings.
+
+*Hint*: Refer to the [ASCII](https://en.wikipedia.org/wiki/ASCII) coding scheme to see the decimal and glyph representations.
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	for i := 33; i < 122; i++ {
+		fmt.Printf("%v\t%#U\n", i, i)
+	}
+}
+```
+
+[playground](https://play.golang.org/p/y4OzIKta2M)
+
+#### 16 . Conditional - If Statement
+
+* If Statements
+    
+    * `bool`
+        
+        * `true`
+            
+        * `false`
+            
+    * the *not* operator
+        
+        * `!`
+            
+    * initialization statement
+        
+    * `if`/`else`
+        
+    * `if`/`else`
+        
+    * `if`/`else`
+        
+    * `if`/`else if`/.../`else`
+        
+
+*If statements* are conditional statements. Remember in control flow, we have sequence, we have iterative, and we also have conditional. Sequence is top to bottom, iterative is looping, and conditional is based upon a condition it will either do one thing or another.
+
+Let's start with some predeclared constants, `true` and `false` and not true `!true` and not false `!false`
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	if true {
+		fmt.Println("001")
+	}
+
+	if false {
+		fmt.Println("002")
+	}
+
+	if !true {
+		fmt.Println("003")
+	}
+
+	if !false {
+		fmt.Println("004")
+	}
+}
+```
+
+[playground](https://play.golang.org/p/Aok8L_OVMo)
+
+Following through the example above, we see `if true` which will always be true, and will execute. `if false` will always be false, and will not execute. `if !true` is if *not* true, which is the same as false, and will *not* execute, while `if !false` is if *not* false, which will execute.
+
+* Let's try with some more examples using numbers and the not operator `!`:
+    
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	if 2 == 2 {
+		fmt.Println("001")
+	}
+
+	if 2 != 2 {
+		fmt.Println("002")
+	}
+
+	if !(2 == 2) {
+		fmt.Println("003")
+	}
+
+	if !(2 != 2) {
+		fmt.Println("004")
+	}
+}
+```
+
+[playground](https://play.golang.org/p/Q1QjvxZzFX)
+
+In Go, we mostly don't see [semicolons](https://golang.org/doc/effective_go.html#semicolons) at the end of statements in source. Though we do see them in initialization statments.
+
+So, if we want to have two statements on one line, we can use a semicolon.
+
+```go
+package main
+import (
+	"fmt"
+)
+func main() {
+	fmt.Println("here's a statement"); fmt.Println("something else")
+}
+```
+
+If you run format, the formatter will put this over two lines.
+
+One usecase would be initialization of a variable and evaluation, for example `if x := 42; x == 2` will initialize the variable `x` with the value of `42` then will evaluation the expression `x == 2` which is `false`
+
+```go
+package main
+
+import (
+	"fmt"
+)
+func main() {
+	if x := 42; x == 2 {
+		fmt.Println("001")
+	}
+	fmt.Println("here's a statement")
+	fmt.Println("something else")
+}
+```
+
+[playground](https://play.golang.org/p/araiTmOGMJ)
+
+#### 17 . Conditional - If, Else if, Else
+
+Here's an example of using `if` and `else`
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	x := 42
+
+	if x == 40 {
+		fmt.Println("Our value was 40")
+	} else {
+		fmt.Println("Our value was not 40")
+	}
+}
+```
+
+[playground](https://play.golang.org/p/o2LQFJxWNR)
+
+We can also use `else if` as many times as we want within the `if` statement.
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	x := 42
+	if x == 40 {
+		fmt.Println("Our value was 40")
+	} else if x == 41 {
+		fmt.Println("Our value was 41")
+	} else if x == 42 {
+		fmt.Println("Our value was 42")
+	} else if x == 43 {
+		fmt.Println("Our value was 43")
+	} else {
+		fmt.Println("Our value was not 40")
+	}
+}
+```
+
+[playground](https://play.golang.org/p/a3jbqR2vXp)
+
+#### 18 . Loop, Conditional, Modulus
+
+Use the modulo operator `%` and a `for` loop and `if` statement to print out all the even numbers from 1 to 100
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	for i := 1; i <= 100; i++ {
+		if i%2 == 0 { // try changing the number to 3, 4, etc.
+			fmt.Println(i)
+		}
+	}
+}
+```
+
+[playground](https://play.golang.org/p/mhwuHNMCEF)
+
+#### 19 . Conditional - Switch Statement
+
+In this section, we are going to look at the `switch` statement. This is all part of [control flow](https://en.wikipedia.org/wiki/Control_flow), which is sequential, iterative (loops), and conditional; control flow is how computers read your program.
+
+By default, it is sequential. You can control the *flow* of how computers are reading your program with something like an iterative, using the `for` keyword, you can also use a conditional; an `if` statement or a `switch` statement.
+
+A `switch` statement always starts with the keyword `switch`, think "Hey, I want to switch on something."
+
+In addition to the `switch` keyword, a `switch` statement has `case`s. The `switch` statement switches on some `case`.
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	switch {
+	case false:
+		fmt.Println("this should not print")
+	case (2 == 4):
+		fmt.Println("this should not print2")
+	case (3 == 3):
+		fmt.Println("prints")
+	case (4 == 4):
+		fmt.Println("also true, does it print?")
+	}
+}
+```
+
+[playground](https://play.golang.org/p/Vk9yIJGkKy)
+
+In the above, the first `case` that evaluates to true `3==3` runs the code speficied `fmt.Println("prints")` and the switch statement exits. There is no fallthrough by default in a `switch` statement in Go, unless it is specified, which is why the final`case` here `4==4` does not return. Let's specify `fallthrough` and see what happens.
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	switch {
+	case false:
+		fmt.Println("this should not print")
+	case (2 == 4):
+		fmt.Println("this should not print2")
+	case (3 == 3):
+		fmt.Println("prints")
+		fallthrough
+	case (4 == 4):
+		fmt.Println("also true, does it print?")
+	}
+}
+```
+
+[playground](https://play.golang.org/p/1EtC2k2rvX)
+
+Because we specified `fallthrough`, the final case `4==4` also gets run. You can use `fallthrough` to make each statement evaluate, as in this example.
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	switch {
+	case false:
+		fmt.Println("this should not print")
+	case (2 == 4):
+		fmt.Println("this should not print2")
+	case (3 == 3):
+		fmt.Println("prints")
+		fallthrough
+	case (4 == 4):
+		fmt.Println("also true, does it print?")
+		fallthrough
+	case (7 == 9):
+		fmt.Println("not true 1")
+		fallthrough
+	case (11 == 14):
+		fmt.Println("not true 2")
+		fallthrough
+	case (15 == 15):
+		fmt.Println("true 15")
+	}
+}
+```
+
+[playground](https://play.golang.org/p/QK2Tu6x-SL)
+
+However, generally speaking just don't use `fallthrough`.
+
+We can also add a `default` case, which is what happens if nothing else evaluates to true.
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	switch {
+	case false:
+		fmt.Println("this should not print")
+	case (2 == 4):
+		fmt.Println("this should not print2")
+	default:
+	 	fmt.Println("this is default")
+	}
+}
+```
+
+[playground](https://play.golang.org/p/pINfFTpk30)
+
+If you have a value after the `switch` statement, it no longer evaluates on a boolean, but rather evaluates on the value.
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	switch "Bond" {
+	case "Moneypenny":
+		fmt.Println("miss money")
+	case "Bond":
+		fmt.Println("bond james")
+	case "Q":
+		fmt.Println("This is q")
+	default:
+	 	fmt.Println("this is default")
+	}
+}
+```
+
+[playgound](https://play.golang.org/p/ixwqQk_XPA)
+
+Rather than hard code the `switch` statement value, we could use a variable.
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	n := "Bond"
+	switch n {
+	case "Moneypenny":
+		fmt.Println("miss money")
+	case "Bond":
+		fmt.Println("bond james")
+	case "Q":
+		fmt.Println("This is q")
+	default:
+	 	fmt.Println("this is default")
+	}
+}
+```
+
+[playground](https://play.golang.org/p/jXeN5Bqn3Y)
+
+We can also have multiple values for a `case` statement, as in `case "Moneypenny", "Bond", "Dr No"`
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	n := "Bond"
+	switch n {
+	case "Moneypenny", "Bond", "Dr No":
+		fmt.Println("miss money or bond or dr no")
+	case "M":
+		fmt.Println("m")
+	case "Q":
+		fmt.Println("This is q")
+	default:
+	 	fmt.Println("this is default")
+	}
+}
+```
+
+[playground](https://play.golang.org/p/WNz5dijV4-)
+
+#### 20 . Conditional - Switch Statement Documentation
+
+It's important as a programmer to be comfortable with the documentation, to know what the language specification is, to know what effective Go is, to be able to make sense of the way that the people who wrote these documents wrote them.
+
+Have a look at the [keywords](https://golang.org/ref/spec#Keywords)
+
+```rust
+break        default      func         interface    select
+case         defer        go           map          struct
+chan         else         goto         package      switch
+const        fallthrough  if           range        type
+continue     for          import       return       var
+```
+
+So far we have looked at `case`, `break`, `switch`, `fallthrough`, `continue`, `else`, `for`, `if`, `switch`, `var`
+
+Looking more broadly at the [spec](https://golang.org/ref/spec), we have already covered several of the items, including ...
+
+The spec is about 50 or 60 pages describing in detail how the Go programming language works. So far, we have covered a fair amount of it already. We are doing great.
+
+Let's look at the documentation for [switch statements](https://golang.org/ref/spec#Switch_statements).
+
+[Switch statements](https://golang.org/ref/spec#Switch_statements)
+
+"Switch" statements provide multi-way execution. An expression or type specifier is compared to the "cases" inside the "switch" to determine which branch to execute.
+
+```rust
+SwitchStmt = ExprSwitchStmt | TypeSwitchStmt .
+```
+
+There are two forms: expression switches and type switches. In an expression switch, the cases contain expressions that are compared against the value of the switch expression. In a type switch, the cases contain types that are compared against the type of a specially annotated switch expression. The switch expression is evaluated exactly once in a switch statement.
+
+### Expression switches
+
+In an expression switch, the switch expression is evaluated and the case expressions, which need not be constants, are evaluated left-to-right and top-to-bottom; the first one that equals the switch expression triggers execution of the statements of the associated case; the other cases are skipped. If no case matches and there is a "default" case, its statements are executed. There can be at most one default case and it may appear anywhere in the "switch" statement. [A missing switch expression is equivalent to the boolean value true](https://play.golang.org/p/gM8k01Mnfn).
+
+```rust
+ExprSwitchStmt = "switch" [ SimpleStmt ";" ] [ Expression ] "{" { ExprCaseClause } "}" .
+ExprCaseClause = ExprSwitchCase ":" StatementList .
+ExprSwitchCase = "case" ExpressionList | "default" .
+```
+
+[Effective Go](https://golang.org/doc/effective_go.html) has this to say about [switch](https://golang.org/doc/effective_go.html#switch)
+
+Go's switch is more general than C's. The expressions need not be constants or even integers, the cases are evaluated top to bottom until a match is found, and if the switch has no expression it switches on true. It's therefore possibleâ€"and idiomaticâ€"to write an if-else-if-else chain as a switch.
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	fmt.Println(unhex('E'))
+}
+
+func unhex(c byte) byte {
+	switch {
+	case '0' <= c && c <= '9':
+		return c - '0'
+	case 'a' <= c && c <= 'f':
+		return c - 'a' + 10
+	case 'A' <= c && c <= 'F':
+		return c - 'A' + 10
+	}
+	return 0
+}
+```
+
+There is no automatic fall through, but cases can be presented in comma-separated lists.
+
+```go
+func shouldEscape(c byte) bool {
+	switch c {
+	case ' ', '?', '&', '=', '#', '+', '%':
+		return true
+	}
+	return false
+}
+```
+
+[Effective Go](https://golang.org/doc/effective_go.html) and the Go [Spec](https://golang.org/ref/spec) are useful tools to make use of while learning Go.
+
+#### 21 . Conditional Logic Operators
+
+Try to think through the following conditionals before trying them out the playgroud. Will they evaluate to true or false?
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	fmt.Println(true && true)
+	fmt.Println(true && false)
+	fmt.Println(true || true)
+	fmt.Println(true || false)
+	fmt.Println(!true)
+}
+```
+
+[playground](https://play.golang.org/p/ukFrlC66uv)
+
+`&&` will return `true` if both sides evaluate to `true`, otherwise it will return `false`.
+
+`||` will return `true` if either side evaluates to `true`.
+
+`!` returns the opposite
+
+Try [some examples](https://play.golang.org/p/cZEfXSIIDO) for yourself.
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	fmt.Printf("true && true\t %v\n", true && true)
+	fmt.Printf("true && false\t %v\n", true && false)
+	fmt.Printf("true || true\t %v\n", true || true)
+	fmt.Printf("true || false\t %v\n", true || false)
+	fmt.Printf("!true\t\t\t %v\n", !true)
+}
+```
+
+[playground](https://play.golang.org/p/zRs5hDVmY2C)
+
+#### 22 . String Type
+
+Let's have a look at [String Type](https://golang.org/ref/spec#String_types). String has some complexity to it, but let's have a look at the *simplicity* of String. Remember, Go has some goals: efficient compilation, efficient execution, and ease of programming.
+
+Let's create a variable that is of type String. A string can be created with double quotes `""` or with backticks \`\`\`\`. A string created with backticks is a raw [string literal](https://golang.org/ref/spec#String_literals), so it will include any returns, spaces, whatever.
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+var string_literal string
+
+func main() {
+	s := "Hello, playground"
+	string_literal = `"Hello,
+	
+	playground"`
+	fmt.Println(s)
+	fmt.Printf("%T\n", s)
+	fmt.Println(string_literal)
+	fmt.Printf("%T\n", string_literal)
+}
+```
+
+What the Go spec says about [String Types](https://golang.org/ref/spec#String_types) is,
+
+*A string type represents the set of string values. A string value is a (possibly empty) sequence of bytes. Strings are immutable: once created, it is impossible to change the contents of a string. The predeclared string type is string.*
+
+So, it's a *sequence of bytes*. What that means is that it is a *slice of bytes*. A `byte` is a type. It is an *alias* for an `int8`. Let's use *conversion* to convert this string to a slice of bytes, `bs := []byte(s)`:
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+var string_literal string
+
+func main() {
+	s := "Hello, playground"
+	fmt.Println(s)
+	fmt.Printf("%T\n", s)
+	bs := []byte(s)
+	fmt.Println(bs)
+	fmt.Printf("%T\n", bs)
+}
+```
+
+[playground](https://play.golang.org/p/KHBPNGXcax)
+
+Notice that this returns the slice of bytes `[72 101 108 108 111 44 32 112 108 97 121 103 114 111 117 110 100]`
+
+If we look at the [ASCII](https://en.wikipedia.org/wiki/ASCII) coding scheme, we can see that 72 is a capital "H", and `101`, `108`, `108`, `111` are `"e"`, `"l"`, `"l"`, and `"o"`, respectively. This shows that in this string, we have used a coding scheme to represent letters of the alphabet. Those letters are being represented by the numbers in this slice of bytes. In this case, they are being represented as decimal numbers. In programming, we also represent things in hexadecimal numbers. Hexadecimal is just another way of representing numbers; it's base 16 whereas decimal numbers are base 10.
+
+In UTF-8, a UTF-8 code point is 1 to 4 bytes. Each code point corresponds to a character.  
+We have just seen that `72` corresponds to `"H"` in this case. And in the ASCII coding scheme, `72` corresponds to the binary `100 1000`, which is `48` in hexadecimal.
+
+To take a look deeper into the internals, and the hexadecimal, UTF-8 way, we can have a look in the `fmt` [package documentation](https://golang.org/pkg/fmt/), particularly `%x`
+
+```rust
+%s	the uninterpreted bytes of the string or slice
+%q	a double-quoted string safely escaped with Go syntax
+%x	base 16, lower-case, two characters per byte
+%X	base 16, upper-case, two characters per byte
+```
+
+And if we scroll down to the "Other flags:" section \`\`\`
+
+* always print a sign for numeric values; guarantee ASCII-only output for %q (%+q)
+    
+
+* pad with spaces on the right rather than the left (left-justify the field)
+    
+
+# alternate format: add leading 0 for octal (%#o), 0x for hex (%#x);
+
+0X for hex (%#X); suppress 0x for %p (%#p); for %q, print a raw (backquoted) string if strconv.CanBackquote returns true; always print a decimal point for %e, %E, %f, %F, %g and %G; do not remove trailing zeros for %g and %G; write e.g. U+0078 'x' if the character is printable for %U (%#U). ' ' (space) leave a space for elided sign in numbers (% d); put spaces between bytes printing strings or slices in hex (% x, % X) 0 pad with leading zeros rather than spaces; for numbers, this moves the padding after the sign \`\`\` Particularly, the like `write e.g. U+0078 'x' if the character is printable for %U (%#U).`Let's have a look at some of the UTF-8 characters, using `%#U`:
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+var string_literal string
+
+func main() {
+	s := "Hello, playground"
+	fmt.Println(s)
+	fmt.Printf("%T\n", s)
+	
+	bs := []byte(s)
+	fmt.Println(bs)
+	fmt.Printf("%T\n", bs)
+	
+	for i := 0; i < len(s); i++ {
+		fmt.Printf("%#U ", s[i])
+	}
+}
+```
+
+[playground](https://play.golang.org/p/kGTLPKu25w)
+
+Another thing we can do is loop over the range of `s` and print out the index position and the hex value  
+\`\`\`go package main
+
+import ( "fmt" )
+
+var string\_literal string
+
+func main() { s := "Hello, playground" fmt.Println(s) fmt.Printf("%T\\n", s)
+
+bs := \[\]byte(s)
+
+/\* Show each character from string s in decimal \*/ fmt.Println(bs) fmt.Printf("%T\\n", bs)
+
+/\* Show each character from string s in UTF-8 code point \*/ for i := 0; i &lt; len(s); i++ { fmt.Printf("%#U ", s\[i\]) }
+
+fmt.Println("")
+
+/\* Show each character from string s in hexadecimal \*/ for i, v := range s { fmt.Printf("At index position %d we have hex %#x\\n", i, v) } }
+
+```rust
+[playground](https://play.golang.org/p/gYJKyZSg7g)
+  
+You can verify in the output with the [ASCII coding scheme](https://en.wikipedia.org/wiki/ASCII) and see it matches up:
+
+|Binary|Hex|Glyph|
+|:----:|:-:|:---:|
+|100 1000|48|H|
+|110 0101|65|e|
+|110 1100|6C|l|
+|110 1100|6C|l|
+|110 1111|6F|o|
+|010 1100|2C|,|
+|010 0000|20|space|
+|111 0000|70|p|
+|110 1100|6C|l|
+|110 0001|61|a|
+|111 1001|79|y|
+|110 0111|67|g|
+|111 0010|72|r|
+|110 1111|6F|o|
+|111 0101|75|u|
+|110 1110|6E|n|
+|110 0100|64|d|
+
+Each character from the string `"Hello, playground"` in:
+
+Decimal notation
+```
+
+\[72 101 108 108 111 44 32 112 108 97 121 103 114 111 117 110 100\] \`\`\`
+
+UTF-8 code point `U+0048 'H' U+0065 'e' U+006C 'l' U+006C 'l' U+006F 'o' U+002C ',' U+0020 ' ' U+0070 'p' U+006C 'l' U+0061 'a' U+0079 'y' U+0067 'g' U+0072 'r' U+006F 'o' U+0075 'u' U+006E 'n' U+0064 'd'`
+
+Hexadecimal `0x48 0x65 0x6c 0x6c 0x6f 0x2c 0x20 0x70 0x6c 0x61 0x79 0x67 0x72 0x6f 0x75 0x6e 0x64`
+
+Each code point is known as a `rune`, which is an alias for `int32`. Each `rune` is a code point in UTF-8.
+
+\-- Diving Deeper
+
+* [Strings, bytes, runes and characters in Go](https://blog.golang.org/strings)
+    
+
+To recap, we write strings either enclosed in double quotes or as string literals in backticks. All the code you write in Go is encoded as UTF-8, but that doesn't mean that all of your strings are going to be UTF-8 code points. You could have bytes which don't correspond to a code point.
+
+A string is a slice of bytes. It is immutable, which means its value cannot be modified. We can assign a new value:
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+var string_literal string
+
+func main() {
+	s := "Hello, playground"
+	s = "Hello, go programmer"
+	fmt.Println(s)
+
+}
+```
+
+[playground](https://play.golang.org/p/hWyRQR9EK-)
+
+So, you can assign a new value, but you cannot change the bytes of a string. So a string is an immutable slice of bytes. You can do conversion and see that slice of bytes, and see how it translates back to the ASCII UTF-8 coding scheme.
+
+On the [Golang website](https://golang.org/) they have Asian characters in the example. Go ahead and use the techniques from this lesson and see that those characters are *more than one byte*.
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+	fmt.Println("Hello,Sangam")
+}
+```
+
+#### 23 . Bool Type
+
+It's always good to take a look at the language specification and to become familiar and acquainted with the terminology used to talk about a programming language. That way we can be accurate and precise in understanding the language and in representing it and communicating it to others, so it's very important to understand what the people who designed the language were intending. We will have a closer look at the [Go Programming Language Specification](https://golang.org/ref/spec) later on.
+
+In this section, we're going to take a look at different types in Go. Let's start[Boolean Types](https://golang.org/ref/spec#Boolean_types)
+
+A *boolean type* represents the set of Boolean truth values denoted by the predeclared constants `true` and `false`. The predeclared boolean type is `bool`.
+
+A Boolean is a type that can be either `true` or `false`. If we [look up Boolean](https://www.google.ca/search?q=define%3A+boolean&rlz=1C5CHFA_enCA702CA702&oq=define%3A+boolean&aqs=chrome..69i57j69i58.3231j0j7&sourceid=chrome&ie=UTF-8), it is defined as "denoting a system of algebraic notation used to represent logical propositions, especially in computing and electronics," or "a binary variable, having two possible values called "true" and "false."
+
+So a Boolean is just that; `true` or `false`. It plays an important role in programming. Booleans allow us to have an expression evaluate down to a Boolean condition (`true` or `false`). And then make a decision based on that condition. So, if something is `true` we can do one thing, and if it's false, we can do something else.
+
+Later in this course, we will learn about conditional logic, switch statements, if statements, control flow, and how there is sequential control flow, and iterative control flow where you loop over something.
+
+For now though, let's see this `Boolean` value in action.
+
+In Go, `bool` is a type, so let's declare a variable `x` of type `bool`
+
+```go
+var x bool
+```
+
+`var` `x` is of *type* `bool`. `x` *holds values* of *type* `bool`. We have declared the variable `x`, but have not assigned a value. That means if we print `x`, it will return its *Zero Value*. The Zero Value of a variable that is of type `bool` is `false`  
+\`\`\`go package main
+
+import ( "fmt" )
+
+var x bool
+
+func main() { fmt.Println(x) }
+
+````rust
+[playground](https://play.golang.org/p/QuKLHA2JYG)  
+
+
+Some people find it strange that we don't add a semicolon to the end of lines in Go. The semicolons are added in behind the scenes by the compiler. So, rather than `x = true;`, you just do `x = true`. Go is all about _ease of programming_. Remember, efficient complilation, ease of programming and efficient execution.  
+  
+```go
+package main
+
+import (
+	"fmt"
+)
+
+var x bool
+
+func main() {
+	fmt.Println(x)
+	x = true
+	fmt.Println(x)
+}
+````
+
+We can also do evaluations, or compare things, and get a `bool` in return. If we look at the [operators and delimiters](https://golang.org/ref/spec#Operators_and_Delimiters), we have some operators which allow us to do comparisons such as double equality `==`, less than or equal to`<=`, greater than or equal to `>=`, or greater than `>` and less than `<`, not equal `!=`, etc.
+
+Let's try some out. Using the short declaration operator, let's assign values to a couple of variables `a := 7`, and `b := 42`, then see if they are equal to each other `a == b`.
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+var x bool
+
+func main() {
+	a := 7 // if we change this to 42, a == b will evaluate to true
+	b := 42
+	fmt.Println(a == b) // experiment with different operators: <=, >=, !=, >, <
+}
+```
+
+[playground](https://play.golang.org/p/XUZP_Hwm_x)
+
+In Go a double equals operator `==` is for equality comparison, and a single equals operator `=` is for assignment.
+
+The language specification for [Boolean Types](https://golang.org/ref/spec#Boolean_types) states
+
+*boolean type represents the set of Boolean truth values denoted by the predeclared constants true and false. The predeclared boolean type is bool.*
+
+#### 24 . Structs
+
+A struct is a collection of fields.
+
+we are creating xy struct with X and Y fiels. `type xy struct { X string Y string }` [Go Program](https://play.golang.org/p/ffvPEWNpNvW) \`\`\` package main
+
+import "fmt"
+
+type xy struct { X string Y string }
+
+func main() { fmt.Println(xy{"x", "y"}) } \`\`\`
+
+#### 25 . Struct Literal
+
+A struct literal denotes a newly allocated struct value by listing the values of its fields. You can list just a subset of fields by using the Name: syntax. (And the order of named fields is irrelevant.) The special prefix & returns a pointer to the struct value.
+
+```rust
+var (
+	z1 = xy{1, 2}  // has type xy. z1={1,2}
+	z2 = xy{X: 1}  // Y:0 is implicit z2={1,0}
+	z3 = xy{}      // X:0 and Y:0 z3={0,0}
+	p  = &xy{1, 2} // has type *xy  p={1,2}
+)
+```
+
+[Go Playground](https://play.golang.org/p/P5whnHh57Zn) \`\`\` package main
+
+import "fmt"
+
+type xy struct { X, Y int }
+
+var ( z1 = xy{1, 2} // has type xy z2 = xy{X: 1} // Y:0 is implicit z3 = xy{} // X:0 and Y:0 p = &xy{1, 2} // has type \*xy )
+
+func main() { fmt.Println(z1, p, z2, z3) } \`\`\`
+
+#### 26 . Pointer to struct
+
+Struct fields can be accessed through a struct pointer.
+
+To access the field `X`of a struct when we have the struct pointer `p` we could write `(*p).X`. However, that notation is cumbersome, so the language permits us instead to write just `p.X`, without the explicit dereference.
+
+```rust
+func main() {
+	z := xy{1, 2}
+	p := &z
+	p.X = 20
+	fmt.Println(z)
+}
+```
+
+[Go Program](https://play.golang.org/p/k0TOI-Ur2CN) \`\`\` package main
+
+import "fmt"
+
+type xy struct { X int Y int }
+
+func main() { z := xy{1, 2} p := &z p.X = 20 fmt.Println(z) }
+
+````rust
+
+#### 27 . Conversion, Not Casting 
+
+Conversion means we take the value of one type and _convert_ it to another type.  
+  
+Let's try it out in the [Go playground](https://play.golang.org/p/zMIh3Eur7K)  
+```go
+package main
+
+import (
+	"fmt"
+)
+
+var a int
+type hotdog int
+var b hotdog
+
+func main() {
+	a = 42
+	b = hotdog(a)  // we can convert the value of a to a value of type hotdog
+	fmt.Println(a)
+	fmt.Printf("%T\n", a)
+	fmt.Println(b)
+	fmt.Printf("%T\n", b)
+}
+````
+
+In other programming languages, this is called *casting*. We don't call it casting in Go, we call it *conversion*. If you go to [Effective Go](https://golang.org/doc/effective_go.html) and search for "cast" you won't find any results, but if you search for "[conversion](https://golang.org/doc/effective_go.html#conversions)" you will.
+
+That's the end of this section!
+
+#### 28 . Creating Your Own Type
+
+Some people say, "Go is all about 'type.'" Go is a static programming language, and at the heart of a static programming language is that once you declare that a variable is of a certain type, that's static; it doesn't change.
+
+Let's try creating our own type in the [Go playground](https://play.golang.org/p/9Gv-WWADVj).
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+var a int
+type hotdog int
+var b hotdog
+
+func main() {
+	a = 42
+	b = 43
+	fmt.Println(a)
+	fmt.Printf("%T\n", a)
+	fmt.Println(b)
+	fmt.Printf("%T\n", b)
+}
+```
+
+This returns: `42 int 43 main.hotdog` So we can see that the value of `a` is `42` and it is of type `int`, and the value of `b` is 43 and it is of type `hotdog` from the package `main`.
+
+We created a type `hotdog` with the line `type hotdog int`, we *declared* a variable of type `hotdog` with `var b hotdog`, we *assigned a value* to the variable with `b = 43`
+
+Go is a static programming language, so if I want to now do something like assign the value of `b` to `a`, with `a = b` the compiler will complain. We cannot take the value of something of type `hotdog` and assign it to something that is of type `int`.
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+var a int
+type hotdog int
+var b hotdog
+
+func main() {
+	a = 42
+	b = a  // we cannot assign the value of a type int to a type hotdog
+	fmt.Println(a)
+	fmt.Printf("%T\n", a)
+	fmt.Println(b)
+	fmt.Printf("%T\n", b)
+}
+```
+
+returns `tmp/sandbox982815840/main.go:13: cannot use a (type int) as type hotdog in assignment`
+
+#### 29 . Defer
+
+A defer statement defers the execution of a function until the surrounding function returns.
+
+The deferred call's arguments are evaluated immediately, but the function call is not executed until the surrounding function returns.
+
+```rust
+package main
+
+import "fmt"
+
+func main() {
+	defer fmt.Println("world")
+
+	fmt.Println("hello")
+}
+```
+
+[Go Playground](https://play.golang.org/p/GBzCn3hH39K)
+
+output:
+
+```rust
+hello 
+world
+```
+
+In this above program if you use `defer` keyword it will not execute until the surrounding function returns
+
+#### 30 . Stacking defers
+
+Deferred function calls are pushed onto a stack. When a function returns, its deferred calls are executed in last-in-first-out order.
+
+lets write a program to count numbers from `1` to `9` \`\`\` package main
+
+import "fmt"
+
+func main() { fmt.Println("counting")
+
+for i := 0; i &lt; 10; i++ { fmt.Println(i) }
+
+fmt.Println("done") } \`\`\` [Go Playground](https://play.golang.org/p/aOJHy5FgZXF)
+
+Stacking defers - use defer `defer fmt.Println(i).` because of defer its give you output of last result in first thats known as last-in-first out manner \`\`\` package main
+
+import "fmt"
+
+func main() { fmt.Println("counting")
+
+for i := 0; i &lt; 10; i++ { defer fmt.Println(i) }
+
+fmt.Println("done") } \`\`\` [Go Playground](https://play.golang.org/p/aioV0JViI9Z)
+
+Important: `for i := 0; i < 10; i++ { defer fmt.Println(i) }`
+
+output: `counting done 9 8 7 6 5 4 3 2 1 0`
+
+#### 31 . Pointer
+
+Go has pointers. A pointer holds the memory address of a value.
+
+The type `*T` is a pointer to a `T` value. Its zero value is nil.
+
+`var p *int` The & operator generates a pointer to its operand. `i := 42 p = &i` The `*` operator denotes the pointer's underlying value. \`\`\` fmt.Println(\*p) // read i through the pointer p \*p = 21 // set i through the pointer p
+
+```rust
+This is known as "dereferencing" or "indirecting".
+
+Unlike C, Go has no pointer arithmetic.
+```
+
+package main
+
+import "fmt"
+
+func main() { i, j := 42, 2701
+
+p := &i // point to i fmt.Println(\*p) // read i through the pointer \*p = 21 // set i through the pointer fmt.Println(i) // see the new value of i
+
+p = &j // point to j \*p = \*p / 37 // divide j through the pointer fmt.Println(j) // see the new value of j } \`\`\` [Go Playground](https://play.golang.org/p/6ex5tqolgF5)
+
+#### 32 . Prefix Suffix
+
+HasPrefix tests whether the string s begins with prefix:  
+`strings.HasPrefix(s, prefix string) bool`  
+HasSuffix tests whether the string s end with suffix:  
+`strings.HasSuffix(s, suffix string) bool`
+
+```rust
+package main
+import ( 
+ "fmt"
+ "strings"   
+ )
+func main() {
+var str string = "This is an example of a string"
+fmt.Printf("T/F? Does the string \"%s\" have prefix %s? ", str, "Th") 
+fmt.Printf("%t\n", strings.HasPrefix(str, "Th"))
+}
+```
+
+Output: `T/F? Does the string "This is an example of a string" have prefix Th? True`
+
+[Go Playground](https://play.golang.org/p/ZQW-WzSkzLS)
+
+#### 33 . Conversion between array and slice
+
+In `Go`, array is a fixed length of continuous memory with specified type, while slice is just a reference which points to an underlying array. Since they are different types, they can't assign value each other directly. See the following example:
+
+```rust
+    package main
+    
+    import "fmt"
+    
+    func main() {
+    	s := []int{1, 2, 3}
+    	var a [3]int
+    
+    	fmt.Println(copy(a, s))
+    }
+```
+
+Because `copy` only accepts slice argument, we can use the `[:]` to create a slice from array. Check next code:
+
+```rust
+	package main
+	
+	import "fmt"
+	
+	func main() {
+		s := []int{1, 2, 3}
+		var a [3]int
+	
+		fmt.Println(copy(a[:2], s))
+		fmt.Println(a)
+	}
+```
+
+The running output is:  
+`2 [1 2 0]`
+
+The above example is copying value from slice to array, and the opposite operation is similar:
+
+```rust
+	package main
+
+	import "fmt"
+
+    func main() {
+    	a := [...]int{1, 2, 3}
+    	s := make([]int, 3)
+    
+    	fmt.Println(copy(s, a[:2]))
+    	fmt.Println(s)
+    }
+```
+
+The execution result is:  
+`2 [1 2 0]` References:  
+[Arrays, slices (and strings): The mechanics of 'append'](https://blog.golang.org/slices).
+
+#### 34 . methods
+
+A method is a function with a receiver. A method declaration binds an identifier, the method name, to a method, and associates the method with the receiver's base type.
+
+```rust
+func (t Type) methodName(parameter list) {  
+}
+```
+
+The above snippet creates a method named `methodName` which has `receiver` type Type.
+
+Let's write a simple program which creates a method on a struct type and calls it.
+
+```rust
+package main
+
+import (
+	"fmt"
+)
+
+type student struct {
+	name     string
+	collage_name   string
+	course  string
+}
+
+/*
+ displayname() method has student as the receiver type
+*/
+func (s student) displayname() {
+	fmt.Printf(" student details of %s \n is %s \n %s", s.name, s.collage_name, s.course)
+}
+
+func main() {
+	stud1 := student{
+		name:     "Sangam biradar",
+		collage_name:  "alliance University Bengalore" ,
+		course: "btech",
+	}
+	stud1.displayname() //Calling displayname() method of student type
+}
+```
+
+try on -[Go PlayGround](https://play.golang.org/p/myRvCjqX_td)
+
+* Receivers
+    
+
+There are two types of receivers:
+
+* value : you don't need to change the value making the method call
+    
+* pointer : you need to change the value making the method call
+    
+
+lets me give you simple example on:(value) \`\`\` package main
+
+import ( "fmt" ) type person struct{ fname string lname string age int } func (p person) fullname() string { fmt.Printf("inside method: %p\\n", &p) return p.fname + p.lname } func main() { p1 := person{"sangam","biradar",24} fmt.Printf(p1.fullname()) fmt.Printf("\\n inside method: %p \\n", &p1)
+
+} // p1 is reciever value for the call to fullname // fullname is operating on value of p1 \`\`\` try on -[Go PlayGround](https://play.golang.org/p/ptjCNcnNRsS) note : operate on a copy of the value used to make the method call
+
+lets me give you simple example on:(pointer) \`\`\` package main
+
+import ( "fmt" ) type person struct{ fname string lname string age int } func (p \*person) changeage (newage int) { p.age = newage }
+
+func main(){ p1 := person{"sangam","biradar", 23} fmt.Println(p1.age) p1.changeage(24) fmt.Println(p1.age)
+
+} \`\`\` try on -[Go PlayGround](https://play.golang.org/p/RlGWgI-G2-7) note: operate on the actual value used to make the method call
+
+> which one should you use ?
+
+* a type's nature a type's nature should dictate how you use it
+    
+* Primitive Types Golang by default includes several pre-declared, built-in, primitive types
+    
+* boolean
+    
+* numeric
+    
+* string primitive types Pass a copy, the actual value; not a reference pointer
+    
+* Reference Types point to some underlying data structure
+    
+
+Reference types
+
+* slice
+    
+* map
+    
+* channel
+    
+* interface
+    
+* function
+    
+
+Header Value
+
+When we declare a reference type, the value that is created is a header value. The header value contains a pointer to an underlying data structure. Do not use pointers with reference types. Pass a copy; the actual value. The actual value already has a reference pointer to the underlying data structure. When you give a copy of the actual value, that copy also is a pointer to the same underlying data structure. Both the copy, and the original, point to the same underlying data structure.
+
+* Depends Struct Types
+    
+* Use
+    
+
+> value
+
+* if you don't need to change the value can also convey semantic meaning
+    
+* eg, Time pkg
+    
+* time is immutable
+    
+
+We could say this has a primitive nature
+
+* pointer
+    
+    * if you need to change the value
+        
+    * typically used with structs
+        
+
+We could say this has a non-primitive nature
+
+```rust
+In most cases, struct types don't exhibit a primitive nature but a nonprimitive one. In these cases, adding or removing something from the value of the type should mutate the value. When this is the case, we want to use a pointer to share the value with the rest of the program that needs it. … [ Examples: ] … When you think about time, you realize that any given point in time is not something that can change. This is exactly how the standard library implements the Time type. … Since values of type File have a non-primitive nature, they are always shared and never copied.
+ ~William Kennedy
+ 
+ The decision to use a value or pointer receiver should not being based on whether the method is mutating the receiving value. The decision should be based on the nature of the type. One exception to this guideline is when you need the flexibility that value type receivers provide when working with interface values. In these cases, you may choose to use a value receiver even though the nature of the type is nonprimitive. It's entirely based on the mechanics behind how interface values call methods for the values stored inside of them.
+ ~William Kennedy
+```
+
+#### 34 . variadic function
+
+* What is variadic function?
+    
+
+variadic function is simple function which accepts many arguments.and those arguments store parameter as slicen type.
+
+```rust
+func f(elem ...Type)
+```
+
+A typical syntax of a variadic function looks like above. ... operator called as pack operator instructs go to store all arguments of type Type in elem parameter. With this syntax, go creates elem variable of the type \[\]Type which is a slice. Hence, all arguments passed to this function is stored in a elem slice.
+
+```rust
+package main
+
+import "fmt"
+
+func getMultiples(factor int, args ...int) []int {
+	multiples := make([]int, len(args))
+
+	for index, val := range args {
+		multiples[index] = val * factor
+	}
+
+	return multiples
+}
+
+func main() {
+	s := []int{10, 20, 30}
+
+	// get multiples of 2, pass parameters from slice using `unpack` operator
+	mult1 := getMultiples(2, s...)
+
+	// get multiples of 3
+	mult2 := getMultiples(3, 1, 2, 3, 4)
+
+	fmt.Println(mult1)
+	fmt.Println(mult2)
+}
+```
+
+try out -[Go Playground](https://play.golang.org/p/BgU6H9orhrn)
+
+in the above program `func getMultiples(factor int, args ...int) []int {` this is variadic fuction with two types variable in which one is factor with data type int and another is ( unpack operator ) which means n number of parameters.
+
+`mult1` and `mult2` is two shore declartion variable which execute `getmultiples` variadic function and first argument is factor
+
+#### 35 . init Function
+
+* init Function
+    
+
+Identifier *main* is ubiquitous. Every Go program starts in a package *main* by calling identically named function. When this function returns the program end its execution. Functions *init* also play special role which are defined in package block and are usually used for:
+
+* variables initialization if cannot be done in initialization expression.
+    
+* registering.
+    
+* running one-time computations.
+    
+
+init() function will be executed first before main function
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+    fmt.Println("main() will run second")
+}
+
+func init() {
+    fmt.Println("init() will run first")
+}
+```
+
+[playground](https://play.golang.org/p/y6R1UEn9trt)
+
+If we run the code it will give us result
+
+```rust
+Output
+init() will run first
+main() will run second
+```
+
+init() function to use for variables initialization.
+
+given two examples, the first example is code without init() function.
+
+```go
+
+package main
+
+import "fmt"
+
+var weekday string
+
+func main() {
+    fmt.Printf("Today is %s", weekday)
+}
+```
+
+[playground](https://play.golang.org/p/JHYP4EZ0T6X)
+
+In this example, we declared a global variable called weekday. By default, the value of weekday is an empty string.
+
+Because the value of weekday is blank, when we run the program, we will get the following output:
+
+```rust
+Output
+Today is
+```
+
+We can fill in the blank variable by introducing an init() function that initializes the value of weekday to the current day.
+
+the second example is code with init() function.
+
+```go
+package main
+
+import (
+    "fmt"
+    "time"
+)
+
+var weekday string
+
+func init() {
+    weekday = time.Now().Weekday().String()
+}
+
+func main() {
+    fmt.Printf("Today is %s", weekday)
+}
+```
+
+[playground](https://play.golang.org/p/kaoptt-omic)
+
+Now when we run the program, it will print out the current weekday: `Output Today is Tuesday`
+
+init() as properties
+
+*init* function doesn't take arguments neither returns any value. In contrast to main, identifier *init* is not declared so cannot be referenced.
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+var weekday string
+
+func init() {
+    fmt.Println("hello init")
+}
+
+func main() {
+    init()
+}
+```
+
+[playground](https://play.golang.org/p/vXIkd6pa0V4)
+
+When we run it will give the result of error
+
+```rust
+/prog.go:14:5: undefined: init
+```
+
+Many *init* function can be defined in the same package or file
+
+```go
+package main
+
+import "fmt"
+
+func init() {
+    fmt.Println("init in 1")
+}
+
+
+func init() {
+    fmt.Println("init in 2")
+}
+
+func main() {
+    fmt.Println("main")
+}
+```
+
+[playground](https://play.golang.org/p/2k1Zw1_OoE3)
+
+When we run the code it will give the result
+
+```rust
+Output
+init in 1
+init in 2
+main
+```
+
+##### 36 . Command Line Arguments and File I/O
+
+* Setup
+    
+
+```sh
+$ go get golang.org/x/tools/cmd/goimports
+...
+$ mkdir engineitops
+$ cd engineitops
+```
+
+> Hello World
+
+```sh
+$ touch hello.go
+```
+
+```go
+// hello.go
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	fmt.Println("Hello World!")
+}
+```
+
+```sh
+$ $GOPATH/bin/goimports -w .
+# Format and add packages that should be imported
+
+$ go run hello.go
+Hello World!
+
+$ go build -o hello .
+
+$ ./hello
+Hello World!
+```
+
+> `flag` package Usage of `flag.StringVar`
+
+```sh
+$ touch flag.go
+```
+
+```go
+// flag.go
+package main
+
+import (
+	"flag"
+	"fmt"
+)
+
+func main() {
+	var name string
+	flag.StringVar(&name, "opt", "", "Usage")
+
+	flag.Parse()
+
+	fmt.Println(name)
+}
+```
+
+```sh
+$ go run hello.go -opt option
+option
+```
+
+If you want to know more about the `flag` package, please go to the https://golang.org/pkg/flag/
+
+Exercise 1
+
+Create a CLI application which outputs `Hello World!` if no options are specified. And if a string option is specified as `-name`, it has to output `Hello [YOUR_NAME]!`
+
+```sh
+$ go run hello.go
+Hello World!
+
+$ go run hello.go -name Gopher
+Hello Gopher!
+```
+
+The answer is \[hello.go\]
+
+```rust
+package main
+
+import (
+	"flag"
+	"fmt"
+)
+
+func main() {
+	// You can get command line options by flag package.
+	// 'flag.StringVar' returns a string option as a pointer.
+	// If you want to know other flag package's functions, go to https://golang.org/pkg/flag
+	var name string
+	flag.StringVar(&name, "name", "", "Write your name.")
+
+	flag.Parse()
+
+	if name == "" {
+		fmt.Println("Hello World!")
+	} else {
+		fmt.Printf("Hello %s!\n", name)
+	}
+}
+```
+
+> `os` package Usage of `os.Args`
+
+```sh
+$ touch args.go
+```
+
+```go
+// args.go
+package main
+
+import (
+	"fmt"
+	"os"
+)
+
+func main() {
+	fmt.Println(os.Args)
+	fmt.Println(os.Args[1])
+}
+```
+
+```sh
+$ go build -o args args.go 
+$ ./args Gopher
+[./args Gopher]
+Gopher
+```
+
+> File I/O Reading files \`\`\`go file, err := os.Open(`/path/to/file`) if err != nil { panic(err) } defer file.Close()
+
+buf := make(\[\]byte, BUFSIZE) for { n, err := file.Read(buf) if n == 0 { break } if err != nil { panic(err) }
+
+fmt.Print(string(buf\[:n\])) } \`\`\`
+
+> Writing files
+
+```go
+f, err := os.Create("/path/to/file")
+if err != nil {
+	panic(err)
+}
+defer f.Close()
+
+b := []byte("Foo")
+n, err := f.Write(b)
+if err != nil {
+	panic(err)
+}
+fmt.Println(n)
+```
+
+### Exercise 1-2
+
+Create an application `file.go` which creates a file and write a string `Hello Writing to Files!` to it. And the file name has to be specified as a command line argument.
+
+```sh
+$ go run file.go file.txt
+The number of bytes written:  23
+
+$ cat file.txt
+Hello Writing to Files!
+```
+
+The answer is file.go \`\`\`
+
+package main
+
+import ( "fmt" "os" )
+
+func main() { // You can get command line arguments with 'os.Args', a string slice. if len(os.Args) &lt; 2 { fmt.Println("Please set a file name.") return }
+
+// 'os.Args' contains the executed binary file name and the arguments. // If you command './file file.txt', 'os.Args\[0\]' is './file' and 'os.Args\[1\] is 'file.txt'. filename := os.Args\[1\]
+
+f, err := os.Create(filename) if err != nil { fmt.Println(err) return } defer f.Close()
+
+b := \[\]byte("Hello Writing to Files!") n, err := f.Write(b) if err != nil { fmt.Println(err) return }
+
+fmt.Println("The number of bytes written: ", n) } \`\`\`
+
+#### 37 . what is interface ?
+
+Go is not a 'classic' OO language: it doesn't know the concept of classes and inheritance. However it does contain the very flexible concept of interfaces, with which a lot of aspects of object-orientation can be made available. Interfaces in Go provide a way to specify the behavior of an object: if something can do this, then it can be used here. An interface defines a set of methods (the method set), but these methods do not contain code: they are not implemented ( they are abstract). Also an interface cannot contain variables. An interface is declared in the format: where Namer is an interface type. `type Namer interface { Method1(param_list) return_type Method2(param_list) return_type ... }` The name of an interface is formed by the method name plus the \[e\]r suffix, such as Printer, Reader, Writer, Logger, Converter, etc., thereby giving an active noun as a name. A less used alternative (when ..er is not so appropriate) is to end it with able like in Recoverable, or to start it with an I (more like in .NET or Java) . Interfaces in Go are short, they usually have from 0—max 3 methods. Unlike in most OO languages, in Go interfaces can have values, a variable of the interface type or an interface value:
+
+`var ai Namer`
+
+ai is a multiword data structure with an uninitialized value of nil. Allthough not completely the same thing, it is in essence a pointer. So pointers to interface values are illegal; they would be completely useless and give rise to errors in code.
+
+```rust
+package main
+
+import (
+	"fmt"
+)
+
+func myFunc(a interface{}) {
+	fmt.Println(a)
+}
+
+func main() {
+	var my_age int
+	my_age = 25
+
+	myFunc(my_age)
+}
+```
+
+Its table of method pointers is build through the runtime reflection capability. Types (like structs) can have the method set of the interface implemented; the implementation contains for each method real code how to act on a variable of that type: they implement the interface, the method set forms the interface of that type. A variable of a type that implements the interface can be assigned to ai (the receiver value), the method table then has pointers to the implemented interface methods. Both of these of course change when a variable of another type (that also implements the interface) is assigned to ai.
+
+* A type doesn't have to state explicitly that it implements an interface: interfaces are satisfied implicitly.  
+    
+* Multiple types can implement the same interface.  
+    
+* A type that implements an interface can also have other functions.  
+    
+* A type can implement many interfaces.  
+    
+* An interface type can contain a reference to an instance of any of the types that implement the interface (an interface has what is called a dynamic type) Even if the interface was defined later than the type, in a different package, compiled separately: if the object implements the methods named in the interface, then it implements the interface.
+    
+* All these properties allow for a lot of flexibility.
+    
+
+```rust
+package main
+
+import "fmt"
+      type Shaper interface {
+               Area() float32
+    }
+type Square struct {
+side float32
+   }
+func (sq *Square) Area() float32 {
+         return sq.side * sq.side
+}
+func main() {
+         sq1 := new(Square)
+         sq1.side = 5
+ // var areaIntf Shaper
+// areaIntf = sq1
+// shorter, without separate declaration:
+// areaIntf := Shaper(sq1)
+// or even:
+areaIntf := sq1
+fmt.Printf("The square has area: %f\n", areaIntf.Area())
+ }
+```
+
+Try Out -[GO Playground](https://play.golang.org/p/aitliEmakxG)
+
+The program defines a struct Square and an interface Shaper, with one method `Area()`. In `main()`an instance of Square is constructed. Outside of main we have an `Area()` method with a receiver type of Square where the area of a square is calculated: the struct Square implements the interface Shaper. Because of this we can assign a variable of type Square to a variable of the interface type: `areaIntf = sq1` Now the interface variable contains a reference to the Square variable and through it we can call the method `Area()` on Square. Of course you could call the method immediately on the Square instance sq1. `Area()`, but the novel thing is that we can call it on the interface instance, thereby generalizing the call. The interface variable both contains the value of the receiver instance and a pointer to the appropriate method in a method table.
+
+```rust
+package main
+import "fmt"
+    
+type stockPosition struct {
+           ticker string
+           sharePrice float32
+           count float32
+}
+// method to determine the value of a stock position 
+
+func (s stockPosition) getValue() float32 {
+     return s.sharePrice * s.count
+}
+type car struct {
+     make string
+     model string
+     price float32
+}
+// method to determine the value of a car 
+
+func (c car) getValue() float32 {
+     return c.price
+}
+// contract that defines different things that have value
+
+type valuable interface {
+     getValue() float32
+}
+// anything that satisfies the "valuable" interface is accepted 
+
+func showValue(asset valuable) {
+     fmt.Printf("Value of the asset is %f\n", asset.getValue())
+}
+func main() {
+     var o valuable = stockPosition{ "GOOG", 577.20, 4 }
+     showValue(o)
+     o = car{ "BMW", "M3", 66500 }
+     showValue(o)
+}
+```
+
+* Try Out: -[Go PlayGround](https://play.golang.org/p/QaEguA-DFNM)
+    
+
+#### 38 . Retrieving the Golang version
+
+While building a program, it is a good practice to log the environment settings, build version, and runtime version, especially if your application is more complex. This helps you to analyze the problem, in case something goes wrong.
+
+Besides the build version and, for example, the environmental variables, the Go version by which the binary was compiled could be included in the log. The following recipe will show you how to include the Go runtime version into such program information.
+
+* Download and install Go on your machine.
+    
+* Verify that your GOPATH and GOROOT environmental variables are set properly.
+    
+* Open your Terminal and execute go version. If you get output with a version name, then Go is installed properly.
+    
+* Create a repository in the GOPATH/src folder.
+    
+
+```rust
+package main
+
+import (
+	"log"
+	"runtime"
+)
+
+const info = `
+			 Application %s starting.
+			 The binary was build by GO: %s`
+
+func main() {
+	log.Printf(info, "Example", runtime.Version())
+}
+```
+
+output: \`\`\` Biradars-MacBook-Air-4:golang-daily sangam$ go run main.go 2019/11/30 01:53:12 Application Example starting. The binary was build by GO: go1.13.4
+
+```rust
+- How it works...
+
+- The runtime package contains a lot of useful functions. To find out the Go runtime version, the Version function could be used. The documentation states that the function returns the hash of the commit, and the date or tag at the time of the binary build.
+
+- The Version function, in fact, returns the `runtime/internal/sys` .The Version constant. The constant itself is located in the `$GOROOT/src/runtime/internal/sys/zversion.go` file.
+
+- This .go file is generated by the go dist tool and the version is resolved by the findgoversion function in the `go/src/cmd/dist/build.go` file, as explained next.
+
+- The $GOROOT/VERSION takes priority. If the file is empty or does not exist, the `$GOROOT/VERSION.cache` file is used. If the `$GOROOT/VERSION.cache` is also not found, the tool tries to resolve the version by using the Git information, but in this case, you need to initialize the Git repository for the Go source.                    
+
+
+#### 39 . accessing program arguments
+
+The most simple way to parameterize the program run is to use the command-line arguments as program parameters. 
+
+Simply, the parameterized program call could look like this: ./parsecsv user.csv role.csv. In this case, parsecsv is the name of the executed binary and user.csv and role.csv are the arguments, that modify the program call (in this case it refers to files to be parsed).
+
+- How to do it...
+
+Create the main.go file with the following content:
+```
+
+package main
+
+import ( "fmt" "os" )
+
+func main() {
+
+args := os.Args
+
+// This call will print // all command line arguments. fmt.Println(args)
+
+// The first argument, zero item from slice, // is the name of the called binary. programName := args\[0\] fmt.Printf("The binary name is: %s \\n", programName)
+
+// The rest of the arguments could be obtained // by omitting the first argument. otherArgs := args\[1:\] fmt.Println(otherArgs)
+
+for idx, arg := range otherArgs { fmt.Printf("Arg %d = %s \\n", idx, arg) } }
+
+```rust
+
+output
+```
+
+Biradars-MacBook-Air-4:golang-daily sangam$ go build -o test Biradars-MacBook-Air-4:golang-daily sangam$ ./test arg1 arg2 \[./test arg1 arg2\] The binary name is: ./test \[arg1 arg2\] Arg 0 = arg1 Arg 1 = arg2 Biradars-MacBook-Air-4:golang-daily sangam$
+
+```rust
+- How it works...
+
+- The Go standard library offers a few ways to access the arguments of the program call. The most generic way is to access the arguments by the Args variable from the OS package.
+
+- This way you can get all the arguments from the command line in a string slice. The advantage of this approach is that the number of arguments is dynamic and this way you can, for example, pass the names of the files to be processed by the program.
+
+- The preceding example just echoes all the arguments that are passed to the program. Finally, let's say the binary is called test and the program run is executed by the Terminal command ./test arg1 arg2.
+
+- In detail, the os.Args[0] will return ./test. The os.Args[1:] returns the rest of the arguments without the binary name. In the real world, it is better to not rely on the number of arguments passed to the program, but always check the length of the argument array. Otherwise, naturally, if the argument on a given index is not within the range, the program panics.
+There's more…
+
+- If the arguments are defined as flags, -flag value, additional logic is needed to assign the value to the flag. In this case, there is a better way to parse these by using the flag package. This approach is part of the next recipe
+
+
+
+#### 40 .  Creating a program interface with the flag package
+
+- The previous recipe describes how to access the program arguments by a very generic approach.
+
+- This recipe will provide a way of defining an interface via the program flags. This approach dominates systems based on GNU/Linux, BSD, and macOS.  The example of the program call could be ls -l which will, on *NIX systems, list the files in a current directory. 
+
+- The Go package for flag handling does not support flag combining like ls -ll, where there are multiple flags after a single dash. Each flag must be separate. The Go flag package also does not differentiate between long options and short ones. Finally, -flag and --flag are equivalent.
+
+Create the main.go file with the following content:
+```
+
+package main
+
+import ( "flag" "fmt" "log" "os" "strings" )
+
+// Custom type need to implement // flag.Value interface to be able to // use it in flag.Var function. type ArrayValue \[\]string
+
+func (s \*ArrayValue) String() string { return fmt.Sprintf("%v", \*s) }
+
+func (a \*ArrayValue) Set(s string) error { \*a = strings.Split(s, ",") return nil }
+
+func main() {
+
+// Extracting flag values with methods returning pointers retry := flag.Int("retry", -1, "Defines max retry count")
+
+// Read the flag using the XXXVar function. // In this case the variable must be defined // prior to the flag. var logPrefix string flag.StringVar(&logPrefix, "prefix", "", "Logger prefix")
+
+var arr ArrayValue flag.Var(&arr, "array", "Input array to iterate through.")
+
+// Execute the flag.Parse function, to // read the flags to defined variables. // Without this call the flag // variables remain empty. flag.Parse()
+
+// Sample logic not related to flags logger := log.New(os.Stdout, logPrefix, log.Ldate)
+
+retryCount := 0 for retryCount &lt; \*retry { logger.Println("Retrying connection") logger.Printf("Sending array %v\\n", arr) retryCount++ } }
+
+```rust
+output
+```
+
+Biradars-MacBook-Air-4:golang-daily sangam$ go build -o util Biradars-MacBook-Air-4:golang-daily sangam$ ./util -retry 2 -prefix=example -array=1,2 example2019/11/30 Retrying connection example2019/11/30 Sending array \[1 2\] example2019/11/30 Retrying connection example2019/11/30 Sending array \[1 2\] Biradars-MacBook-Air-4:golang-daily sangam$
+
+```rust
+- How it works…
+
+  - For the flag definition in code, the flag package defines two types of functions.
+
+   - The first type is the simple name of the flag type such as Int. This function will return the pointer to the integer variable where the value of the parsed flag is.
+
+   - The XXXVar functions are the second type. These provide the same functionality, but you need to provide the pointer to the variable. The parsed flag value will be stored in the given variable.
+
+  - The Go library also supports a custom flag type. The custom type must implement the Value interface from the flag package.
+
+   - As an example, let's say the flag retry defines the retry limit for reconnecting to the endpoint, the prefix flag defines the prefix of each row in a log, and the array is the array flag that will be send as an payload to server. The program call from the Terminal will look like ./util -retry 2 -prefix=example array=1,2.
+
+  - The important part of the preceding code is the Parse() function which parses the defined flags from Args[1:]. The function must be called after all flags are defined and before the values are accessed.
+
+ - The preceding code shows how to parse some data types from the command-line flags. Analogously, the other built-in types are parsed. 
+
+ - The last flag, array, demonstrates the definition of the custom type flag. Note that the ArrayType implements the Value interface from the flag package.
+
+-There's more…
+
+ - The flag package contains more functions to design the interface with flags. It is worth reading the documentation for FlagSet.
+
+ - By defining the new FlagSet, the arguments could be parsed by calling the myFlagset.Parse(os.Args[2:]). This way you can have flag subsets based on, for example, the first flag.
+
+<div style="width:480px"><iframe allow="fullscreen" frameBorder="0" height="240" src="https://giphy.com/embed/CZiLipaIO7zF7lhsnE/video" width="480"></iframe></div>
+```
