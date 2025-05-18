@@ -1,0 +1,60 @@
+---
+title: "Numeral Systems - Loop"
+description: "Learning Go programming"
+order: 6
+---
+
+## Print Decimal, Binary, Hexadecimal Numbers from 1 to 15 Using Loop
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+    for i := 1; i < 16; i++ {
+        fmt.Printf("%d \t %b \t %x \n", i, i, i)
+    }
+}
+```
+
+[Run](https://play.golang.org/p/TxcV48laVMk)
+
+Output:
+```
+1 	 1 	 1 
+2 	 10 	 2 
+3 	 11 	 3 
+4 	 100 	 4 
+5 	 101 	 5 
+6 	 110 	 6 
+7 	 111 	 7 
+8 	 1000 	 8 
+9 	 1001 	 9 
+10 	 1010 	 a 
+11 	 1011 	 b 
+12 	 1100 	 c 
+13 	 1101 	 d 
+14 	 1110 	 e 
+15 	 1111 	 f
+```
+
+### Understanding For Loops in Go
+
+Go has only one looping construct, the for loop.
+
+The basic for loop has three components separated by semicolons:
+
+- The init statement: executed before the first iteration
+- The condition expression: evaluated before every iteration
+- The post statement: executed at the end of every iteration
+
+The init statement will often be a short variable declaration, and the variables declared there are visible only in the scope of the for statement.
+
+The loop will stop iterating once the boolean condition evaluates to false.
+
+Note: Unlike other languages like C, Java, or JavaScript there are no parentheses surrounding the three components of the for statement and the braces `{ }` are always required.
+
+As we've seen in previous modules covering decimal, binary, and hexadecimal representations in Go, this program uses a loop to print numbers in different numeral systems using the formatting verbs we've learned.
+
+

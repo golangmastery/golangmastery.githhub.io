@@ -11,6 +11,7 @@ export interface Course {
   instructorBio: string;
   topics: string[];
   requirements: string[];
+  moduleCount?: number;
   // ... other fields as needed
 }
 
@@ -22,13 +23,14 @@ const sangamInstructor = {
 
 export const courses: Course[] = [
   {
-    slug: 'quick-start-with-golang',
+    slug: 'quick-start-with-golang-modules',
     title: 'Quick Start with Golang',
     description: 'Master Golang fundamentals in this hands-on course designed for beginners. Learn essential concepts like data types, control structures, functions, packages, and data structures through interactive labs and practical challenges.',
     level: 'Beginner',
     duration: '4 weeks',
     image: '/images/courses/quick-start-with-golang.png',
     price: 'Free',
+    moduleCount: 101,
     ...sangamInstructor,
     topics: [
       'Go installation and setup',
@@ -56,6 +58,7 @@ export const courses: Course[] = [
     duration: '5 weeks',
     image: '/images/courses/concurrent-programming-with-go.png',
     price: 'Free',
+    moduleCount: 15,
     ...sangamInstructor,
     topics: [
       'Goroutines and Channels',
@@ -80,6 +83,7 @@ export const courses: Course[] = [
     duration: '6 weeks',
     image: '/images/courses/web-development-with-go.png',
     price: 'Free',
+    moduleCount: 20,
     ...sangamInstructor,
     topics: [
       'HTTP Fundamentals with Go',
@@ -106,6 +110,7 @@ export const courses: Course[] = [
     duration: '7 weeks',
     image: '/images/courses/advanced-go-patterns.png',
     price: 'Free',
+    moduleCount: 18,
     ...sangamInstructor,
     topics: [
       'Advanced Concurrency Patterns',
@@ -130,6 +135,7 @@ export const courses: Course[] = [
     duration: '8 weeks',
     image: '/images/courses/microservices-with-go.png',
     price: 'Free',
+    moduleCount: 22,
     ...sangamInstructor,
     topics: [
       'Microservices Architecture Principles',
@@ -158,6 +164,7 @@ export const courses: Course[] = [
     duration: '3 weeks',
     image: '/images/courses/testing-in-go.png',
     price: 'Free',
+    moduleCount: 12,
     ...sangamInstructor,
     topics: [
       'Unit Testing in Go',

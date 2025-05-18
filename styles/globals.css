@@ -99,3 +99,856 @@ body {
   border-radius: 0.375rem;
   padding: 0.8571429em 1.1428571em;
 }
+
+/* VS Code-like syntax highlighting */
+pre {
+  background-color: #1e1e1e; /* VS Code dark theme background */
+  border-radius: 0.375rem;
+  padding: 1rem;
+  overflow-x: auto;
+  margin: 1.25rem 0;
+  border: 1px solid #323232;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+  scrollbar-width: thin;
+  scrollbar-color: #505050 #1e1e1e;
+  position: relative;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* Custom scrollbar for WebKit browsers */
+pre::-webkit-scrollbar {
+  height: 8px;
+  width: 8px;
+}
+
+pre::-webkit-scrollbar-track {
+  background: #1e1e1e;
+  border-radius: 0.375rem;
+}
+
+pre::-webkit-scrollbar-thumb {
+  background: #505050;
+  border-radius: 4px;
+}
+
+pre::-webkit-scrollbar-thumb:hover {
+  background: #676767;
+}
+
+pre code {
+  font-family: 'Fira Code', 'Cascadia Code', 'JetBrains Mono', Consolas, Monaco, 'Andale Mono', monospace; /* Better monospace fonts */
+  font-size: 14px;
+  line-height: 1.6;
+  color: #d4d4d4; /* VS Code default text color */
+  tab-size: 2;
+  padding: 0;
+  background-color: transparent !important;
+  word-break: normal;
+  word-wrap: normal;
+  white-space: pre;
+  margin: 0;
+  width: 100%;
+  float: left;
+}
+
+/* Code block container */
+.code-block-wrapper {
+  position: relative;
+  margin: 1.75rem 0;
+  border-radius: 0.375rem;
+  overflow: hidden;
+  opacity: 0;
+  animation: fade-in 0.5s ease-out forwards;
+}
+
+/* Language tab styling */
+.code-language-tab {
+  position: absolute;
+  top: 0;
+  right: 40px;
+  background-color: #252526; /* Slightly lighter than code block */
+  color: #9cdcfe;
+  font-size: 0.75rem;
+  padding: 0.25rem 0.75rem;
+  border-bottom-left-radius: 0.25rem;
+  border-bottom-right-radius: 0.25rem;
+  font-family: 'Fira Code', 'Cascadia Code', 'JetBrains Mono', Consolas, Monaco, monospace;
+  border: 1px solid #323232;
+  border-top: none;
+  z-index: 10;
+  letter-spacing: 0.5px;
+  text-transform: lowercase;
+  user-select: none;
+}
+
+.language-label {
+  text-transform: lowercase;
+  letter-spacing: 0.5px;
+}
+
+/* Copy button hover effect */
+.code-block-wrapper:hover .copy-button,
+.code-block-wrapper:hover .line-number-toggle {
+  opacity: 1;
+}
+
+/* Line numbers styling */
+.code-with-line-numbers {
+  position: relative;
+  display: flex;
+  overflow-x: auto;
+}
+
+.line-numbers-rows {
+  position: sticky;
+  left: 0;
+  user-select: none;
+  text-align: right;
+  counter-reset: linenumber;
+  background-color: #252526;
+  border-right: 1px solid #404040;
+  padding: 1rem 0.5rem 1rem 0.5rem;
+  margin-right: 0.75rem;
+  color: #858585;
+  font-size: 14px;
+  line-height: 1.6;
+  font-family: 'Fira Code', 'Cascadia Code', 'JetBrains Mono', Consolas, Monaco, monospace;
+  min-width: 30px;
+  display: flex;
+  flex-direction: column;
+}
+
+.line-numbers-rows span {
+  counter-increment: linenumber;
+  display: block;
+  position: relative;
+  padding-right: 0.5rem;
+}
+
+.code-with-line-numbers pre {
+  margin: 0;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  width: 100%;
+  border-left: none;
+}
+
+/* Syntax highlighting colors - VSCode dark+ theme */
+.hljs-keyword {
+  color: #569cd6; /* blue */
+  font-weight: bold;
+}
+
+.hljs-built_in {
+  color: #4ec9b0; /* teal */
+}
+
+.hljs-type {
+  color: #4ec9b0; /* teal */
+}
+
+.hljs-literal {
+  color: #569cd6; /* blue */
+}
+
+.hljs-number {
+  color: #b5cea8; /* light green */
+}
+
+.hljs-regexp {
+  color: #d16969; /* red */
+}
+
+.hljs-string {
+  color: #ce9178; /* orange */
+}
+
+.hljs-subst {
+  color: #d4d4d4; /* default */
+}
+
+.hljs-symbol {
+  color: #d4d4d4; /* default */
+}
+
+.hljs-class {
+  color: #4ec9b0; /* teal */
+}
+
+.hljs-function {
+  color: #dcdcaa; /* yellow */
+}
+
+.hljs-title {
+  color: #dcdcaa; /* yellow */
+}
+
+.hljs-params {
+  color: #d4d4d4; /* default */
+}
+
+.hljs-comment {
+  color: #6a9955; /* green */
+  font-style: italic;
+}
+
+.hljs-doctag {
+  color: #608b4e; /* green */
+}
+
+.hljs-meta {
+  color: #9cdcfe; /* light blue */
+}
+
+.hljs-meta-keyword {
+  color: #569cd6; /* blue */
+}
+
+.hljs-meta-string {
+  color: #ce9178; /* orange */
+}
+
+/* Go-specific syntax highlighting enhancements */
+.language-go .hljs-keyword {
+  color: #569cd6; /* blue */
+}
+
+.language-go .hljs-built_in {
+  color: #4ec9b0; /* teal */
+}
+
+.language-go .hljs-type {
+  color: #4ec9b0; /* teal */
+}
+
+.language-go .hljs-string {
+  color: #ce9178; /* orange */
+}
+
+.language-go .hljs-comment {
+  color: #6a9955; /* green */
+}
+
+.language-go .hljs-function {
+  color: #dcdcaa; /* yellow */
+}
+
+/* Animation for copied state */
+@keyframes copied-animation {
+  0% { background-color: #2d2d2d; }
+  50% { background-color: #37373d; }
+  100% { background-color: #2d2d2d; }
+}
+
+.copy-button {
+  animation: none;
+}
+
+.copy-button:active {
+  animation: copied-animation 0.3s ease;
+}
+
+/* Line highlight for important code sections */
+.code-highlight {
+  background-color: rgba(255, 255, 255, 0.07);
+  display: block;
+  margin: 0 -1rem;
+  padding: 0 1rem;
+  border-left: 2px solid #569cd6;
+}
+
+/* Add a slight gradient at code block edges to indicate scrollable content */
+.code-block-wrapper::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 28px; /* Height of copy button */
+  bottom: 0;
+  width: 20px;
+  background: linear-gradient(to right, rgba(30, 30, 30, 0), rgba(30, 30, 30, 1));
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  z-index: 5;
+}
+
+.code-block-wrapper:hover::after {
+  opacity: 0.8;
+}
+
+/* Error and warning highlights */
+.code-error {
+  background-color: rgba(255, 0, 0, 0.1);
+  border-bottom: 1px dashed #f14c4c;
+}
+
+.code-warning {
+  background-color: rgba(255, 208, 0, 0.1);
+  border-bottom: 1px dashed #cca700;
+}
+
+/* Inline code styling */
+:not(pre) > code {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #e06c75;
+  padding: 0.2em 0.4em;
+  border-radius: 3px;
+  font-family: 'Fira Code', 'Cascadia Code', 'JetBrains Mono', Consolas, Monaco, monospace;
+  font-size: 0.9em;
+  white-space: nowrap;
+}
+
+/* Go code container with special styling */
+.go-code-container {
+  position: relative;
+  margin: 2rem 0;
+}
+
+.go-code-container::before {
+  content: "Go";
+  position: absolute;
+  top: -12px;
+  left: 12px;
+  background-color: #00ADD8; /* Go's brand color */
+  color: white;
+  font-size: 0.7rem;
+  font-weight: bold;
+  padding: 2px 8px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  z-index: 30;
+}
+
+.go-code-container .code-block-wrapper {
+  border: 1px solid #00ADD8;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0, 173, 216, 0.1);
+}
+
+.go-code-container .copy-button {
+  background-color: rgba(0, 173, 216, 0.2);
+  color: white;
+}
+
+.go-code-container .copy-button:hover {
+  background-color: rgba(0, 173, 216, 0.4);
+}
+
+/* Highlight specific Go keywords and syntax */
+.language-go .hljs-keyword {
+  color: #569cd6;
+  font-weight: bold;
+}
+
+.language-go .hljs-title.function_ {
+  color: #dcdcaa;
+}
+
+.language-go .hljs-built_in {
+  color: #4ec9b0;
+}
+
+.language-go .hljs-string {
+  color: #ce9178;
+}
+
+.language-go .hljs-comment {
+  color: #6a9955;
+  font-style: italic;
+}
+
+.language-go .hljs-number {
+  color: #b5cea8;
+}
+
+.language-go .hljs-operator {
+  color: #d4d4d4;
+}
+
+.language-go .hljs-punctuation {
+  color: #d4d4d4;
+}
+
+.language-go .hljs-variable {
+  color: #9cdcfe;
+}
+
+.language-go .hljs-params {
+  color: #9cdcfe;
+}
+
+/* Format verb highlighting for Printf statements */
+.language-go .format-verb {
+  color: #d7ba7d;
+  font-weight: bold;
+}
+
+/* Special formatting for package declarations */
+.language-go .package-declaration {
+  color: #569cd6;
+  font-weight: bold;
+}
+
+/* Add some padding around the code blocks */
+.go-code-container .code-block-wrapper {
+  padding: 4px;
+  background-color: #1f2937;
+}
+
+/* Customize the line numbers for Go code */
+.go-code-container .line-numbers-rows {
+  background-color: #0f1923;
+  color: #56687e;
+}
+
+/* Add special formatting for import statements */
+.language-go .import-statement {
+  color: #c586c0;
+}
+
+/* Better spacing for code blocks with 'Run' links */
+.go-code-container + p a {
+  margin-top: -1rem;
+  display: inline-block;
+}
+
+/* Code actions container */
+.code-actions {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  z-index: 20;
+}
+
+/* Line number toggle button */
+.line-number-toggle {
+  position: relative;
+  background-color: #2d2d2d;
+  border: none;
+  color: #9cdcfe;
+  height: 28px;
+  width: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  opacity: 0.8;
+  border-bottom-left-radius: 0.25rem;
+}
+
+.line-number-toggle:hover {
+  background-color: #3a3a3a;
+  opacity: 1;
+}
+
+/* Adjust copy button position */
+.copy-button {
+  position: relative;
+  top: auto;
+  right: auto;
+  background-color: #2d2d2d;
+  border: none;
+  color: #9cdcfe;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  z-index: 20;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  opacity: 0.8;
+  border-bottom-left-radius: 0;
+}
+
+.go-code-container .code-actions .line-number-toggle {
+  background-color: rgba(0, 173, 216, 0.2);
+  color: white;
+}
+
+.go-code-container .code-actions .line-number-toggle:hover {
+  background-color: rgba(0, 173, 216, 0.4);
+}
+
+/* Code with line numbers container styles */
+.code-with-line-numbers {
+  position: relative;
+  display: flex;
+  overflow-x: auto;
+  border-radius: 0.375rem;
+}
+
+/* Animations for code blocks */
+@keyframes codeblock-focus {
+  0% { box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08); }
+  100% { box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1), 0 4px 6px rgba(0, 0, 0, 0.08); }
+}
+
+.code-block-wrapper:focus-within {
+  animation: codeblock-focus 0.3s ease forwards;
+}
+
+/* Code block focus state */
+.code-block-wrapper:focus-within pre {
+  border-color: #569cd6;
+}
+
+/* Go code focus state */
+.go-code-container:focus-within .code-block-wrapper {
+  border-color: #29bbed;
+  box-shadow: 0 8px 16px rgba(0, 173, 216, 0.15);
+}
+
+/* Add minimal fade-in animation for code blocks */
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Staggered animation delay for multiple code blocks */
+.go-code-container:nth-child(2) .code-block-wrapper {
+  animation-delay: 0.1s;
+}
+
+.go-code-container:nth-child(3) .code-block-wrapper {
+  animation-delay: 0.2s;
+}
+
+/* Line highlight animation when copying */
+@keyframes line-highlight {
+  0% { background-color: rgba(255, 255, 255, 0); }
+  50% { background-color: rgba(255, 255, 255, 0.1); }
+  100% { background-color: rgba(255, 255, 255, 0); }
+}
+
+.highlight-line {
+  animation: line-highlight 1s ease;
+}
+
+/* Responsive design for mobile devices */
+@media (max-width: 768px) {
+  pre {
+    font-size: 13px;
+    padding: 0.75rem;
+  }
+  
+  .line-numbers-rows {
+    padding: 0.75rem 0.3rem 0.75rem 0.3rem;
+    margin-right: 0.5rem;
+    font-size: 13px;
+    min-width: 24px;
+  }
+  
+  .code-language-tab {
+    font-size: 0.65rem;
+    padding: 0.2rem 0.5rem;
+  }
+  
+  .copy-button, .line-number-toggle {
+    height: 24px;
+  }
+  
+  .copy-button {
+    padding: 0.2rem 0.4rem;
+    font-size: 0.7rem;
+  }
+  
+  .copy-button svg, .line-number-toggle svg {
+    width: 14px;
+    height: 14px;
+  }
+  
+  /* Show line numbers toggle button on mobile by default */
+  .line-number-toggle {
+    opacity: 1;
+  }
+  
+  /* Adjust Go badge positioning */
+  .go-code-container::before {
+    font-size: 0.6rem;
+    top: -10px;
+    left: 8px;
+  }
+  
+  /* Improve touch targets for mobile */
+  .copy-button, .line-number-toggle {
+    min-width: 28px;
+    min-height: 28px;
+  }
+}
+
+/* Better mobile scrolling for code blocks */
+.code-block-wrapper {
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Adjust code block spacing on small screens */
+@media (max-width: 480px) {
+  .go-code-container {
+    margin: 1.5rem 0;
+  }
+  
+  pre {
+    margin: 1rem 0;
+    font-size: 12px;
+  }
+  
+  .line-numbers-rows {
+    font-size: 12px;
+  }
+  
+  /* Hide "Copy" text on very small screens, show only icon */
+  @media (max-width: 360px) {
+    .copy-button span {
+      display: none;
+    }
+    
+    .copy-button svg {
+      margin-right: 0;
+    }
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  :not(pre) > code {
+    background-color: rgba(0, 0, 0, 0.3);
+    color: #e06c75;
+  }
+  
+  /* Adjust inline code styling for dark mode */
+  .readable-text code {
+    background-color: rgba(0, 0, 0, 0.3);
+    color: #e06c75;
+  }
+  
+  /* Improve contrast for dark theme */
+  .line-numbers-rows {
+    background-color: #1a1a1a;
+    color: #666;
+  }
+  
+  /* Adjust code block shadow for dark mode */
+  pre {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3), 0 1px 3px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Enhanced focus for dark mode */
+  .code-block-wrapper:focus-within pre {
+    border-color: #0ea5e9;
+  }
+}
+
+/* Remove animation for users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .code-block-wrapper {
+    animation: none;
+    opacity: 1;
+  }
+  
+  .highlight-line {
+    animation: none;
+  }
+  
+  .code-block-wrapper:focus-within {
+    animation: none;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+  }
+}
+
+/* Page background patterns */
+.bg-grid-pattern {
+  background-image: 
+    linear-gradient(to right, rgba(0, 0, 0, 0.05) 1px, transparent 1px), 
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.05) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+.dark .bg-grid-pattern {
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px), 
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+}
+
+/* Modern container animations and effects */
+@keyframes content-fade-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.content-animate-in {
+  animation: content-fade-in 0.5s ease-out forwards;
+}
+
+/* Glass morphism effect for containers */
+.glass-effect {
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.03);
+}
+
+.dark .glass-effect {
+  background: rgba(17, 24, 39, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
+}
+
+/* Card hover effects */
+.card-hover {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 20px rgba(0, 0, 0, 0.1);
+}
+
+.dark .card-hover:hover {
+  box-shadow: 0 12px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Add these styles for code blocks */
+
+code {
+  font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, "Liberation Mono", monospace;
+}
+
+pre {
+  overflow-x: auto;
+  background-color: #f6f8fa;
+  border-radius: 6px;
+  padding: 16px;
+  margin-top: 0;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.dark pre {
+  background-color: #0d1117;
+  border-color: #30363d;
+}
+
+code {
+  padding: 0.2em 0.4em;
+  margin: 0;
+  font-size: 85%;
+  border-radius: 6px;
+}
+
+.code-block code {
+  font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, "Liberation Mono", monospace;
+  font-size: 14px;
+  padding: 0;
+  background-color: transparent;
+}
+
+/* Dark mode code styles */
+.dark .code-block code {
+  color: #e6edf3;
+}
+
+/* Syntax highlighting for Go code */
+.language-go .keyword {
+  color: #cf222e;
+}
+
+.language-go .string {
+  color: #0550ae;
+}
+
+.language-go .function {
+  color: #8250df;
+}
+
+.language-go .comment {
+  color: #6e7781;
+  font-style: italic;
+}
+
+.dark .language-go .keyword {
+  color: #ff7b72;
+}
+
+.dark .language-go .string {
+  color: #a5d6ff;
+}
+
+.dark .language-go .function {
+  color: #d2a8ff;
+}
+
+.dark .language-go .comment {
+  color: #8b949e;
+  font-style: italic;
+}
+
+/* Add these basic syntax highlight styles */
+
+/* Code syntax highlighting - basic GitHub-like colors */
+.language-go .keyword,
+.language-go .type,
+.language-go .builtin,
+.language-go .variable.language_,
+.language-go .meta.import {
+  color: #d73a49;
+}
+
+.language-go .string,
+.language-go .string.quoted {
+  color: #032f62;
+}
+
+.language-go .function,
+.language-go .function.call {
+  color: #6f42c1;
+}
+
+.language-go .comment {
+  color: #6a737d;
+  font-style: italic;
+}
+
+.language-go .number {
+  color: #005cc5;
+}
+
+.language-go .operator {
+  color: #005cc5;
+}
+
+.dark .language-go .keyword,
+.dark .language-go .type,
+.dark .language-go .builtin,
+.dark .language-go .variable.language_,
+.dark .language-go .meta.import {
+  color: #ff7b72;
+}
+
+.dark .language-go .string,
+.dark .language-go .string.quoted {
+  color: #a5d6ff;
+}
+
+.dark .language-go .function,
+.dark .language-go .function.call {
+  color: #d2a8ff;
+}
+
+.dark .language-go .comment {
+  color: #8b949e;
+  font-style: italic;
+}
+
+.dark .language-go .number {
+  color: #79c0ff;
+}
+
+.dark .language-go .operator {
+  color: #79c0ff;
+}

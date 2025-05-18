@@ -1,0 +1,45 @@
+---
+title: "Variable with zero value"
+description: "Learning Go programming"
+order: 9
+---
+
+## Variables with Zero Values
+
+In Go, variables declared without an explicit initial value are given their zero value. The zero value depends on the type of the variable.
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+	var a int
+	var b string
+	var c float64
+	var d bool
+
+	fmt.Printf("%v \n", a)
+	fmt.Printf("%v \n", b)
+	fmt.Printf("%v \n", c)
+	fmt.Printf("%v \n", d)
+
+	fmt.Println()
+}
+```
+
+[Run](https://play.golang.org/p/L9TbTm0qY1s)
+
+### Output:
+```
+0 
+ 
+0 
+false
+```
+
+In the program above, we declared variables with their types but didn't assign any values. Go automatically assigns zero values:
+- For integers (`int`): 0
+- For strings (`string`): empty string
+- For floating-point numbers (`float64`): 0.0
+- For booleans (`bool`): false

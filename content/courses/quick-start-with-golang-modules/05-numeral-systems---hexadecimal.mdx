@@ -1,0 +1,37 @@
+---
+title: "Numeral Systems - Hexadecimal"
+description: "Learning Go programming"
+order: 5
+---
+
+## Numeral Systems - Hexadecimal
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+    // fmt.Printf("%d - %b - %x \n", 42, 42, 42)
+    // fmt.Printf("%d - %b - %#x \n", 42, 42, 42)
+    // fmt.Printf("%d - %b - %#X \n", 42, 42, 42)
+    fmt.Printf("%d \t %b \t %#X \n", 42, 42, 42)
+}
+```
+
+[Run](https://play.golang.org/p/4vWR8_1Df3S)
+
+Output:    
+```
+42 	 101010 	 0X2A 
+```
+
+In the above program, the annotation verb `%x` formats a number in hexadecimal. For example, it represents 42 as `0X2A` (base 16 format).
+
+### Integer to Hexadecimal Cheatsheet:
+
+```
+%x    base 16, with lower-case letters for a-f
+%X    base 16, with upper-case letters for A-F
+```
+
