@@ -3,6 +3,7 @@ import Head from 'next/head';
 import ModuleSidebar from './ModuleSidebar';
 import ModuleNavigation from './ModuleNavigation';
 import LoadingSpinner from './LoadingSpinner';
+import Container from './Container';
 
 interface Module {
   title: string;
@@ -43,7 +44,7 @@ export default function ModuleContentLayout({
       </Head>
       
       <div className={`transition-opacity duration-300 ${isLoading ? 'opacity-50' : 'opacity-100'}`}>
-        <div className="flex flex-col md:flex-row max-w-screen-xl mx-auto gap-6">
+        <div className="flex flex-col md:flex-row max-w-screen-xl mx-auto gap-6 px-4">
           {/* Sidebar for module navigation */}
           <div className={`transition-transform duration-300 ease-out ${mounted ? 'translate-x-0 opacity-100' : '-translate-x-4 opacity-0'}`}>
             <ModuleSidebar
@@ -56,7 +57,14 @@ export default function ModuleContentLayout({
           {/* Main content area */}
           <main className="flex-1 min-w-0">
             {/* Module header */}
-            <div className={`bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-md shadow-sm p-4 sm:p-6 mb-4 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`} style={{ transitionDelay: '100ms' }}>
+            <Container
+              withBackground={true}
+              padding="md"
+              rounded="lg"
+              shadow="md"
+              className="mb-6"
+              animation={mounted ? "fadeIn" : "none"}
+            >
               <div className="flex items-center gap-3 mb-2">
                 <div className="text-gray-600 dark:text-gray-400 bg-gray-100 dark:bg-gray-700 p-2 rounded-md">
                   <svg 
@@ -74,12 +82,12 @@ export default function ModuleContentLayout({
                     />
                   </svg>
                 </div>
-                <h1 className="text-xl font-semibold text-gray-900 dark:text-white">{title}</h1>
+                <h1 className="text-xl sm:text-2xl font-semibold text-gray-900 dark:text-white">{title}</h1>
               </div>
               <p className="text-gray-600 dark:text-gray-400 text-sm">
                 Part of <span className="font-medium text-gray-800 dark:text-gray-300">{courseTitle}</span> course
               </p>
-            </div>
+            </Container>
             
             {/* Loading overlay */}
             {isLoading && (
@@ -89,20 +97,30 @@ export default function ModuleContentLayout({
             )}
             
             {/* Module content */}
-            <div className={`bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-md shadow-sm p-4 sm:p-6 mb-4 transition-all duration-300 ease-out ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`} style={{ transitionDelay: '200ms' }}>
-              <div className="prose dark:prose-invert prose-headings:font-semibold prose-headings:text-gray-900 dark:prose-headings:text-white prose-p:text-gray-700 dark:prose-p:text-gray-300 max-w-none">
+            <Container
+              withBackground={true}
+              padding="md"
+              rounded="lg"
+              shadow="md"
+              className="mb-6"
+              animation={mounted ? "slideUp" : "none"}
+            >
+              <div className="mdx-wrapper">
                 {children}
               </div>
-            </div>
+            </Container>
             
             {/* Module navigation */}
-            <div className={`transition-all duration-300 ease-out ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`} style={{ transitionDelay: '300ms' }}>
+            <Container
+              animation={mounted ? "fadeIn" : "none"}
+              withBackground={false}
+            >
               <ModuleNavigation
                 modules={modules}
                 currentModuleSlug={currentModuleSlug}
                 courseSlug={courseSlug}
               />
-            </div>
+            </Container>
           </main>
         </div>
       </div>

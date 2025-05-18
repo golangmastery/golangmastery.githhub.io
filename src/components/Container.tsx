@@ -5,7 +5,7 @@ import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '../lib/utils';
 
 const containerVariants = cva(
-  "container mx-auto transition-colors duration-300",
+  "container mx-auto will-change-transform",
   {
     variants: {
       maxWidth: {
@@ -27,17 +27,42 @@ const containerVariants = cva(
         true: "bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm",
         false: "",
       },
+      rounded: {
+        none: "rounded-none",
+        sm: "rounded-sm",
+        md: "rounded-md",
+        lg: "rounded-lg",
+        xl: "rounded-xl",
+        full: "rounded-full",
+      },
+      shadow: {
+        none: "shadow-none",
+        sm: "shadow-sm",
+        md: "shadow",
+        lg: "shadow-lg",
+        xl: "shadow-xl",
+      },
+      animation: {
+        none: "",
+        fadeIn: "animate-fade-in",
+        slideUp: "animate-slide-up",
+        scale: "animate-scale",
+      }
     },
     defaultVariants: {
       maxWidth: "lg",
       padding: "md",
       withBackground: false,
+      rounded: "none",
+      shadow: "none",
+      animation: "fadeIn",
     },
   }
 );
 
 interface ContainerProps extends React.HTMLAttributes<HTMLDivElement>, VariantProps<typeof containerVariants> {
   children: React.ReactNode;
+  as?: React.ElementType;
 }
 
 const Container = ({
@@ -46,6 +71,10 @@ const Container = ({
   maxWidth,
   padding, 
   withBackground,
+  rounded,
+  shadow,
+  animation,
+  as: Component = 'div',
   ...props
 }: ContainerProps) => {
   const [mounted, setMounted] = useState(false);
@@ -56,19 +85,22 @@ const Container = ({
   }, []);
 
   return (
-    <div
+    <Component
       className={cn(
-        containerVariants({ maxWidth, padding, withBackground }),
+        containerVariants({ maxWidth, padding, withBackground, rounded, shadow, animation }),
         mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2",
         "transition duration-300 ease-in-out",
         className
       )}
       {...props}
     >
-      <div className={withBackground ? "p-4 sm:p-6" : ""}>
+      <div 
+        className={withBackground ? "p-4 sm:p-6" : ""}
+        data-animated={mounted ? "true" : "false"}
+      >
         {children}
       </div>
-    </div>
+    </Component>
   );
 };
 

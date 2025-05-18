@@ -1,0 +1,165 @@
+/* MDX Content Styles */
+
+.mdx-content {
+  @apply text-gray-800 dark:text-gray-200;
+  
+  /* Improved typography spacing */
+  line-height: 1.8;
+  font-size: 1.125rem;
+}
+
+/* Code syntax highlighting */
+.mdx-content pre {
+  @apply bg-gray-50 dark:bg-gray-900 rounded-lg overflow-hidden;
+}
+
+.mdx-content code {
+  @apply font-mono text-sm;
+}
+
+/* Table styles */
+.mdx-content table {
+  @apply w-full border-collapse;
+}
+
+/* Link hover effects */
+.mdx-content a:hover {
+  @apply text-blue-700 dark:text-blue-300;
+}
+
+/* List spacing */
+.mdx-content ul, 
+.mdx-content ol {
+  @apply my-6 space-y-2;
+}
+
+/* Callout blocks */
+.mdx-content .callout {
+  @apply p-4 my-6 border-l-4 rounded-r-md;
+}
+
+/* Custom scrollbar for code blocks */
+.mdx-content pre::-webkit-scrollbar {
+  @apply h-2 w-2;
+}
+
+.mdx-content pre::-webkit-scrollbar-track {
+  @apply bg-gray-100 dark:bg-gray-800 rounded-full;
+}
+
+.mdx-content pre::-webkit-scrollbar-thumb {
+  @apply bg-gray-300 dark:bg-gray-600 rounded-full;
+}
+
+.mdx-content pre::-webkit-scrollbar-thumb:hover {
+  @apply bg-gray-400 dark:bg-gray-500;
+}
+
+/* Content transitions */
+.mdx-content > * {
+  @apply transition-opacity duration-200;
+}
+
+/* Image gallery styling */
+.mdx-content .image-gallery {
+  @apply grid grid-cols-1 md:grid-cols-2 gap-4 my-8;
+}
+
+.mdx-content .image-gallery img {
+  @apply rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200;
+}
+
+/* Custom quote styling */
+.mdx-content blockquote p {
+  @apply text-gray-700 dark:text-gray-300;
+}
+
+/* Keyboard shortcuts */
+.mdx-content kbd {
+  @apply px-2 py-1.5 text-xs font-semibold text-gray-800 bg-gray-100 border border-gray-200 rounded-lg dark:bg-gray-800 dark:text-gray-100 dark:border-gray-700;
+}
+
+/* Link anchor positioning for headings */
+.mdx-content h2,
+.mdx-content h3,
+.mdx-content h4 {
+  scroll-margin-top: 4rem;
+}
+
+/* Code annotations */
+.mdx-content .has-annotation {
+  @apply relative;
+}
+
+.mdx-content .annotation {
+  @apply absolute -right-4 top-0 text-sm px-2 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded shadow-sm;
+}
+
+/* Golang specific syntax coloring - VS Code Theme-inspired colors */
+
+/* Go code block background */
+.language-go {
+  @apply text-gray-800 dark:text-gray-200;
+  background-color: #ffffff;
+}
+
+.dark .language-go {
+  background-color: #1e1e1e;
+}
+
+/* Keywords (func, var, const, etc) */
+.language-go .keyword {
+  color: #0000ff; /* Blue */
+}
+.dark .language-go .keyword {
+  color: #569cd6; /* VS Code blue */
+}
+
+/* Types (int, string, etc) */
+.language-go .type {
+  color: #267f99; /* Teal */
+}
+.dark .language-go .type {
+  color: #4ec9b0; /* VS Code teal */
+}
+
+/* Functions */
+.language-go .function {
+  color: #795e26; /* Brownish */
+}
+.dark .language-go .function {
+  color: #dcdcaa; /* VS Code yellow */
+}
+
+/* Strings */
+.language-go .string {
+  color: #a31515; /* VS Code dark red-brown in light mode */
+}
+.dark .language-go .string {
+  color: #ce9178; /* VS Code orange-brown in dark mode */
+}
+
+/* Numbers */
+.language-go .number {
+  color: #098658; /* VS Code green */
+}
+.dark .language-go .number {
+  color: #b5cea8; /* VS Code light green */
+}
+
+/* Comments */
+.language-go .comment {
+  color: #008000; /* VS Code green */
+  font-style: italic;
+}
+.dark .language-go .comment {
+  color: #6a9955; /* VS Code darker green */
+}
+
+/* Packages (fmt, os, etc) */
+.language-go .package {
+  color: #267f99; /* Teal */
+}
+.dark .language-go .package {
+  color: #9cdcfe; /* VS Code light blue */
+} 

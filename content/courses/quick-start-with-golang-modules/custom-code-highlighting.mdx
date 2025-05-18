@@ -1,0 +1,132 @@
+---
+title: "Advanced Code Highlighting Features"
+description: "Learn how to use the enhanced code block features like line highlighting, titles, and more."
+order: 102
+---
+
+# Advanced Code Highlighting Features
+
+This page demonstrates how to use the advanced features of our code blocks.
+
+## Line Highlighting
+
+You can highlight specific lines in your code to draw attention to them. This is done using the `highlight` attribute:
+
+```go highlight="3,5-7"
+package main
+
+import "fmt" // This line is highlighted
+
+func main() {
+    // These lines are highlighted
+    message := "Hello, highlighted code!"
+    fmt.Println(message)
+}
+```
+
+## Code Block Titles
+
+You can add a title to your code blocks using the `title` attribute:
+
+```go title="hello.go"
+package main
+
+import "fmt"
+
+func main() {
+    fmt.Println("Hello from a titled code block!")
+}
+```
+
+## Hiding Line Numbers
+
+You can hide line numbers if you prefer a cleaner look using the `showLineNumbers` attribute:
+
+```go showLineNumbers="false"
+package main
+
+import "fmt"
+
+func main() {
+    fmt.Println("No line numbers here!")
+}
+```
+
+## Combining Features
+
+You can combine multiple features for rich code examples:
+
+```go title="example.go" highlight="7-9"
+package main
+
+import (
+    "fmt"
+    "time"
+)
+func calculateFibonacci(n int) int {
+    // Highlighted implementation
+    if n <= 1 {
+        return n
+    }
+    return calculateFibonacci(n-1) + calculateFibonacci(n-2)
+}
+
+func main() {
+    start := time.Now()
+    result := calculateFibonacci(10)
+    elapsed := time.Since(start)
+    
+    fmt.Printf("Fibonacci(10) = %d\n", result)
+    fmt.Printf("Time taken: %s\n", elapsed)
+}
+```
+
+## Comparison with Other Languages
+
+Go syntax is clean and straightforward compared to other languages:
+
+### Go (Golang)
+
+```go
+package main
+
+import "fmt"
+
+type Person struct {
+    Name string
+    Age  int
+}
+
+func main() {
+    p := Person{Name: "Alice", Age: 30}
+    fmt.Printf("%s is %d years old\n", p.Name, p.Age)
+}
+```
+
+### JavaScript
+
+```javascript
+class Person {
+    constructor(name, age) {
+        this.name = name;
+        this.age = age;
+    }
+}
+
+const person = new Person('Alice', 30);
+console.log(`${person.name} is ${person.age} years old`);
+```
+
+### Python
+
+```python
+class Person:
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+
+person = Person('Alice', 30)
+print(f"{person.name} is {person.age} years old")
+```
+
+By using these code block features, you can create more engaging and educational Go tutorials that highlight the most important parts of your code examples. 

@@ -1,11 +1,28 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import './mdx.css';
 
 :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 247, 250, 252;
   --background-end-rgb: 255, 255, 255;
+  --scrollbar-track: 241, 245, 249;
+  --scrollbar-thumb: 203, 213, 225;
+  --scrollbar-thumb-hover: 148, 163, 184;
+}
+
+.dark {
+  --foreground-rgb: 255, 255, 255;
+  --background-start-rgb: 13, 17, 23;
+  --background-end-rgb: 13, 17, 23;
+  --scrollbar-track: 30, 41, 59;
+  --scrollbar-thumb: 51, 65, 85;
+  --scrollbar-thumb-hover: 71, 85, 105;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
@@ -18,16 +35,51 @@ body {
     rgb(var(--background-start-rgb));
 }
 
+/* Global scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgb(var(--scrollbar-track));
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgb(var(--scrollbar-thumb));
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(var(--scrollbar-thumb-hover));
+}
+
 @layer components {
   .card {
-    @apply bg-white rounded-lg shadow-md overflow-hidden transition-transform duration-300 hover:shadow-lg hover:scale-[1.02];
+    @apply bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transition-transform duration-300 hover:shadow-lg hover:scale-[1.02];
   }
   
   .btn-primary {
-    @apply bg-primary text-white px-4 py-2 rounded-md hover:bg-accent transition-colors;
+    @apply bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors;
   }
   
   .btn-secondary {
-    @apply bg-secondary text-white px-4 py-2 rounded-md hover:bg-primary transition-colors;
+    @apply bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-white px-4 py-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors;
+  }
+  
+  /* Add focus styles for accessibility */
+  .focus-ring {
+    @apply focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900;
+  }
+  
+  /* Improve link accessibility */
+  a {
+    @apply focus-ring rounded-sm;
+  }
+  
+  /* MDX content wrapper */
+  .mdx-wrapper {
+    @apply max-w-4xl mx-auto px-4 py-8 mdx-content;
   }
 }

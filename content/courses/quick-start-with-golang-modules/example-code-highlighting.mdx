@@ -1,0 +1,155 @@
+---
+title: "Code Highlighting Examples"
+description: "Learn how to use various code syntax highlighting features in Go examples"
+order: 101
+---
+
+# Go Code Syntax Highlighting Examples
+
+This page demonstrates the enhanced code highlighting capabilities of GolangMastery.
+
+## Basic Hello World
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+    // This is a comment
+    fmt.Println("Hello, World!")
+}
+```
+
+## Functions and Types
+
+```go
+package main
+
+import (
+    "fmt"
+    "time"
+)
+
+// Person represents a human being
+type Person struct {
+    Name     string
+    Age      int
+    Birthday time.Time
+}
+
+func (p *Person) Greet() string {
+    return fmt.Sprintf("Hello, my name is %s and I am %d years old.", p.Name, p.Age)
+}
+
+func NewPerson(name string, age int) *Person {
+    return &Person{
+        Name: name,
+        Age:  age,
+    }
+}
+
+func main() {
+    person := NewPerson("John Doe", 30)
+    fmt.Println(person.Greet())
+    
+    // Numbers demonstration
+    const pi = 3.14159
+    var count int64 = 42
+    
+    // Boolean values
+    var isGolangFun bool = true
+    
+    if isGolangFun {
+        fmt.Println("Learning Go is fun!")
+    }
+}
+```
+
+## Error Handling
+
+```go
+package main
+
+import (
+    "errors"
+    "fmt"
+    "os"
+)
+
+func readFile(filename string) (string, error) {
+    if filename == "" {
+        return "", errors.New("filename cannot be empty")
+    }
+    
+    data, err := os.ReadFile(filename)
+    if err != nil {
+        return "", fmt.Errorf("failed to read file: %w", err)
+    }
+    
+    return string(data), nil
+}
+
+func main() {
+    content, err := readFile("example.txt")
+    if err != nil {
+        fmt.Printf("Error: %v\n", err)
+        return
+    }
+    
+    fmt.Println("File contents:", content)
+}
+```
+
+## Goroutines and Channels
+
+```go
+package main
+
+import (
+    "fmt"
+    "sync"
+    "time"
+)
+
+func worker(id int, jobs <-chan int, results chan<- int, wg *sync.WaitGroup) {
+    defer wg.Done()
+    
+    for j := range jobs {
+        fmt.Printf("Worker %d started job %d\n", id, j)
+        time.Sleep(time.Second)
+        fmt.Printf("Worker %d finished job %d\n", id, j)
+        results <- j * 2
+    }
+}
+
+func main() {
+    const numJobs = 5
+    const numWorkers = 3
+    
+    jobs := make(chan int, numJobs)
+    results := make(chan int, numJobs)
+    
+    // Start workers
+    var wg sync.WaitGroup
+    for w := 1; w <= numWorkers; w++ {
+        wg.Add(1)
+        go worker(w, jobs, results, &wg)
+    }
+    
+    // Send jobs
+    for j := 1; j <= numJobs; j++ {
+        jobs <- j
+    }
+    close(jobs)
+    
+    // Wait for all workers to complete
+    wg.Wait()
+    close(results)
+    
+    // Collect results
+    for r := range results {
+        fmt.Println("Result:", r)
+    }
+}
+``` 

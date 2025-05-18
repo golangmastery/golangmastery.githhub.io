@@ -19,6 +19,10 @@ Go was designed with the following goals in mind:
 - **Fast compilation**: Go compiles quickly, enabling rapid development cycles
 - **Modern standard library**: Comprehensive built-in packages for common tasks
 
+<Callout type="info">
+  Go is being used by major companies like Google, Uber, Dropbox, and Twitch, demonstrating its ability to scale and perform in production environments.
+</Callout>
+
 ## Key Features of Go
 
 ### Static Typing with Type Inference
@@ -31,6 +35,13 @@ message := "Hello, Go!"
 
 // Type is explicitly declared
 var count int = 42
+
+// Multiple variable declarations
+var (
+    name    string = "Gopher"
+    age     int    = 5
+    isAlive bool   = true
+)
 ```
 
 ### Concurrency with Goroutines
@@ -38,8 +49,26 @@ var count int = 42
 Go's lightweight threads (goroutines) make concurrent programming accessible:
 
 ```go
-// Start a concurrent function
-go fetchData()
+package main
+
+import (
+    "fmt"
+    "time"
+)
+
+func sayHello(message string) {
+    fmt.Println(message)
+}
+
+func main() {
+    // Start concurrent functions
+    go sayHello("Hello from goroutine 1")
+    go sayHello("Hello from goroutine 2")
+    
+    // Wait to see the output
+    time.Sleep(100 * time.Millisecond)
+    fmt.Println("Main function continues...")
+}
 ```
 
 ### Channels for Communication
@@ -47,15 +76,30 @@ go fetchData()
 Channels provide a safe way for goroutines to communicate:
 
 ```go
-// Create a channel
-dataChan := make(chan string)
+package main
 
-// Send data to the channel
-dataChan <- "Some data"
+import "fmt"
 
-// Receive data from the channel
-receivedData := <-dataChan
+func main() {
+    // Create a channel
+    dataChan := make(chan string)
+    
+    // Send data in a goroutine
+    go func() {
+        dataChan <- "Hello from channel!"
+    }()
+    
+    // Receive data from the channel
+    receivedData := <-dataChan
+    fmt.Println(receivedData) // Prints: Hello from channel!
+}
 ```
+
+<Section>
+  <h2>Comparing Go with Other Languages</h2>
+  <p>Unlike languages like Python or JavaScript, Go is compiled rather than interpreted, giving it performance advantages. While C++ may be slightly faster in some cases, Go offers a much simpler learning curve and built-in memory management.</p>
+  <p>Go strikes an excellent balance between performance, simplicity, and developer productivity.</p>
+</Section>
 
 ## Getting Started
 
