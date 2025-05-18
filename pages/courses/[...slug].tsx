@@ -193,8 +193,6 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
             modules,
             currentModule,
           },
-          // Revalidate every hour (or adjust as needed)
-          revalidate: 3600,
         };
       } catch (err) {
         console.error(`Error loading module ${moduleSlug}:`, err);
@@ -216,7 +214,6 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
             modules,
             currentModule: { slug: courseSlug, title: frontmatter.title || 'Course Overview' }
           },
-          revalidate: 3600,
         };
       } catch (err) {
         console.error(`Error loading course ${courseSlug}:`, err);
