@@ -161,6 +161,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     // Find course from data file
     const course = courses.find(c => c.slug === courseSlug);
     if (!course) {
+      console.log(`Course not found: ${courseSlug}`);
       return { notFound: true };
     }
 
@@ -169,11 +170,13 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       const moduleSlug = params.slug[1];
       
       try {
+        console.log(`Loading module: ${moduleSlug} for course: ${courseSlug}`);
         // Attempt to load the specific module
         const { frontmatter, content } = getContentFileBySlug(`courses/${courseSlug}`, moduleSlug);
         
         // Get all modules for this course for navigation
         const modules = getModuleFiles(courseSlug);
+        console.log(`Found ${modules.length} modules for course ${courseSlug}`);
         
         // Find current module in the list
         const currentModule = modules.find(m => m.slug === moduleSlug) || { 
@@ -203,6 +206,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       try {
         const { frontmatter, content } = getContentFileBySlug('courses', courseSlug);
         const modules = getModuleFiles(courseSlug);
+        console.log(`Found ${modules.length} modules for course ${courseSlug}`);
         
         const mdxSource = await serializeMdx(content);
         

@@ -219,7 +219,7 @@ export default function CoursesIndex() {
             Our courses offer practical, hands-on learning with real-world projects to help you become proficient in Go.
           </p>
           <Link
-            href="/courses/quick-start-with-golang-modules/01-introduction-to-go"
+            href="/courses/quick-start-with-golang-modules/02-lets-start-with-first-hello-world-program"
             className="px-6 py-3 bg-white text-blue-600 font-medium rounded-md hover:bg-blue-50 transition-colors inline-flex items-center"
           >
             Start Learning Now

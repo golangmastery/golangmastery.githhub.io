@@ -49,6 +49,28 @@ export function getContentFileBySlug(type: string, slug: string) {
     // Check if file exists
     if (!fs.existsSync(filePath)) {
       console.log(`File exists: false`);
+      
+      // Special case for quick-start-with-golang-modules
+      if (type === 'courses/quick-start-with-golang-modules') {
+        const directPath = path.join(contentDirectory, 'courses/quick-start-with-golang-modules', `${slug}.mdx`);
+        console.log(`Trying quick-start-with-golang-modules direct path: ${directPath}`);
+        
+        if (fs.existsSync(directPath)) {
+          console.log(`Found file at direct path: ${directPath}`);
+          const fileContents = fs.readFileSync(directPath, 'utf8');
+          const { data, content } = matter(fileContents);
+          
+          console.log(`File exists: true`);
+          console.log(`File size: ${fileContents.length} bytes`);
+          
+          return {
+            frontmatter: data as Frontmatter,
+            slug,
+            content,
+          };
+        }
+      }
+      
       // If direct path doesn't exist, try course-specific directory for modules
       if (type.includes('courses/')) {
         const courseSlug = type.split('/')[1];
@@ -198,6 +220,12 @@ export function getModuleFiles(courseSlug: string) {
     
     if (!fs.existsSync(moduleDirectory)) {
       console.log(`Module directory not found: ${moduleDirectory}`);
+      
+      // Special case for quick-start-with-golang-modules
+      if (courseSlug === 'quick-start-with-golang-modules') {
+        console.log(`Using special case for quick-start-with-golang-modules`);
+        return getModuleFiles('quick-start-with-golang-modules');
+      }
       
       // Last resort - if the courseSlug is 'quick-start-with-golang', try 'quick-start-with-golang-modules'
       if (courseSlug === 'quick-start-with-golang') {
