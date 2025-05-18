@@ -34,7 +34,7 @@ export default function CourseCard({ course, index = 0 }: CourseCardProps) {
   // For image, try multiple possible sources
   const coverImage = isWithFrontmatter 
     ? course.frontmatter.coverImage 
-    : course.image;
+    : course.coverImage;
   const level = isWithFrontmatter ? course.frontmatter.level : course.level;
   const tags = isWithFrontmatter ? (course.frontmatter.tags || []) : (course.tags || []);
   const slug = isWithFrontmatter ? (course.frontmatter.slug || course.slug) : course.slug;
