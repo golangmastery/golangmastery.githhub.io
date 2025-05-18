@@ -24,9 +24,6 @@ const nextConfig = {
   output: 'export',
   // Helps with static site routing
   trailingSlash: true,
-  // Remove these if not needed for your deployment
-  // assetPrefix: process.env.NODE_ENV === 'production' ? '/golangmastery.githhub.io' : undefined,
-  // basePath: process.env.NODE_ENV === 'production' ? '/golangmastery.githhub.io' : undefined,
   
   // Use rewrites for backward compatibility
   async rewrites() {
