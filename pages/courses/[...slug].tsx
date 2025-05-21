@@ -15,6 +15,7 @@ import Container from '../../src/components/Container';
 import LoadingSpinner from '../../src/components/LoadingSpinner';
 import CodeBlock from '../../src/components/CodeBlock';
 import PageWrapper from '../../src/components/PageWrapper';
+import PageTitle from '../../src/components/PageTitle';
 
 // Add custom styles for content readability
 const globalStyles = `
@@ -127,10 +128,10 @@ function MarkdownModule({ source, frontMatter, courseSlug, modules, currentModul
 
   return (
     <>
-      <Head>
-        <title>{frontMatter.title} | Golang Mastery</title>
-        <meta name="description" content={frontMatter.description || 'Learn Go programming'} />
-      </Head>
+      <PageTitle 
+        title={`${frontMatter.title} | Golang Mastery`}
+        description={frontMatter.description || 'Learn Go programming'}
+      />
       <PageWrapper>
         <Container maxWidth="xl" padding="lg" className="my-8">
           <div className="glass-effect p-6 sm:p-8 rounded-xl content-animate-in">

@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
-import Head from 'next/head';
 import ModuleSidebar from './ModuleSidebar';
 import ModuleNavigation from './ModuleNavigation';
 import LoadingSpinner from './LoadingSpinner';
 import Container from './Container';
+import PageTitle from './PageTitle';
 
 interface Module {
   title: string;
@@ -38,10 +38,10 @@ export default function ModuleContentLayout({
   
   return (
     <>
-      <Head>
-        <title>{title} | {courseTitle}</title>
-        <meta name="description" content={`Learn ${title} in the ${courseTitle} course`} />
-      </Head>
+      <PageTitle 
+        title={`${title} | ${courseTitle}`}
+        description={`Learn ${title} in the ${courseTitle} course`}
+      />
       
       <div className={`transition-opacity duration-300 ${isLoading ? 'opacity-50' : 'opacity-100'}`}>
         <div className="flex flex-col md:flex-row max-w-screen-xl mx-auto gap-6 px-4">
