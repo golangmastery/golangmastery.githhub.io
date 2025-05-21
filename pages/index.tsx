@@ -27,7 +27,7 @@ export default function Home() {
       description: 'Learn how to write concurrent programs in Go using goroutines and channels. This course covers concurrency patterns, synchronization, and best practices for writing efficient concurrent code in Go.',
       level: 'Intermediate',
       tags: ['Go', 'Concurrency'],
-      labCount: 0
+      labCount: 19
     },
     {
       id: '3',

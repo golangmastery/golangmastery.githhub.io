@@ -1,0 +1,52 @@
+---
+title: 'Introduction to Concurrency in Go'
+slug: 'introduction-to-concurrency'
+---
+
+# Introduction to Concurrency in Go
+
+Concurrency is one of Go's most powerful features, but it's often misunderstood. Let's start by clarifying what concurrency actually means.
+
+## Concurrency vs Parallelism
+
+> Concurrency is not parallelism
+
+Some quotes to support this statement:
+
+> "Concurrency is a property of the code; parallelism is a property of the running program"
+
+> "Concurrency is about dealing with lots of things at once. Parallelism is about doing lots of things at once."
+
+Concurrency refers to the design pattern where multiple tasks can make progress independently, even if they're not executing simultaneously. Parallelism, on the other hand, is about executing multiple tasks simultaneously.
+
+In Go, concurrency is built into the language design with three main components:
+
+* **Concurrency execution (goroutines)** - Lightweight threads managed by the Go runtime
+* **Synchronization and messaging (channels)** - Safe communication between concurrent code
+* **Multi-way concurrent control (select)** - Coordination of multiple concurrent operations
+
+## Why Go's Approach to Concurrency is Different
+
+Go provides first-class support for concurrent code in a program, and channels solve the problem of communicating safely between concurrently running code.
+
+Go also supports more traditional tools for writing concurrent code. Mutexes, pools, and locks are implemented in the sync package, but channels are often preferred for their simplicity and readability.
+
+## Key Concurrency Features in Go
+
+1. **Goroutines**: Lightweight threads that allow functions to run concurrently
+2. **Channels**: Communication pipes that allow goroutines to share data safely
+3. **Select Statement**: A control structure for handling multiple channel operations
+4. **WaitGroups**: A synchronization mechanism from the sync package
+5. **Mutex**: A way to protect shared data from concurrent access
+6. **Context Package**: Tools for cancellation, deadlines, and request-scoped values
+
+In the following labs, we'll explore each of these features in depth and learn how to use them to write efficient concurrent programs.
+
+## Summary
+
+- Concurrency is about structure, parallelism is about execution
+- Go has built-in language features for concurrency
+- Go's approach favors communication over shared memory
+- Understanding concurrency patterns is essential for writing efficient Go programs
+
+In the next lab, we'll dive deeper into channels, the fundamental communication mechanism in Go's concurrency model. 

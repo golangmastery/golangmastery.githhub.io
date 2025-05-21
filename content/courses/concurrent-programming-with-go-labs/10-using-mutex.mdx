@@ -1,0 +1,290 @@
+---
+title: 'Using Mutex'
+slug: 'using-mutex'
+---
+
+# Using Mutex
+
+In the previous lab, we learned about race conditions that occur when multiple goroutines access shared data concurrently. Now, we'll explore how to use mutexes to protect shared data and prevent these race conditions.
+
+## What is a Mutex?
+
+A mutex (mutual exclusion) is a synchronization primitive that provides a way to ensure that only one goroutine can access a particular resource at a time. The `sync` package in Go provides two types of mutexes:
+
+1. `sync.Mutex`: A basic mutex that can be locked and unlocked
+2. `sync.RWMutex`: A reader/writer mutex that allows multiple readers but only one writer
+
+## Using a Basic Mutex
+
+Here's how to use a basic mutex:
+
+```go
+package main
+
+import (
+    "fmt"
+    "sync"
+)
+
+var (
+    msg     string
+    wg      sync.WaitGroup
+    mutex   sync.Mutex
+)
+
+func updateMessage(s string) {
+    defer wg.Done()
+    
+    // Lock the mutex before accessing shared data
+    mutex.Lock()
+    msg = s
+    // Unlock the mutex when done
+    mutex.Unlock()
+}
+
+func main() {
+    msg = "Hello, world!"
+    
+    wg.Add(2)
+    go updateMessage("Hello, one")
+    go updateMessage("Hello, two")
+    wg.Wait()
+    
+    fmt.Println(msg)
+}
+```
+
+In this updated version:
+1. We create a mutex using `sync.Mutex`
+2. Before accessing the shared variable `msg`, we call `mutex.Lock()`
+3. After we're done with the access, we call `mutex.Unlock()`
+4. This ensures that only one goroutine can update `msg` at a time
+
+## Mutex Best Practices
+
+### 1. Always Unlock After Locking
+
+It's essential to ensure that for every call to `Lock()`, there's a corresponding call to `Unlock()`. A common pattern is to use `defer` to guarantee unlocking:
+
+```go
+func updateMessage(s string) {
+    defer wg.Done()
+    
+    mutex.Lock()
+    defer mutex.Unlock() // This guarantees unlocking even if the function panics
+    
+    msg = s
+}
+```
+
+### 2. Keep Lock Sections Small
+
+To maximize concurrency, keep the code between `Lock()` and `Unlock()` as small as possible:
+
+```go
+// Good: Lock only what needs protection
+mutex.Lock()
+sharedVariable += 1
+mutex.Unlock()
+
+// Process non-shared data without the lock
+localData := process(someData)
+
+// Bad: Locking more than necessary
+mutex.Lock()
+sharedVariable += 1
+localData := process(someData) // This doesn't need the lock
+mutex.Unlock()
+```
+
+### 3. Be Aware of Deadlocks
+
+Improper use of mutexes can lead to deadlocks. A deadlock occurs when two or more goroutines are waiting for each other to release a resource, resulting in all of them being blocked forever.
+
+## Real-World Example: Bank Balance
+
+Let's fix our bank balance example from the previous lab using a mutex:
+
+```go
+package main
+
+import (
+    "fmt"
+    "sync"
+)
+
+func main() {
+    // Variable for bank balance
+    var bankBalance int
+    var balance sync.Mutex
+    
+    // Print starting balance
+    fmt.Printf("Initial account balance: $%d.00\n", bankBalance)
+    
+    // Define weekly revenue
+    incomes := []int{500, 10, 50, 100}
+    
+    var wg sync.WaitGroup
+    wg.Add(len(incomes))
+    
+    // Loop through 52 weeks and add income
+    for i, income := range incomes {
+        go func(i int, income int) {
+            defer wg.Done()
+            
+            for week := 1; week <= 52; week++ {
+                // Lock the mutex before accessing bankBalance
+                balance.Lock()
+                temp := bankBalance
+                temp += income
+                bankBalance = temp
+                balance.Unlock()
+                
+                fmt.Printf("On week %d, you earned $%d.00 from source %d\n", 
+                          week, income, i)
+            }
+        }(i, income)
+    }
+    
+    wg.Wait()
+    
+    // Print final balance
+    fmt.Printf("Final bank balance: $%d.00\n", bankBalance)
+}
+```
+
+In this version:
+1. We create a mutex `balance` to protect access to `bankBalance`
+2. We lock the mutex before reading or writing `bankBalance`
+3. We unlock the mutex after we're done with the access
+4. This ensures that only one goroutine can update `bankBalance` at a time
+
+## Testing the Fixed Code
+
+We can verify that our mutex-protected code doesn't have race conditions by running it with the race detector:
+
+```bash
+go run -race .
+```
+
+No race conditions should be reported, confirming that our code is now safe for concurrent execution.
+
+## Reader/Writer Mutex (RWMutex)
+
+For scenarios where you have many readers and few writers, the `sync.RWMutex` can provide better performance:
+
+```go
+package main
+
+import (
+    "fmt"
+    "sync"
+    "time"
+)
+
+type BankAccount struct {
+    balance int
+    mutex   sync.RWMutex
+}
+
+func (b *BankAccount) Balance() int {
+    b.mutex.RLock() // Multiple readers can hold the read lock
+    defer b.mutex.RUnlock()
+    return b.balance
+}
+
+func (b *BankAccount) Deposit(amount int) {
+    b.mutex.Lock() // Only one writer can hold the write lock
+    defer b.mutex.Unlock()
+    b.balance += amount
+}
+
+func main() {
+    account := &BankAccount{}
+    
+    var wg sync.WaitGroup
+    
+    // Launch 5 writers (deposits)
+    for i := 0; i < 5; i++ {
+        wg.Add(1)
+        go func(amount int) {
+            defer wg.Done()
+            account.Deposit(amount)
+        }(i * 100)
+    }
+    
+    // Launch 10 readers (balance checks)
+    for i := 0; i < 10; i++ {
+        wg.Add(1)
+        go func() {
+            defer wg.Done()
+            balance := account.Balance()
+            fmt.Printf("Balance: $%d.00\n", balance)
+        }()
+    }
+    
+    wg.Wait()
+    fmt.Printf("Final balance: $%d.00\n", account.Balance())
+}
+```
+
+In this example:
+1. We use `RLock()` and `RUnlock()` for read-only operations
+2. We use `Lock()` and `Unlock()` for write operations
+3. Multiple goroutines can read the balance simultaneously
+4. Only one goroutine can deposit at a time, and no reads can happen during a deposit
+
+## Common Mistakes with Mutexes
+
+### 1. Forgetting to Unlock
+
+Forgetting to unlock a mutex after locking it will cause any other goroutine that tries to acquire the lock to block indefinitely.
+
+### 2. Copying a Mutex
+
+Mutexes should not be copied after their first use. Always use pointers to pass mutexes around:
+
+```go
+// Good: Pass mutex by pointer
+func process(m *sync.Mutex) {
+    m.Lock()
+    defer m.Unlock()
+    // Process data
+}
+
+// Bad: Copy mutex (will not work correctly)
+func process(m sync.Mutex) {
+    m.Lock()
+    defer m.Unlock()
+    // Process data
+}
+```
+
+### 3. Holding a Lock Too Long
+
+Holding a lock for longer than necessary reduces concurrency:
+
+```go
+// Bad: Lock held during I/O
+mutex.Lock()
+result := complexCalculation() // CPU-bound, OK
+fmt.Println(result)           // I/O, don't hold lock
+mutex.Unlock()
+
+// Good: Release lock before I/O
+mutex.Lock()
+result := complexCalculation()
+mutex.Unlock()
+fmt.Println(result)
+```
+
+## Summary
+
+- Mutexes provide a way to ensure exclusive access to shared resources
+- Use `mutex.Lock()` and `mutex.Unlock()` to protect critical sections
+- Always unlock a mutex after locking it, ideally using `defer`
+- Keep the locked section as small as possible for better concurrency
+- Use `sync.RWMutex` when you have many more reads than writes
+- Be careful to avoid deadlocks, copied mutexes, and long lock durations
+
+Using mutexes is one way to handle shared data in concurrent programs. In the next lab, we'll explore the Producer-Consumer pattern, a common concurrent programming pattern that uses channels for communication between goroutines. 

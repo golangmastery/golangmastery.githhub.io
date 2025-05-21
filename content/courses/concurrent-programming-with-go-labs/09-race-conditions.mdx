@@ -1,0 +1,198 @@
+---
+title: 'Race Conditions'
+slug: 'race-conditions'
+---
+
+# Race Conditions
+
+A race condition occurs when two or more goroutines access shared data concurrently, and at least one of the accesses is a write. This can lead to unpredictable behavior and hard-to-debug issues.
+
+## Understanding Race Conditions
+
+Race conditions happen when the outcome of a program depends on the timing or order of execution of multiple goroutines. If the accesses to shared data aren't properly synchronized, the program may behave incorrectly or produce different results on different runs.
+
+## A Simple Example of a Race Condition
+
+Here's a simple program that demonstrates a race condition:
+
+```go
+package main
+
+import (
+    "fmt"
+    "sync"
+)
+
+var msg string
+var wg sync.WaitGroup
+
+func updateMessage(s string) {
+    defer wg.Done()
+    msg = s
+}
+
+func main() {
+    msg = "Hello, world!"
+    
+    wg.Add(2)
+    go updateMessage("Hello, one")
+    go updateMessage("Hello, two")
+    wg.Wait()
+    
+    fmt.Println(msg)
+}
+```
+
+In this program:
+1. We have a global variable `msg`
+2. We launch two goroutines that both modify `msg`
+3. The final value of `msg` depends on which goroutine executes last
+4. The output could be either "Hello, one" or "Hello, two"
+
+## Detecting Race Conditions
+
+Go includes a built-in race detector that can help identify race conditions in your code. To use it, run your program with the `-race` flag:
+
+```bash
+go run -race .
+```
+
+If we run our example with the race detector:
+
+```bash
+go run -race .
+==================
+WARNING: DATA RACE
+Write at 0x0000011d09b0 by goroutine 8:
+  main.updateMessage()
+      /path/to/file.go:13 +0x78
+  main.main·dwrap·3()
+      /path/to/file.go:22 +0x47
+
+Previous write at 0x0000011d09b0 by goroutine 7:
+  main.updateMessage()
+      /path/to/file.go:13 +0x78
+  main.main·dwrap·2()
+      /path/to/file.go:21 +0x47
+
+Goroutine 8 (running) created at:
+  main.main()
+      /path/to/file.go:22 +0x164
+
+Goroutine 7 (finished) created at:
+  main.main()
+      /path/to/file.go:21 +0xeb
+==================
+Hello, two
+Found 1 data race(s)
+exit status 66
+```
+
+The race detector tells us:
+1. There's a race condition on a memory address
+2. Two goroutines are writing to the same location
+3. The specific lines of code involved in the race
+
+## The Risks of Race Conditions
+
+Race conditions can lead to several problems:
+
+1. **Inconsistent results**: Your program produces different results on each run
+2. **Data corruption**: Data structures may be left in an inconsistent state
+3. **Memory corruption**: In low-level languages, this can cause crashes
+4. **Subtle bugs**: The program works most of the time but fails occasionally
+
+## Testing for Race Conditions
+
+You can also use the race detector when running tests:
+
+```bash
+go test -race ./...
+```
+
+Here's a test that would detect our race condition:
+
+```go
+package main
+
+import (
+    "testing"
+)
+
+func Test_updateMessage(t *testing.T) {
+    msg = "Hello, world!"
+
+    wg.Add(2)
+    go updateMessage("Hello, one")
+    go updateMessage("Hello, two")
+    wg.Wait()
+
+    // The test doesn't actually fail, but the race detector
+    // will report the race condition
+    if msg != "Hello, one" && msg != "Hello, two" {
+        t.Error("Expected message to be updated")
+    }
+}
+```
+
+## Real-World Example
+
+Let's look at a more realistic example involving a shared counter:
+
+```go
+package main
+
+import (
+    "fmt"
+    "sync"
+)
+
+func main() {
+    // Variable for bank balance
+    var bankBalance int
+    
+    // Print starting balance
+    fmt.Printf("Initial account balance: $%d.00\n", bankBalance)
+    
+    // Define weekly revenue
+    incomes := []int{500, 10, 50, 100}
+    
+    var wg sync.WaitGroup
+    wg.Add(len(incomes))
+    
+    // Loop through 52 weeks and add income
+    for i, income := range incomes {
+        go func(i int, income int) {
+            defer wg.Done()
+            
+            for week := 1; week <= 52; week++ {
+                // This is a race condition - multiple goroutines
+                // are reading and writing bankBalance without synchronization
+                temp := bankBalance
+                temp += income
+                bankBalance = temp
+                
+                fmt.Printf("On week %d, you earned $%d.00 from source %d\n", 
+                          week, income, i)
+            }
+        }(i, income)
+    }
+    
+    wg.Wait()
+    
+    // Print final balance
+    fmt.Printf("Final bank balance: $%d.00\n", bankBalance)
+}
+```
+
+In this example, we have multiple goroutines updating a shared `bankBalance` variable. Because these updates aren't synchronized, the final balance might be incorrect.
+
+## Summary
+
+- Race conditions occur when multiple goroutines access shared data concurrently
+- They lead to unpredictable behavior and inconsistent results
+- Go's race detector can help identify race conditions
+- Race conditions are a common source of bugs in concurrent programs
+- Always be cautious when sharing data between goroutines
+
+In the next lab, we'll learn how to use mutexes to protect shared data and prevent race conditions. 

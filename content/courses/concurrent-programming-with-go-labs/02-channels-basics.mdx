@@ -1,0 +1,103 @@
+---
+title: 'Channels Basics'
+slug: 'channels-basics'
+---
+
+# Channels Basics
+
+Channels are one of the core features of Go's concurrency model. They provide a way for goroutines to communicate with each other and synchronize their execution.
+
+## What are Channels?
+
+Channels can be imagined as a pipe for streams of data. They are used to communicate information between goroutines. The fundamental philosophy in Go is:
+
+> Don't communicate by sharing memory; share memory by communicating.
+
+This means instead of using shared variables with locks, Go encourages passing data through channels.
+
+## Creating a Channel
+
+Creating a channel in Go is simple:
+
+```go
+channel := make(chan interface{})
+```
+
+This creates a channel that can send and receive values of any type (though it's usually better to use a specific type).
+
+Here's a more typical example, creating a channel that handles string values:
+
+```go
+messages := make(chan string)
+```
+
+## Sending and Receiving
+
+Channels use two primary operations:
+- The send operation `chan <-` sends a value into a channel
+- The receive operation `<-chan` receives a value from a channel
+
+Let's see a simple example:
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+    // Create a new channel
+    messages := make(chan string)
+
+    // Send a value into the channel (in a separate goroutine)
+    go func() { 
+        messages <- "ping" 
+    }()
+
+    // Receive the value from the channel
+    msg := <-messages
+    fmt.Println(msg)
+}
+```
+
+When you run this program, you'll see the output:
+```
+ping
+```
+
+## Channel Blocking
+
+Channels are inherently blocking. This means:
+
+1. A send operation `channel <- value` blocks until a receiver is ready to receive the value
+2. A receive operation `value := <-channel` blocks until a sender sends a value
+
+This blocking behavior is what makes channels so powerful for synchronization between goroutines.
+
+## Channel Types
+
+There are different types of channels in Go:
+- **Bidirectional channels**: The default type, can be both read from and written to
+- **Directional channels**: Restricted to either sending or receiving
+- **Buffered channels**: Can hold a limited number of values without a receiver being ready
+
+In the next labs, we'll explore each of these types in detail.
+
+## When to Use Channels
+
+Channels are ideal for:
+
+1. Communicating between goroutines
+2. Signaling completion of tasks
+3. Distributing work among multiple goroutines
+4. Managing concurrency with timeouts and cancellation
+
+## Summary
+
+- Channels are a communication mechanism between goroutines
+- The syntax for creating a channel is `make(chan Type)`
+- Send values with `channel <- value`
+- Receive values with `value := <-channel`
+- Channels block until the operation can proceed
+- Channels provide built-in synchronization
+
+In the next lab, we'll explore bidirectional channels in more detail. 

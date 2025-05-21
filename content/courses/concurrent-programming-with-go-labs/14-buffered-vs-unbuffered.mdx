@@ -1,0 +1,251 @@
+---
+title: 'Buffered vs Unbuffered Channels'
+slug: 'buffered-vs-unbuffered'
+---
+
+# Buffered vs Unbuffered Channels
+
+Go provides two types of channels: buffered and unbuffered. In this lab, we'll compare these two types and explore when to use each one.
+
+## Quick Recap
+
+**Unbuffered Channels**:
+- Created with `make(chan T)`
+- Synchronous communication
+- Sender blocks until receiver is ready
+- Receiver blocks until sender sends a value
+
+**Buffered Channels**:
+- Created with `make(chan T, capacity)`
+- Asynchronous communication
+- Sender only blocks when the buffer is full
+- Receiver only blocks when the buffer is empty
+
+## Visual Comparison
+
+Let's visualize the difference between unbuffered and buffered channels:
+
+**Unbuffered Channel**:
+```
+Sender                   Receiver
+  |                        |
+  | --- send value ------> | (blocks until receiver is ready)
+  |                        |
+  | <--- acknowledged <--- |
+  |                        |
+```
+
+**Buffered Channel (capacity=2)**:
+```
+Sender                   Buffer                  Receiver
+  |                        |                        |
+  | --- value 1 -------> [1]                       |
+  |                        |                        |
+  | --- value 2 -------> [1,2]                     |
+  |                        |                        |
+  | --- value 3 -------> [1,2] (blocks until space)|
+  |                        |                        |
+  |                       [2] <--- receive value -- |
+  |                        |                        |
+  | --- value 3 -------> [2,3]                     |
+  |                        |                        |
+```
+
+## Behavior Comparison
+
+Let's see the difference in behavior with a simple example:
+
+### Unbuffered Channel Example
+
+```go
+package main
+
+import (
+    "fmt"
+    "time"
+)
+
+func main() {
+    // Unbuffered channel
+    ch := make(chan string)
+    
+    go func() {
+        fmt.Println("Sender: Sending value")
+        ch <- "Hello"  // Will block until receiver is ready
+        fmt.Println("Sender: Value sent")
+    }()
+    
+    time.Sleep(2 * time.Second)  // Simulate delay before receiving
+    
+    fmt.Println("Receiver: About to receive")
+    msg := <-ch
+    fmt.Println("Receiver: Received value:", msg)
+}
+```
+
+Output:
+```
+Sender: Sending value
+Receiver: About to receive
+Receiver: Received value: Hello
+Sender: Value sent
+```
+
+Notice how the sender is blocked until the receiver is ready.
+
+### Buffered Channel Example
+
+```go
+package main
+
+import (
+    "fmt"
+    "time"
+)
+
+func main() {
+    // Buffered channel with capacity 1
+    ch := make(chan string, 1)
+    
+    go func() {
+        fmt.Println("Sender: Sending value")
+        ch <- "Hello"  // Won't block because buffer has space
+        fmt.Println("Sender: Value sent")
+    }()
+    
+    time.Sleep(2 * time.Second)  // Simulate delay before receiving
+    
+    fmt.Println("Receiver: About to receive")
+    msg := <-ch
+    fmt.Println("Receiver: Received value:", msg)
+}
+```
+
+Output:
+```
+Sender: Sending value
+Sender: Value sent
+Receiver: About to receive
+Receiver: Received value: Hello
+```
+
+Notice how the sender isn't blocked and can continue immediately after sending.
+
+## When to Use Each Type
+
+### Use Unbuffered Channels When:
+
+1. **Synchronization is required**: You need to ensure that the sender knows the receiver has processed the message
+2. **Guaranteed delivery**: You need to guarantee that each sent value is received
+3. **Signaling events**: You want to signal that an event has occurred
+4. **Turn-taking**: Goroutines need to take turns performing operations
+5. **Immediate feedback**: You want immediate feedback or acknowledgment from the receiver
+
+### Use Buffered Channels When:
+
+1. **Decoupling**: You want to decouple the sender and receiver timing
+2. **Batch processing**: You're processing items in batches
+3. **Handling bursts**: The sender might produce values in bursts and you want to smooth out processing
+4. **Performance critical**: You need to minimize blocking for performance reasons
+5. **Known producer rate**: You know in advance how many items will be produced
+
+## Performance Implications
+
+### Unbuffered Channels:
+
+- Slightly faster for pure synchronization
+- Higher context-switching overhead due to more goroutine blocking
+- Best for coordination and signaling
+
+### Buffered Channels:
+
+- Slightly more memory usage (for the buffer)
+- Less context switching because goroutines block less often
+- Better throughput when the buffer size is well-chosen
+- Performance depends on buffer capacity choice
+
+## Buffer Size Considerations
+
+Choosing the right buffer size depends on your specific use case:
+
+1. **Buffer Size = 1**: Minimal decoupling - allows sender to continue immediately after one send
+2. **Buffer Size = N** (where N = expected number of items): When you know exactly how many items will be sent
+3. **Buffer Size based on rate difference**: If producer is 2x faster than consumer, a buffer size of `(producer rate - consumer rate) * expected processing time` might be appropriate
+
+## Example: Rate Limiting with Buffered Channels
+
+Buffered channels are great for implementing rate limiting:
+
+```go
+package main
+
+import (
+    "fmt"
+    "time"
+)
+
+func main() {
+    // Create a rate limiter that allows 2 operations per second
+    const rate = 2
+    limiter := make(chan time.Time, rate)
+    
+    // Fill the limiter with initial tokens
+    for i := 0; i < rate; i++ {
+        limiter <- time.Now()
+    }
+    
+    // Replenish the limiter every 1/rate seconds
+    go func() {
+        ticker := time.NewTicker(time.Second / rate)
+        defer ticker.Stop()
+        
+        for t := range ticker.C {
+            limiter <- t
+        }
+    }()
+    
+    // Simulate 5 requests
+    for i := 1; i <= 5; i++ {
+        <-limiter // Take a token from the limiter
+        fmt.Printf("Request %d processed at %s\n", i, time.Now().Format("15:04:05.000"))
+    }
+}
+```
+
+This example uses a buffered channel to implement a token bucket rate limiter.
+
+## Common Pitfalls
+
+### Unbuffered Channels:
+
+1. **Deadlocks**: If a goroutine tries to send on an unbuffered channel and no goroutine is ready to receive, it will block forever
+2. **Missed signals**: If a receiver isn't ready when a signal is sent, the signal can be missed
+3. **Over-synchronization**: Too much synchronization can limit parallelism
+
+### Buffered Channels:
+
+1. **Buffer overflow**: If the buffer fills up, senders will block
+2. **Memory usage**: Large buffers consume more memory
+3. **Delayed error detection**: Errors in the pipeline might not be detected immediately because senders can continue without receivers
+
+## Best Practices
+
+1. **Start with unbuffered channels** unless you have a specific reason to use buffered channels
+2. **Use the smallest buffer size** that meets your performance requirements
+3. **Document why** you're using a specific buffer size
+4. **Test with different buffer sizes** to find the optimal one for your use case
+5. **Be aware of edge cases** like buffer overflow or deadlocks
+
+## Summary
+
+- Unbuffered channels provide synchronous communication
+- Buffered channels provide asynchronous communication with limited buffering
+- Unbuffered channels are better for synchronization and guaranteed delivery
+- Buffered channels are better for decoupling and handling bursts
+- The choice depends on your specific requirements
+- Performance implications should be considered but aren't usually the primary factor
+- Unbuffered channels are slightly faster than buffered channels for pure synchronization
+
+By understanding the differences between buffered and unbuffered channels, you can choose the right type for your specific use case and write more efficient concurrent code.
+
+In the next lab, we'll explore channel direction and how to use directional channel types to enforce communication patterns. 
