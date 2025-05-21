@@ -1,4 +1,5 @@
 import '../styles/globals.css';
+import '../src/styles/mdx.css'; // Additional styles for MDX content if needed
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 
