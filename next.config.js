@@ -9,9 +9,11 @@ const nextConfig = {
         hostname: '**', // Adjust this for production
       },
     ],
+    unoptimized: true, // Required for static export
   },
-  output: 'standalone',
-  // Helps with consistent routing
+  output: 'export',
+  basePath: '/golangmastery.github.io',
+  assetPrefix: '/golangmastery.github.io/',
   trailingSlash: true,
   
   // Disable typescript checking temporarily
@@ -22,20 +24,6 @@ const nextConfig = {
   // Update experimental settings to be compatible with Next.js 15
   experimental: {
     serverComponentsExternalPackages: ['@prisma/client', 'bcryptjs'],
-  },
-  
-  // Use rewrites for backward compatibility
-  async rewrites() {
-    return [
-      {
-        source: '/courses/quick-start-with-golang',
-        destination: '/courses/quick-start-with-golang-modules',
-      },
-      {
-        source: '/courses/quick-start-with-golang/:slug*',
-        destination: '/courses/quick-start-with-golang-modules/:slug*',
-      }
-    ];
   },
   
   webpack: (config) => {
