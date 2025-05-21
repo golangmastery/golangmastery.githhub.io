@@ -1,0 +1,259 @@
+---
+title: 'Channel Direction'
+slug: 'channel-direction'
+---
+
+# Channel Direction
+
+In Go, you can specify the direction of a channel when using it as a function parameter. This creates a directional channel that can only be used for sending or receiving, which increases the type safety of your program.
+
+## Why Specify Channel Direction?
+
+Specifying channel direction has several benefits:
+
+1. **Type safety**: It prevents accidental reads from send-only channels and accidental writes to receive-only channels
+2. **Clear intent**: It makes the intended use of a channel obvious in function signatures
+3. **Better documentation**: It helps document how data flows through your program
+4. **Compiler enforcement**: The compiler enforces these restrictions, catching errors early
+
+## Channel Direction Types
+
+Go provides three types of channel direction:
+
+1. **Bidirectional channel** (`chan T`): Can be used for both sending and receiving
+2. **Send-only channel** (`chan<- T`): Can only be used for sending
+3. **Receive-only channel** (`<-chan T`): Can only be used for receiving
+
+## Syntax
+
+Here's how to declare variables of each channel direction type:
+
+```go
+var bidirectional chan string     // can be used for sending and receiving
+var sendOnly chan<- string        // can only be used for sending
+var receiveOnly <-chan string     // can only be used for receiving
+```
+
+And here's how to use them in function parameters:
+
+```go
+func producer(out chan<- int) {
+    // can only send to out
+}
+
+func consumer(in <-chan int) {
+    // can only receive from in
+}
+
+func processor(in <-chan int, out chan<- int) {
+    // can only receive from in and only send to out
+}
+```
+
+## Channel Direction Conversion
+
+You can convert a bidirectional channel to a directional channel, but not vice versa:
+
+```go
+ch := make(chan int)       // bidirectional
+
+var sendCh chan<- int = ch  // convert to send-only
+var recvCh <-chan int = ch  // convert to receive-only
+
+// Error: cannot convert directional channel back to bidirectional
+// ch = sendCh  // This would not compile
+```
+
+## Example: Using Channel Direction
+
+Here's a practical example showing how to use directional channels:
+
+```go
+package main
+
+import "fmt"
+
+// ping takes a send-only channel
+func ping(pings chan<- string, msg string) {
+    pings <- msg
+}
+
+// pong takes a receive-only channel and a send-only channel
+func pong(pings <-chan string, pongs chan<- string) {
+    msg := <-pings
+    pongs <- msg
+}
+
+func main() {
+    pings := make(chan string, 1)
+    pongs := make(chan string, 1)
+    
+    ping(pings, "passed message")
+    pong(pings, pongs)
+    
+    fmt.Println(<-pongs)  // prints: passed message
+}
+```
+
+In this example:
+1. `ping` can only send to the `pings` channel
+2. `pong` can only receive from the `pings` channel and only send to the `pongs` channel
+3. This enforces a clear flow of data in one direction
+
+## Common Patterns with Channel Direction
+
+### The Generator Pattern
+
+A function that generates values and sends them to a channel:
+
+```go
+func generate(numbers ...int) <-chan int {
+    out := make(chan int)
+    
+    go func() {
+        defer close(out)
+        for _, n := range numbers {
+            out <- n
+        }
+    }()
+    
+    return out  // Return a receive-only channel
+}
+
+func main() {
+    // Consumer can only receive from the channel
+    ch := generate(1, 2, 3, 4)
+    
+    for n := range ch {
+        fmt.Println(n)
+    }
+}
+```
+
+### The Worker Pattern
+
+A function that processes values from an input channel and sends results to an output channel:
+
+```go
+func worker(id int, jobs <-chan int, results chan<- int) {
+    for job := range jobs {
+        fmt.Printf("Worker %d processing job %d\n", id, job)
+        results <- job * 2
+    }
+}
+
+func main() {
+    jobs := make(chan int, 100)
+    results := make(chan int, 100)
+    
+    // Start workers
+    for w := 1; w <= 3; w++ {
+        go worker(w, jobs, results)
+    }
+    
+    // Send jobs
+    for j := 1; j <= 5; j++ {
+        jobs <- j
+    }
+    close(jobs)
+    
+    // Collect results
+    for a := 1; a <= 5; a++ {
+        fmt.Println(<-results)
+    }
+}
+```
+
+### The Message Relay Pattern
+
+A function that relays messages from one channel to another:
+
+```go
+func relay(in <-chan string, out chan<- string) {
+    for msg := range in {
+        out <- msg  // Forward the message
+    }
+    close(out)
+}
+
+func main() {
+    ch1 := make(chan string)
+    ch2 := make(chan string)
+    
+    go func() {
+        ch1 <- "Hello"
+        ch1 <- "World"
+        close(ch1)
+    }()
+    
+    go relay(ch1, ch2)
+    
+    for msg := range ch2 {
+        fmt.Println(msg)
+    }
+}
+```
+
+## Closing Directional Channels
+
+One important restriction is that you can only close a channel that you can send to. This means:
+
+- You can close a bidirectional channel
+- You can close a send-only channel
+- You cannot close a receive-only channel
+
+```go
+// Valid
+func producer(ch chan<- int) {
+    for i := 0; i < 5; i++ {
+        ch <- i
+    }
+    close(ch)  // This is valid
+}
+
+// Invalid
+func consumer(ch <-chan int) {
+    for i := range ch {
+        fmt.Println(i)
+    }
+    // close(ch)  // This would be a compilation error
+}
+```
+
+## Using Type Assertions with Directional Channels
+
+You can use type assertions to check if a channel is directional:
+
+```go
+func processChannel(ch interface{}) {
+    switch c := ch.(type) {
+    case chan int:
+        fmt.Println("Bidirectional channel")
+    case <-chan int:
+        fmt.Println("Receive-only channel")
+    case chan<- int:
+        fmt.Println("Send-only channel")
+    default:
+        fmt.Println("Not a channel")
+    }
+}
+```
+
+## Best Practices
+
+1. **Be as restrictive as possible**: Use the most restrictive channel direction that will work for your needs
+2. **Document channel ownership**: Make it clear which component is responsible for creating, writing to, and closing each channel
+3. **Use consistent naming**: Consider using suffix naming patterns like `inputCh` and `outputCh` to make the flow clear
+4. **Return receive-only channels**: When a function creates and returns a channel, return it as receive-only if clients only need to receive from it
+5. **Accept send-only or receive-only parameters**: Functions should specify which direction they need for channel parameters
+
+## Summary
+
+- Channel direction provides type safety for channel operations
+- There are three types: bidirectional, send-only, and receive-only
+- Bidirectional channels can be converted to directional, but not vice versa
+- Only senders should close channels
+- Using channel direction makes code more type-safe and self-documenting
+- Channel direction is a powerful way to enforce communication patterns
+
+In the next lab, we'll explore the concept of channel ownership, which complements channel direction by establishing guidelines for which components should create, write to, and close channels. 

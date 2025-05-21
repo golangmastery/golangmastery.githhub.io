@@ -1,0 +1,148 @@
+---
+title: 'Creating Goroutines'
+slug: 'creating-goroutines'
+---
+
+# Creating Goroutines
+
+Goroutines are the fundamental building blocks of concurrency in Go. They are lightweight threads managed by the Go runtime, which allow functions to run concurrently.
+
+## What are Goroutines?
+
+A goroutine is a function that runs independently from other goroutines in the same address space. They're much lighter than operating system threads, which makes it practical to create thousands or even millions of goroutines in a single program.
+
+## Creating a Goroutine
+
+To create a goroutine, you simply use the `go` keyword followed by a function call:
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+    // Normal function call - runs synchronously
+    fmt.Println("Hello, world")
+    
+    // Goroutine - runs asynchronously
+    go fmt.Println("Hello from a goroutine")
+}
+```
+
+In this example, the main function itself runs in a goroutine, which is created automatically when the program starts.
+
+## Goroutines vs Traditional Threads
+
+Goroutines have several advantages over traditional threads:
+
+1. **Lightweight**: Goroutines use very little memory (around 2KB per goroutine) compared to threads (often 1MB+)
+2. **Scalable**: You can easily create thousands of goroutines without performance issues
+3. **Fast startup**: Goroutines start quickly
+4. **Fast context switching**: The Go runtime efficiently schedules goroutines
+5. **Simplified communication**: Channels make it easy to communicate between goroutines
+
+## Simple Example
+
+Let's see a simple program that creates goroutines to print messages:
+
+```go
+package main
+
+import (
+    "fmt"
+    "time"
+)
+
+func printSomething(s string) {
+    fmt.Println(s)
+}
+
+func main() {
+    // Run in a goroutine
+    go printSomething("my 1st line")
+    
+    // This allows the goroutine time to execute
+    time.Sleep(1 * time.Second)
+    
+    // Normal function call
+    printSomething("my 2nd line")
+}
+```
+
+If you run this program, you'll see both "my 1st line" and "my 2nd line". Without the `time.Sleep`, the main function might finish before the goroutine has a chance to run.
+
+## Multiple Goroutines
+
+You can create multiple goroutines easily:
+
+```go
+package main
+
+import (
+    "fmt"
+    "time"
+)
+
+func printSomething(s string) {
+    fmt.Println(s)
+}
+
+func main() {
+    words := []string{
+        "one",
+        "two",
+        "five",
+    }
+
+    for i, x := range words {
+        go printSomething(fmt.Sprintf("%d: %s", i, x))
+    }
+
+    time.Sleep(1 * time.Second)
+    printSomething("my 2nd line")
+}
+```
+
+The output might look like:
+```
+0: one
+2: five
+1: two
+my 2nd line
+```
+
+Notice how the order of execution is not deterministic. This is because goroutines run concurrently, and the scheduler might run them in any order.
+
+## The Problem with time.Sleep
+
+Using `time.Sleep` as a synchronization mechanism is problematic:
+
+1. If we sleep too little, some goroutines might not finish
+2. If we sleep too much, we waste time
+3. We don't know exactly how long each goroutine will take
+
+In the next lab, we'll explore a better way to synchronize goroutines using WaitGroups.
+
+## Goroutine Lifetime
+
+Goroutines only run as long as your program is running. When the main function returns, the program exits and all goroutines are abruptly terminated. This is why we needed the `time.Sleep` in our examples.
+
+## When to Use Goroutines
+
+Goroutines are ideal for:
+
+1. **I/O-bound tasks**: Operations that spend most of their time waiting (network requests, file operations)
+2. **CPU-bound tasks**: Utilizing multiple cores for parallel computation
+3. **Background processing**: Tasks that can run independently from the main flow
+4. **Handling many concurrent operations**: Like serving web requests
+
+## Summary
+
+- Goroutines are lightweight threads managed by the Go runtime
+- Create a goroutine with the `go` keyword: `go functionCall()`
+- Goroutines run concurrently with other goroutines
+- They're very lightweight, allowing thousands to run simultaneously
+- Using `time.Sleep` for synchronization is not ideal
+- The main goroutine must keep running for other goroutines to continue
+
+In the next lab, we'll learn how to properly synchronize goroutines using WaitGroups instead of `time.Sleep`. 

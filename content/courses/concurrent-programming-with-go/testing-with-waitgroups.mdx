@@ -1,0 +1,246 @@
+---
+title: 'Testing with WaitGroups'
+slug: 'testing-with-waitgroups'
+---
+
+# Testing with WaitGroups
+
+Writing tests for concurrent code can be challenging because of the non-deterministic nature of concurrent execution. WaitGroups are essential for reliably testing goroutines and ensuring all concurrent operations complete before making assertions.
+
+## Why Testing Concurrent Code is Challenging
+
+Concurrent code introduces several testing challenges:
+
+1. **Non-determinism**: Goroutines may execute in different orders each time
+2. **Race conditions**: Shared resources might be accessed simultaneously
+3. **Timing issues**: Tests may pass or fail based on execution timing
+4. **Deadlocks**: Tests might hang if goroutines don't complete
+
+WaitGroups help address these challenges by providing a way to ensure all goroutines complete before making assertions.
+
+## Basic Pattern for Testing with WaitGroups
+
+Here's a general pattern for testing concurrent code with WaitGroups:
+
+1. Create a WaitGroup
+2. Set up the test case and expected results
+3. Launch goroutines and add them to the WaitGroup
+4. Wait for all goroutines to complete
+5. Make assertions on the results
+
+## Testing a Simple Concurrent Function
+
+Let's test a simple function that prints a message using a goroutine:
+
+```go
+package main
+
+import (
+    "io"
+    "os"
+    "strings"
+    "sync"
+    "testing"
+)
+
+func printSomething(s string, wg *sync.WaitGroup) {
+    defer wg.Done()
+    fmt.Println(s)
+}
+
+func Test_printSomething(t *testing.T) {
+    // Capture stdout
+    stdOut := os.Stdout
+    r, w, _ := os.Pipe()
+    os.Stdout = w
+
+    // Create a WaitGroup and run the function
+    var wg sync.WaitGroup
+    wg.Add(1)
+    go printSomething("ok print", &wg)
+    wg.Wait()
+
+    // Restore stdout and read the output
+    w.Close()
+    result, _ := io.ReadAll(r)
+    output := string(result)
+    os.Stdout = stdOut
+
+    // Make assertions
+    if !strings.Contains(output, "ok print") {
+        t.Errorf("Expected output to contain 'ok print' but got %s", output)
+    }
+}
+```
+
+In this test:
+1. We capture standard output to be able to test what was printed
+2. We create a WaitGroup and run our function in a goroutine
+3. We wait for the goroutine to complete
+4. We restore standard output and check the captured output
+
+## Testing Message Updates
+
+Let's test a concurrent function that updates a shared message:
+
+```go
+package main
+
+import (
+    "sync"
+    "testing"
+)
+
+var msg string
+
+func updateMessage(s string, wg *sync.WaitGroup) {
+    defer wg.Done()
+    msg = s
+}
+
+func Test_updateMessage(t *testing.T) {
+    // Set initial message
+    msg = "Hello, world!"
+
+    // Create a WaitGroup and run the function
+    var wg sync.WaitGroup
+    wg.Add(1)
+    go updateMessage("Hello, one", &wg)
+    wg.Wait()
+
+    // Check the result
+    if msg != "Hello, one" {
+        t.Errorf("Expected message to be 'Hello, one' but got '%s'", msg)
+    }
+}
+```
+
+## Testing with Multiple Goroutines
+
+When testing functions that launch multiple goroutines, make sure to set the WaitGroup counter correctly:
+
+```go
+func processItems(items []string) []string {
+    var wg sync.WaitGroup
+    results := make([]string, len(items))
+    
+    for i, item := range items {
+        wg.Add(1)
+        go func(i int, item string) {
+            defer wg.Done()
+            results[i] = "Processed: " + item
+        }(i, item)
+    }
+    
+    wg.Wait()
+    return results
+}
+
+func Test_processItems(t *testing.T) {
+    items := []string{"one", "two", "three"}
+    
+    results := processItems(items)
+    
+    // Make assertions
+    expected := []string{
+        "Processed: one",
+        "Processed: two",
+        "Processed: three",
+    }
+    
+    for i, exp := range expected {
+        if results[i] != exp {
+            t.Errorf("Expected %s but got %s at position %d", exp, results[i], i)
+        }
+    }
+}
+```
+
+## Testing for Race Conditions
+
+Go provides a race detector that can help identify race conditions in your tests. Run your tests with the `-race` flag:
+
+```
+go test -race ./...
+```
+
+Here's an example of a test that would catch a race condition:
+
+```go
+func Test_concurrentAccess(t *testing.T) {
+    counter := 0
+    var wg sync.WaitGroup
+    
+    // Launch 100 goroutines that all increment counter
+    for i := 0; i < 100; i++ {
+        wg.Add(1)
+        go func() {
+            defer wg.Done()
+            counter++ // Race condition: multiple goroutines access counter simultaneously
+        }()
+    }
+    
+    wg.Wait()
+    
+    if counter != 100 {
+        t.Errorf("Expected counter to be 100, but got %d", counter)
+    }
+}
+```
+
+When run with `-race`, this test will detect the race condition on `counter`.
+
+## Testing Timeout to Prevent Hangs
+
+To prevent tests from hanging, you can use the testing package's built-in timeout mechanisms:
+
+```go
+func Test_possiblyHangingFunction(t *testing.T) {
+    // Set a timeout of 5 seconds for this test
+    t.Parallel()
+    
+    done := make(chan bool)
+    
+    go func() {
+        // Run the test
+        var wg sync.WaitGroup
+        wg.Add(1)
+        go func() {
+            defer wg.Done()
+            // Potentially long operation
+        }()
+        wg.Wait()
+        
+        done <- true
+    }()
+    
+    select {
+    case <-done:
+        // Test completed in time
+    case <-time.After(5 * time.Second):
+        t.Fatal("Test timed out after 5 seconds")
+    }
+}
+```
+
+## Best Practices for Testing with WaitGroups
+
+1. **Always Wait**: Always call `wg.Wait()` before making assertions
+2. **Test for Race Conditions**: Use the `-race` flag to detect race conditions
+3. **Set Timeouts**: Prevent tests from hanging with appropriate timeouts
+4. **Capture Output**: Redirect output when testing functions that print
+5. **Use Deterministic Input**: When possible, use input that produces deterministic results
+6. **Test Edge Cases**: Test with zero goroutines, many goroutines, etc.
+7. **Run Tests Multiple Times**: Run tests multiple times to catch timing-dependent issues
+
+## Summary
+
+- WaitGroups are essential for testing concurrent code
+- They ensure that all goroutines complete before making assertions
+- Go's race detector can help identify race conditions
+- Proper test setup is crucial for reliable concurrent tests
+- Testing concurrent code requires handling non-determinism and timing issues
+
+Testing concurrent code is challenging, but with WaitGroups and the right patterns, you can write reliable tests that catch issues in your concurrent code.
+
+In the next lab, we'll explore race conditions in more detail and learn how to detect and fix them. 

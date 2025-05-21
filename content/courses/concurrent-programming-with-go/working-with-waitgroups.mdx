@@ -1,0 +1,214 @@
+---
+title: 'Working with WaitGroups'
+slug: 'working-with-waitgroups'
+---
+
+# Working with WaitGroups
+
+In the previous lab, we used `time.Sleep` to wait for goroutines to complete, but this approach is unreliable. A better way to synchronize goroutines is to use WaitGroups from the `sync` package.
+
+## What is a WaitGroup?
+
+A WaitGroup is a synchronization primitive that allows you to wait for a collection of goroutines to finish executing. It provides three main methods:
+
+1. `Add(delta int)`: Adds delta (a positive or negative value) to the WaitGroup counter
+2. `Done()`: Decrements the WaitGroup counter by 1
+3. `Wait()`: Blocks until the WaitGroup counter is 0
+
+## Basic Pattern
+
+The basic pattern for using WaitGroups is:
+
+1. Create a WaitGroup
+2. Call `Add` to set the number of goroutines to wait for
+3. Launch goroutines and have each call `Done` when finished
+4. Call `Wait` to block until all goroutines are done
+
+## Simple Example
+
+Here's a simple example of using WaitGroups:
+
+```go
+package main
+
+import (
+    "fmt"
+    "sync"
+)
+
+func printSomething(s string, wg *sync.WaitGroup) {
+    // Ensure we call Done when this function returns
+    defer wg.Done()
+    
+    fmt.Println(s)
+}
+
+func main() {
+    // Create a WaitGroup
+    var wg sync.WaitGroup
+    
+    // Add the number of goroutines we'll wait for
+    wg.Add(3)
+    
+    // Launch 3 goroutines
+    go printSomething("First message", &wg)
+    go printSomething("Second message", &wg)
+    go printSomething("Third message", &wg)
+    
+    // Wait for all goroutines to finish
+    wg.Wait()
+    
+    fmt.Println("All goroutines completed")
+}
+```
+
+In this example:
+1. We create a WaitGroup `wg`
+2. We call `wg.Add(3)` to indicate we'll wait for 3 goroutines
+3. We launch three goroutines, each calling `wg.Done()` when finished
+4. We call `wg.Wait()` to block until all goroutines are done
+
+## Processing a Collection with WaitGroups
+
+Here's a more practical example that processes items from a slice:
+
+```go
+package main
+
+import (
+    "fmt"
+    "sync"
+)
+
+func processItem(i int, item string, wg *sync.WaitGroup) {
+    defer wg.Done()
+    fmt.Printf("%d: %s\n", i, item)
+}
+
+func main() {
+    var wg sync.WaitGroup
+    
+    words := []string{
+        "one",
+        "two",
+        "five",
+    }
+    
+    // Add the number of items we need to process
+    wg.Add(len(words))
+    
+    // Launch a goroutine for each item
+    for i, word := range words {
+        go processItem(i, word, &wg)
+    }
+    
+    // Wait for all processing to complete
+    wg.Wait()
+    
+    fmt.Println("All items processed")
+}
+```
+
+## Important Considerations
+
+### 1. Always Pass WaitGroups by Pointer
+
+WaitGroups must be passed by pointer. If you pass them by value, each goroutine gets a copy, and calling `Done()` on those copies won't affect the original WaitGroup.
+
+```go
+// Correct: passing by pointer
+go someFunction(&wg)
+
+// Incorrect: passing by value
+go someFunction(wg)  // This won't work as expected
+```
+
+### 2. Call `Add` Before Launching Goroutines
+
+Always call `Add` before launching the goroutines to avoid race conditions where `Wait` might return before all goroutines have started.
+
+```go
+// Correct
+wg.Add(3)
+go func1(&wg)
+go func2(&wg)
+go func3(&wg)
+
+// Incorrect - race condition possible
+go func1(&wg)  // wg.Add(1) might not happen before Wait() checks counter
+go func2(&wg)
+go func3(&wg)
+```
+
+### 3. Use `defer wg.Done()`
+
+It's good practice to use `defer wg.Done()` at the beginning of your goroutine functions to ensure `Done()` is called even if the function panics.
+
+```go
+func worker(wg *sync.WaitGroup) {
+    defer wg.Done()  // This will be called even if the function panics
+    
+    // Do work...
+}
+```
+
+### 4. Balance Add and Done
+
+Make sure the number of `Done()` calls matches the number of increments from `Add()`. If you call `Done()` too few times, `Wait()` will block forever. If you call it too many times, you'll get a panic.
+
+## Advanced Example: WaitGroup with Message Passing
+
+Here's a more advanced example that combines WaitGroups with channels for message passing:
+
+```go
+package main
+
+import (
+    "fmt"
+    "sync"
+)
+
+func updateMessage(s string, wg *sync.WaitGroup, m *string) {
+    defer wg.Done()
+    *m = s
+}
+
+func printMessage(m *string) {
+    fmt.Println(*m)
+}
+
+func main() {
+    var wg sync.WaitGroup
+    msg := "Hello, world!"
+    
+    wg.Add(1)
+    go updateMessage("Hello, One!", &wg, &msg)
+    wg.Wait()
+    printMessage(&msg)
+    
+    wg.Add(1)
+    go updateMessage("Hello, two!", &wg, &msg)
+    wg.Wait()
+    printMessage(&msg)
+    
+    wg.Add(1)
+    go updateMessage("Hello, three!", &wg, &msg)
+    wg.Wait()
+    printMessage(&msg)
+}
+```
+
+In this example, we're using WaitGroups to ensure that each message update is completed before printing it.
+
+## Summary
+
+- WaitGroups provide a reliable way to wait for goroutines to complete
+- The basic pattern is: Create, Add, Launch goroutines with Done, Wait
+- Always pass WaitGroups by pointer
+- Call Add before launching goroutines
+- Use defer wg.Done() for safety
+- Ensure Add and Done calls are balanced
+
+WaitGroups are a fundamental synchronization mechanism in Go, and they're often combined with other concurrency patterns to build robust concurrent programs.
+
+In the next lab, we'll learn how to write tests for concurrent code using WaitGroups. 

@@ -1,0 +1,159 @@
+---
+title: 'Buffered Channels'
+slug: 'buffered-channels'
+---
+
+# Buffered Channels
+
+By default, channels in Go are unbuffered, meaning they will only accept sends (`chan <-`) if there is a corresponding receiver (`<-chan`) ready to receive the value. Buffered channels, on the other hand, can hold a limited number of values without a corresponding receiver.
+
+## Creating a Buffered Channel
+
+To create a buffered channel, you specify the buffer size as the second argument to `make`:
+
+```go
+// Create a buffered channel with capacity of 2
+messages := make(chan string, 2)
+```
+
+## How Buffered Channels Work
+
+Buffered channels work like queues:
+
+1. When you send a value, it's added to the end of the queue
+2. When you receive a value, it's taken from the front of the queue
+3. If the queue is full, sends will block
+4. If the queue is empty, receives will block
+
+## Example of a Buffered Channel
+
+Here's a simple example demonstrating buffered channels:
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+    // Create a buffered channel with a capacity of 2
+    messages := make(chan string, 2)
+    
+    // Send two values into the channel without a receiver
+    messages <- "buffered"
+    messages <- "channel"
+    
+    // Receive the two values
+    fmt.Println(<-messages)  // Output: buffered
+    fmt.Println(<-messages)  // Output: channel
+}
+```
+
+Notice how in this example:
+- We can send two values into the channel without any goroutine ready to receive
+- The sends don't block because the buffer isn't full yet
+- If we tried to send a third value without first receiving any, the send would block
+
+## When to Use Buffered Channels
+
+Buffered channels are useful in several scenarios:
+
+1. **Reducing goroutine blocking**: When the sender doesn't need to wait for the receiver to be ready
+2. **Bursty workloads**: When the rate of sends and receives varies over time
+3. **Batching operations**: When you want to process items in batches rather than one at a time
+4. **Producer/consumer patterns**: When producers might temporarily produce faster than consumers can consume
+
+## Choosing a Buffer Size
+
+Selecting an appropriate buffer size depends on your specific use case:
+
+- **Too small**: May cause unnecessary blocking and reduce concurrency
+- **Too large**: May hide synchronization bugs and consume too much memory
+- **Just right**: Provides enough capacity to smooth out temporary rate differences
+
+As a general rule, use the smallest buffer size that prevents unnecessary blocking.
+
+## Example: Worker Pool with Buffered Channels
+
+Here's a more practical example using buffered channels to implement a worker pool:
+
+```go
+package main
+
+import (
+    "fmt"
+    "time"
+)
+
+func worker(id int, jobs <-chan int, results chan<- int) {
+    for job := range jobs {
+        fmt.Printf("Worker %d processing job %d\n", id, job)
+        time.Sleep(time.Second) // Simulate work
+        results <- job * 2
+    }
+}
+
+func main() {
+    // Create buffered channels
+    jobs := make(chan int, 100)
+    results := make(chan int, 100)
+    
+    // Start workers
+    for w := 1; w <= 3; w++ {
+        go worker(w, jobs, results)
+    }
+    
+    // Send jobs
+    for j := 1; j <= 9; j++ {
+        jobs <- j
+    }
+    close(jobs)
+    
+    // Collect results
+    for a := 1; a <= 9; a++ {
+        <-results
+    }
+}
+```
+
+In this example:
+- The buffered `jobs` channel allows us to queue up jobs without waiting for workers
+- The buffered `results` channel allows workers to report results without waiting for the main goroutine
+
+## Channel Blocking Behavior with Buffers
+
+Understanding when buffered channels block is crucial:
+
+1. **Send operation** (`ch <- value`):
+   - Blocks when the buffer is full
+   - Doesn't block when the buffer has space
+
+2. **Receive operation** (`<-ch`):
+   - Blocks when the buffer is empty
+   - Doesn't block when the buffer has at least one value
+
+## Deadlocks with Buffered Channels
+
+Even with buffered channels, deadlocks can still occur. Common causes include:
+
+- Buffer too small for the number of sends
+- Forgetting to close channels
+- Circular dependencies between goroutines
+
+## Performance Considerations
+
+Some performance characteristics to keep in mind:
+
+- Unbuffered channels are slightly faster than buffered channels for synchronization
+- Larger buffer sizes don't necessarily mean better performance
+- The optimal buffer size depends on your specific workload patterns
+
+## Summary
+
+- Buffered channels have a capacity that allows them to hold multiple values
+- They're created with `make(chan Type, capacity)`
+- Sends only block when the buffer is full
+- Receives only block when the buffer is empty
+- They're useful for decoupling senders and receivers
+- Choose buffer sizes carefully based on your specific use case
+
+In the next lab, we'll explore how to create and work with goroutines, Go's lightweight threads for concurrent execution. 

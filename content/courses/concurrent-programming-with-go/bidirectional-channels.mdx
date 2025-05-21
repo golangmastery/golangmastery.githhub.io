@@ -1,0 +1,142 @@
+---
+title: 'Bidirectional Channels'
+slug: 'bidirectional-channels'
+---
+
+# Bidirectional Channels
+
+By default, channels in Go are bidirectional, which means they can be used to both send and receive values. This is the simplest form of a channel and is what you get when you create a channel without any direction-specific notation.
+
+## Creating a Bidirectional Channel
+
+Creating a bidirectional channel is straightforward:
+
+```go
+// Create a bidirectional channel for string values
+messages := make(chan string)
+```
+
+## Using a Bidirectional Channel
+
+Let's look at a simple example that demonstrates sending and receiving on a bidirectional channel:
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+    messages := make(chan string)
+    
+    // Send a value into the channel in a separate goroutine
+    go func() { 
+        messages <- "ping" 
+    }()
+
+    // Receive the value from the channel
+    msg := <-messages
+    fmt.Println(msg)
+}
+```
+
+In this example:
+1. We create a bidirectional channel called `messages`
+2. We launch a goroutine that sends the string "ping" into the channel
+3. The main goroutine receives the value from the channel
+4. The received value is printed
+
+## Benefits and Limitations
+
+**Benefits:**
+- Simple to use and understand
+- Flexible - can be used for both sending and receiving
+- No need to specify direction when creating the channel
+
+**Limitations:**
+- Anyone can read and write to the channel
+- This can cause problems in concurrent environments where you want to restrict operations
+- No type safety to prevent incorrect usage
+
+## When to Use Bidirectional Channels
+
+Bidirectional channels are most appropriate when:
+
+1. You have a simple communication pattern
+2. The same goroutine might need to both send and receive
+3. You're prototyping and don't need strict access control
+
+## Common Patterns with Bidirectional Channels
+
+### Ping-Pong Pattern
+
+```go
+package main
+
+import (
+    "fmt"
+    "time"
+)
+
+func ping(ch chan string) {
+    ch <- "ping"
+}
+
+func pong(ch chan string) {
+    msg := <-ch
+    fmt.Println(msg)
+    ch <- "pong"
+}
+
+func main() {
+    ch := make(chan string)
+    
+    go ping(ch)
+    go pong(ch)
+    
+    fmt.Println(<-ch)
+    time.Sleep(100 * time.Millisecond) // Ensure the goroutines have time to execute
+}
+```
+
+### Basic Worker Pattern
+
+```go
+package main
+
+import "fmt"
+
+func worker(jobs chan int, results chan int) {
+    for job := range jobs {
+        results <- job * 2 // Double the job value
+    }
+}
+
+func main() {
+    jobs := make(chan int, 5)
+    results := make(chan int, 5)
+    
+    // Start a worker
+    go worker(jobs, results)
+    
+    // Send jobs
+    for i := 1; i <= 3; i++ {
+        jobs <- i
+    }
+    close(jobs)
+    
+    // Collect results
+    for i := 1; i <= 3; i++ {
+        fmt.Println(<-results)
+    }
+}
+```
+
+## Summary
+
+- Bidirectional channels can be used for both sending and receiving
+- They're created with `make(chan Type)`
+- They're the default channel type in Go
+- They offer flexibility but less type safety than directional channels
+- They're great for simple communication patterns
+
+In the next lab, we'll look at directional channels, which add type safety by restricting operations to either sending or receiving. 

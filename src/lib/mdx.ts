@@ -204,6 +204,12 @@ export function getModuleFiles(courseSlug: string): Module[] {
     return readModulesFromDirectory(path.join(contentDirectory, COURSE_TYPE, 'quick-start-with-golang-modules'));
   }
   
+  // Special case for concurrent-programming-with-go course - use modules from concurrent-programming-with-go-modules directory
+  if (courseSlug === 'concurrent-programming-with-go') {
+    console.log('Handling special case for concurrent-programming-with-go');
+    return readModulesFromDirectory(path.join(contentDirectory, COURSE_TYPE, 'concurrent-programming-with-go-modules'));
+  }
+  
   // Path 1: Direct course slug directory (e.g., content/courses/quick-start-with-golang-modules/)
   let modules = readModulesFromDirectory(path.join(contentDirectory, COURSE_TYPE, courseSlug));
   if (modules.length > 0) {

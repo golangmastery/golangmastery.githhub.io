@@ -1,0 +1,281 @@
+---
+title: 'Unbuffered Channels'
+slug: 'unbuffered-channels'
+---
+
+# Unbuffered Channels
+
+Unbuffered channels are the default type of channel in Go. They provide synchronous communication between goroutines, meaning that a send operation will block until there's a corresponding receive operation ready to receive the value, and vice versa.
+
+## Creating an Unbuffered Channel
+
+To create an unbuffered channel, we use the `make` function without specifying a buffer size:
+
+```go
+// Create an unbuffered channel of integers
+ch := make(chan int)
+```
+
+## Understanding Synchronization
+
+The key characteristic of unbuffered channels is that they synchronize the sender and receiver:
+
+1. A send operation `ch <- value` blocks until another goroutine is ready to receive from the channel
+2. A receive operation `value := <-ch` blocks until another goroutine sends a value to the channel
+
+This means that the sender and receiver must "meet" in time for the communication to take place.
+
+## Visual Representation
+
+Here's a visual representation of how unbuffered channels work:
+
+```
+Sender                   Receiver
+  |                        |
+  | --- send value ------> | (blocks until receiver is ready)
+  |                        |
+  | <--- acknowledged <--- |
+  |                        |
+```
+
+## Basic Example
+
+Let's look at a simple example of using an unbuffered channel:
+
+```go
+package main
+
+import (
+    "fmt"
+    "time"
+)
+
+func main() {
+    // Create an unbuffered channel
+    ch := make(chan string)
+    
+    // Start a goroutine that sends a message
+    go func() {
+        fmt.Println("Sending message...")
+        ch <- "Hello!"  // This will block until the main goroutine receives
+        fmt.Println("Message sent!")
+    }()
+    
+    // Wait a moment to demonstrate the blocking behavior
+    time.Sleep(2 * time.Second)
+    
+    // Receive the message
+    fmt.Println("About to receive...")
+    msg := <-ch  // This unblocks the sending goroutine
+    fmt.Println("Received:", msg)
+    
+    // Allow time to see the "Message sent!" output
+    time.Sleep(time.Millisecond)
+}
+```
+
+When you run this program, you'll see:
+
+```
+Sending message...
+About to receive...
+Received: Hello!
+Message sent!
+```
+
+Notice the sequence of events:
+1. The goroutine starts and prints "Sending message..."
+2. It tries to send "Hello!" but blocks because no one is receiving yet
+3. After 2 seconds, the main goroutine prints "About to receive..."
+4. It receives the message, allowing the goroutine to continue
+5. The goroutine prints "Message sent!" and exits
+
+## Multiple Senders and Receivers
+
+Unbuffered channels work well with multiple senders and receivers:
+
+```go
+package main
+
+import (
+    "fmt"
+    "sync"
+    "time"
+)
+
+func sender(id int, ch chan<- string, wg *sync.WaitGroup) {
+    defer wg.Done()
+    
+    msg := fmt.Sprintf("Message from sender %d", id)
+    fmt.Printf("Sender %d: sending message\n", id)
+    ch <- msg  // Will block until a receiver is ready
+    fmt.Printf("Sender %d: message sent\n", id)
+}
+
+func receiver(id int, ch <-chan string, wg *sync.WaitGroup) {
+    defer wg.Done()
+    
+    // Simulate different readiness times
+    time.Sleep(time.Duration(id) * 100 * time.Millisecond)
+    
+    fmt.Printf("Receiver %d: waiting for message\n", id)
+    msg := <-ch  // Will block until a sender is ready
+    fmt.Printf("Receiver %d: got message: %s\n", id, msg)
+}
+
+func main() {
+    ch := make(chan string)  // Unbuffered channel
+    
+    var wg sync.WaitGroup
+    
+    // Start 3 senders
+    for i := 1; i <= 3; i++ {
+        wg.Add(1)
+        go sender(i, ch, &wg)
+    }
+    
+    // Start 3 receivers
+    for i := 1; i <= 3; i++ {
+        wg.Add(1)
+        go receiver(i, ch, &wg)
+    }
+    
+    // Wait for all goroutines to finish
+    wg.Wait()
+}
+```
+
+In this example, senders and receivers pair up one-to-one. The order of pairing depends on scheduling and timing.
+
+## Use Cases for Unbuffered Channels
+
+Unbuffered channels are ideal for:
+
+1. **Synchronization**: When you need to synchronize the execution of goroutines
+2. **Guaranteed delivery**: When you need to ensure that a message is received
+3. **Signal events**: When you want to signal that an event has occurred
+4. **Turn-taking**: When goroutines need to take turns performing operations
+
+## Signaling with Unbuffered Channels
+
+A common pattern is to use unbuffered channels for signaling, often with empty structs to minimize memory usage:
+
+```go
+package main
+
+import (
+    "fmt"
+    "time"
+)
+
+func worker(done chan struct{}) {
+    fmt.Println("Working...")
+    time.Sleep(time.Second)
+    fmt.Println("Done working!")
+    
+    // Signal that we're done
+    done <- struct{}{}
+}
+
+func main() {
+    done := make(chan struct{})
+    
+    go worker(done)
+    
+    // Wait for the worker to signal completion
+    <-done
+    
+    fmt.Println("Main: received completion signal")
+}
+```
+
+## Deadlocks with Unbuffered Channels
+
+A common mistake with unbuffered channels is creating situations that lead to deadlocks:
+
+```go
+package main
+
+func main() {
+    ch := make(chan int)
+    
+    // This will deadlock because there's no receiver
+    ch <- 1
+    
+    // Code here will never execute
+    <-ch
+}
+```
+
+If you run this, you'll get:
+
+```
+fatal error: all goroutines are asleep - deadlock!
+```
+
+To fix this, you need to ensure that sends and receives happen in separate goroutines:
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+    ch := make(chan int)
+    
+    // Send in a separate goroutine
+    go func() {
+        ch <- 1
+    }()
+    
+    // Now we can receive
+    value := <-ch
+    fmt.Println(value)
+}
+```
+
+## Nil Channels
+
+It's important to note that a nil channel (the zero value of a channel variable) will block forever on both send and receive operations:
+
+```go
+var ch chan int  // nil channel
+<-ch  // blocks forever
+ch <- 1  // blocks forever
+```
+
+This behavior can be useful in select statements to disable specific cases.
+
+## Channel Closing
+
+When you close an unbuffered channel, any blocked senders will panic, but blocked receivers will get the zero value of the channel's type with an `ok` value of `false`:
+
+```go
+ch := make(chan int)
+close(ch)
+
+// This will return 0, false
+value, ok := <-ch
+
+// This will range over 0 values and exit immediately
+for v := range ch {
+    // Never executed
+}
+```
+
+## Performance Considerations
+
+Unbuffered channels are generally very fast, but there's a performance cost to the context switching and synchronization. If performance is critical and you don't need the synchronization guarantees, buffered channels might be more appropriate.
+
+## Summary
+
+- Unbuffered channels provide synchronous communication between goroutines
+- They block until both sender and receiver are ready
+- They're useful for synchronization and guaranteed delivery
+- Be careful about potential deadlocks
+- Nil channels block forever
+- Closing channels unblocks receivers but causes senders to panic
+
+Unbuffered channels are one of the most powerful synchronization tools in Go. Understanding their behavior is essential for writing correct and efficient concurrent programs.
+
+In the next lab, we'll compare unbuffered and buffered channels to understand when to use each type. 

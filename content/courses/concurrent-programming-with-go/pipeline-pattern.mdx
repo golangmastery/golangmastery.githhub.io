@@ -1,0 +1,432 @@
+---
+title: 'Pipeline Pattern'
+slug: 'pipeline-pattern'
+---
+
+# Pipeline Pattern
+
+The pipeline pattern is a powerful concurrency pattern in Go that allows you to process streams or batches of data through a series of stages. Each stage is connected to the next by channels, and each stage can run concurrently with others.
+
+## What is a Pipeline?
+
+A pipeline consists of:
+
+1. **Source or Generator**: Produces data for processing
+2. **Stages**: Each stage does some processing and passes results to the next stage
+3. **Sink**: The final stage that consumes the fully processed data
+
+The key benefit is that data flows through the pipeline as soon as it's ready, without waiting for all data to be processed by each stage.
+
+## Visual Representation
+
+Here's a visual representation of a pipeline:
+
+```
+Generator    Stage 1       Stage 2       Stage 3
+    |            |            |            |
+    | --data--> | --data--> | --data--> |
+    |            |            |            |
+```
+
+## Basic Pipeline Structure
+
+A pipeline stage typically:
+1. Receives values from an inbound channel
+2. Performs some computation on each received value
+3. Sends the results to an outbound channel
+
+## Simple Example: Square Numbers Pipeline
+
+Let's create a simple pipeline that squares numbers:
+
+```go
+package main
+
+import "fmt"
+
+// generator creates a channel that emits the numbers in nums
+func generator(nums ...int) <-chan int {
+    out := make(chan int)
+    
+    go func() {
+        defer close(out)
+        for _, n := range nums {
+            out <- n
+        }
+    }()
+    
+    return out
+}
+
+// square creates a channel that squares each received number
+func square(in <-chan int) <-chan int {
+    out := make(chan int)
+    
+    go func() {
+        defer close(out)
+        for n := range in {
+            out <- n * n
+        }
+    }()
+    
+    return out
+}
+
+func main() {
+    // Set up the pipeline
+    ch := generator(2, 3)
+    out := square(ch)
+    
+    // Consume the output
+    for n := range out {
+        fmt.Println(n)
+    }
+    
+    // Or set up and consume in one step
+    /*
+    for n := range square(generator(2, 3)) {
+        fmt.Println(n)
+    }
+    */
+}
+```
+
+This example demonstrates a pipeline with two stages:
+1. `generator` produces the initial numbers
+2. `square` squares each number
+
+When you run this program, you'll see:
+```
+4
+9
+```
+
+## Composability of Pipelines
+
+One of the key benefits of pipelines is that they are composable. You can chain multiple stages together:
+
+```go
+// double creates a channel that multiplies each received number by 2
+func double(in <-chan int) <-chan int {
+    out := make(chan int)
+    
+    go func() {
+        defer close(out)
+        for n := range in {
+            out <- n * 2
+        }
+    }()
+    
+    return out
+}
+
+// Now we can compose more complex pipelines
+for n := range square(square(generator(2, 3))) {
+    // This will square the numbers, then square the results
+    fmt.Println(n)  // Outputs: 16, 81
+}
+
+for n := range double(square(generator(2, 3))) {
+    // This will square the numbers, then double the results
+    fmt.Println(n)  // Outputs: 8, 18
+}
+```
+
+## Multi-stage Pipeline Example
+
+Let's build a more complex pipeline that filters, maps, and reduces a sequence of numbers:
+
+```go
+package main
+
+import "fmt"
+
+// generator produces numbers
+func generator(nums ...int) <-chan int {
+    out := make(chan int)
+    go func() {
+        defer close(out)
+        for _, n := range nums {
+            out <- n
+        }
+    }()
+    return out
+}
+
+// filter returns only even numbers
+func filter(in <-chan int) <-chan int {
+    out := make(chan int)
+    go func() {
+        defer close(out)
+        for n := range in {
+            if n%2 == 0 {
+                out <- n
+            }
+        }
+    }()
+    return out
+}
+
+// square squares numbers
+func square(in <-chan int) <-chan int {
+    out := make(chan int)
+    go func() {
+        defer close(out)
+        for n := range in {
+            out <- n * n
+        }
+    }()
+    return out
+}
+
+// sum sums all numbers and returns result
+func sum(in <-chan int) <-chan int {
+    out := make(chan int)
+    go func() {
+        defer close(out)
+        sum := 0
+        for n := range in {
+            sum += n
+        }
+        out <- sum
+    }()
+    return out
+}
+
+func main() {
+    // Set up pipeline that:
+    // 1. Generates numbers 1 through 10
+    // 2. Filters to keep only even numbers
+    // 3. Squares the even numbers
+    // 4. Sums the squared even numbers
+    
+    // Create the individual stages
+    numbers := generator(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+    evenNumbers := filter(numbers)
+    squaredNumbers := square(evenNumbers)
+    sumChannel := sum(squaredNumbers)
+    
+    // Get the result
+    fmt.Println(<-sumChannel)  // Outputs: 220 (2² + 4² + 6² + 8² + 10²)
+    
+    // Or, compose the pipeline in one line
+    result := <-sum(square(filter(generator(1, 2, 3, 4, 5, 6, 7, 8, 9, 10))))
+    fmt.Println(result)  // Also outputs: 220
+}
+```
+
+## Fan-Out, Fan-In Pattern
+
+To process items in parallel, you can "fan out" the work to multiple goroutines, then "fan in" the results:
+
+```go
+package main
+
+import (
+    "fmt"
+    "sync"
+)
+
+// Generator function from earlier examples
+func generator(nums ...int) <-chan int {
+    out := make(chan int)
+    go func() {
+        defer close(out)
+        for _, n := range nums {
+            out <- n
+        }
+    }()
+    return out
+}
+
+// slowSquare is like square but has artificial delay
+func slowSquare(in <-chan int) <-chan int {
+    out := make(chan int)
+    go func() {
+        defer close(out)
+        for n := range in {
+            // Simulate time-consuming operation
+            time.Sleep(100 * time.Millisecond)
+            out <- n * n
+        }
+    }()
+    return out
+}
+
+// fanOut runs multiple instances of slowSquare in parallel
+func fanOut(in <-chan int, numWorkers int) []<-chan int {
+    outputs := make([]<-chan int, numWorkers)
+    for i := 0; i < numWorkers; i++ {
+        outputs[i] = slowSquare(in)
+    }
+    return outputs
+}
+
+// fanIn merges multiple channels into one
+func fanIn(channels ...<-chan int) <-chan int {
+    var wg sync.WaitGroup
+    out := make(chan int)
+    
+    // Forward values from each input channel to the output channel
+    output := func(ch <-chan int) {
+        defer wg.Done()
+        for n := range ch {
+            out <- n
+        }
+    }
+    
+    wg.Add(len(channels))
+    for _, ch := range channels {
+        go output(ch)
+    }
+    
+    // Close output channel when all input channels are done
+    go func() {
+        wg.Wait()
+        close(out)
+    }()
+    
+    return out
+}
+
+func main() {
+    // Generate some numbers
+    in := generator(2, 3, 4, 5, 6, 7, 8, 9)
+    
+    // Fan out to 3 workers
+    workers := fanOut(in, 3)
+    
+    // Fan in the results
+    out := fanIn(workers...)
+    
+    // Collect results
+    var results []int
+    for n := range out {
+        results = append(results, n)
+    }
+    
+    fmt.Println(results)
+}
+```
+
+This pattern is particularly useful for CPU-intensive operations, where running multiple workers in parallel can significantly improve performance.
+
+## Stopping a Pipeline
+
+There are several ways to stop a pipeline:
+
+### 1. Natural Completion
+
+The simplest way is to let the pipeline complete naturally. When a stage finishes processing all its input data, it closes its output channel, which signals to the next stage that no more data is coming.
+
+### 2. Using Context for Cancellation
+
+For long-running or infinite pipelines, you can use the `context` package to signal cancellation:
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "time"
+)
+
+func generator(ctx context.Context) <-chan int {
+    out := make(chan int)
+    
+    go func() {
+        defer close(out)
+        n := 0
+        
+        for {
+            select {
+            case <-ctx.Done():
+                // Context cancelled, stop generation
+                return
+            case out <- n:
+                // Successfully sent, increment counter
+                n++
+                
+                // Simulate some work
+                time.Sleep(100 * time.Millisecond)
+            }
+        }
+    }()
+    
+    return out
+}
+
+func square(ctx context.Context, in <-chan int) <-chan int {
+    out := make(chan int)
+    
+    go func() {
+        defer close(out)
+        
+        for {
+            select {
+            case <-ctx.Done():
+                // Context cancelled, stop processing
+                return
+            case n, ok := <-in:
+                if !ok {
+                    // Input channel closed, we're done
+                    return
+                }
+                
+                select {
+                case out <- n * n:
+                    // Successfully sent squared value
+                case <-ctx.Done():
+                    // Context cancelled
+                    return
+                }
+            }
+        }
+    }()
+    
+    return out
+}
+
+func main() {
+    // Create a context with cancellation
+    ctx, cancel := context.WithCancel(context.Background())
+    
+    // Set up a pipeline that generates and squares numbers
+    numbers := generator(ctx)
+    squares := square(ctx, numbers)
+    
+    // Process 5 values, then cancel
+    for i := 0; i < 5; i++ {
+        fmt.Println(<-squares)
+    }
+    
+    // Cancel the context to stop the pipeline
+    cancel()
+    
+    // Give the goroutines a moment to clean up
+    time.Sleep(time.Second)
+    fmt.Println("Pipeline stopped")
+}
+```
+
+## Best Practices
+
+1. **Each stage should have its own goroutine**: This allows all stages to run concurrently
+2. **Stages should not know about other stages**: They should only be concerned with their input and output channels
+3. **The stage that creates a channel should be responsible for closing it**: Follow the channel ownership pattern
+4. **Handle cancellation**: Provide ways to stop the pipeline early if needed
+5. **Stream data, don't batch**: Process data as soon as it's available rather than waiting for all data
+6. **Consider buffered channels**: For stages with different processing rates, buffered channels can improve throughput
+7. **Handle errors**: Pass errors through the pipeline so they can be handled appropriately
+
+## Summary
+
+- The pipeline pattern processes data through a series of stages
+- Each stage runs in its own goroutine and communicates via channels
+- Pipelines are composable - you can combine them in different ways
+- Fan-out, fan-in patterns can be used for parallel processing
+- Context can be used to handle cancellation
+- Pipelines enable efficient processing of data streams
+
+In the next lab, we'll explore the fan-out, fan-in pattern in more detail, which builds on the pipeline pattern to enable parallel processing. 

@@ -109,33 +109,117 @@ export const courses: Course[] = [
     labs: [
       {
         id: '2-1',
-        title: 'Introduction to Goroutines',
-        slug: 'introduction-to-goroutines',
-        description: 'Learn about goroutines, Go\'s lightweight threads for concurrent execution.'
+        title: 'Introduction to Concurrency in Go',
+        slug: 'introduction-to-concurrency',
+        description: "Understand the difference between concurrency and parallelism, and Go's approach to concurrent programming."
       },
       {
         id: '2-2',
         title: 'Channels Basics',
         slug: 'channels-basics',
-        description: 'Understand how to use channels for communication between goroutines.'
+        description: 'Learn about channels, the fundamental communication mechanism between goroutines.'
       },
       {
         id: '2-3',
-        title: 'Buffered Channels',
-        slug: 'buffered-channels',
-        description: 'Learn about buffered channels and when to use them.'
+        title: 'Bidirectional Channels',
+        slug: 'bidirectional-channels',
+        description: 'Learn how to use bidirectional channels for sending and receiving data.'
       },
       {
         id: '2-4',
-        title: 'Select Statement',
-        slug: 'select-statement',
-        description: 'Master the select statement for handling multiple channel operations.'
+        title: 'Directional Channels',
+        slug: 'directional-channels',
+        description: 'Understand how to use channels that can only send or only receive data.'
       },
       {
         id: '2-5',
-        title: 'Mutex and Atomic Operations',
-        slug: 'mutex-and-atomic-operations',
-        description: 'Learn about mutual exclusion and atomic operations for safe concurrent access.'
+        title: 'Buffered Channels',
+        slug: 'buffered-channels',
+        description: 'Learn about buffered channels that can hold multiple values.'
+      },
+      {
+        id: '2-6',
+        title: 'Creating Goroutines',
+        slug: 'creating-goroutines',
+        description: 'Learn how to create and use goroutines, the lightweight threads of Go.'
+      },
+      {
+        id: '2-7',
+        title: 'Working with WaitGroups',
+        slug: 'working-with-waitgroups',
+        description: 'Use WaitGroups to coordinate multiple goroutines and wait for their completion.'
+      },
+      {
+        id: '2-8',
+        title: 'Testing with WaitGroups',
+        slug: 'testing-with-waitgroups',
+        description: 'Learn strategies for testing concurrent code with WaitGroups.'
+      },
+      {
+        id: '2-9',
+        title: 'Race Conditions',
+        slug: 'race-conditions',
+        description: 'Understand what race conditions are and how to detect them.'
+      },
+      {
+        id: '2-10',
+        title: 'Using Mutex',
+        slug: 'using-mutex',
+        description: 'Learn how to use mutexes to protect shared resources from concurrent access.'
+      },
+      {
+        id: '2-11',
+        title: 'The Producer-Consumer Problem',
+        slug: 'producer-consumer-problem',
+        description: 'Solve the classic producer-consumer problem using Go concurrency primitives.'
+      },
+      {
+        id: '2-12',
+        title: 'Range over Channels',
+        slug: 'range-over-channels',
+        description: 'Learn how to iterate over the values received from a channel.'
+      },
+      {
+        id: '2-13',
+        title: 'Unbuffered Channels',
+        slug: 'unbuffered-channels',
+        description: 'Deep dive into unbuffered channels and their synchronization properties.'
+      },
+      {
+        id: '2-14',
+        title: 'Buffered vs Unbuffered Channels',
+        slug: 'buffered-vs-unbuffered',
+        description: 'Compare buffered and unbuffered channels and learn when to use each.'
+      },
+      {
+        id: '2-15',
+        title: 'Channel Direction',
+        slug: 'channel-direction',
+        description: 'Learn how to specify and enforce channel direction in function parameters.'
+      },
+      {
+        id: '2-16',
+        title: 'Channel Ownership',
+        slug: 'channel-ownership',
+        description: 'Understand the concept of channel ownership and why it matters.'
+      },
+      {
+        id: '2-17',
+        title: 'Pipeline Pattern',
+        slug: 'pipeline-pattern',
+        description: 'Learn how to implement the pipeline pattern for processing streams of data.'
+      },
+      {
+        id: '2-18',
+        title: 'Fan-Out Fan-In Pattern',
+        slug: 'fan-out-fan-in',
+        description: 'Distribute work and collect results using the fan-out fan-in pattern.'
+      },
+      {
+        id: '2-19',
+        title: 'Cancellation with Context Package',
+        slug: 'context-package',
+        description: 'Learn how to use the context package to manage goroutine lifecycles and handle cancellation.'
       }
     ]
   },

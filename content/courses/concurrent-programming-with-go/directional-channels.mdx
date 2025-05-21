@@ -1,0 +1,137 @@
+---
+title: 'Directional Channels'
+slug: 'directional-channels'
+---
+
+# Directional Channels
+
+In Go, you can specify if a channel is meant to be used only for reading or only for writing data. These are called directional channels, and they increase the type-safety of your program.
+
+## Why Use Directional Channels?
+
+Directional channels offer several advantages:
+
+1. **Type safety**: They prevent accidental reads from write-only channels and accidental writes to read-only channels
+2. **Clear intent**: They make the intended use of a channel obvious in function signatures
+3. **Better documentation**: They help document how data flows through your program
+
+## Send-Only and Receive-Only Channels
+
+There are two types of directional channels:
+
+1. **Send-only channel** (chan<- T): Can only send values, cannot receive
+2. **Receive-only channel** (<-chan T): Can only receive values, cannot send
+
+## Syntax
+
+```go
+// Send-only channel (can only send to this channel)
+var sendOnly chan<- string
+
+// Receive-only channel (can only receive from this channel)
+var receiveOnly <-chan string
+```
+
+## Converting Bidirectional Channels to Directional Channels
+
+Any bidirectional channel can be assigned to a directional channel variable, but not vice versa:
+
+```go
+ch := make(chan string)  // Bidirectional channel
+
+var sendOnly chan<- string = ch  // Convert to send-only
+var receiveOnly <-chan string = ch  // Convert to receive-only
+```
+
+## Example: Using Directional Channels
+
+Here's a practical example that demonstrates directional channels:
+
+```go
+package main
+
+import "fmt"
+
+// ping takes a send-only channel
+func ping(pings chan<- string, msg string) {
+    pings <- msg
+}
+
+// pong takes a receive-only channel and a send-only channel
+func pong(pings <-chan string, pongs chan<- string) {
+    msg := <-pings
+    pongs <- msg
+}
+
+func main() {
+    pings := make(chan string, 1)
+    pongs := make(chan string, 1)
+    
+    ping(pings, "passed message")
+    pong(pings, pongs)
+    
+    fmt.Println(<-pongs)  // prints: passed message
+}
+```
+
+In this example:
+
+1. The `ping` function can only send to the `pings` channel
+2. The `pong` function can only receive from the `pings` channel and only send to the `pongs` channel
+3. This enforces a clear flow of data in one direction
+
+## Benefits in Larger Programs
+
+Directional channels become especially valuable in larger programs:
+
+```go
+func process(input <-chan Job, output chan<- Result) {
+    for job := range input {
+        // Process the job
+        result := doWork(job)
+        output <- result
+    }
+}
+```
+
+By using directional channels, this function clearly communicates that it:
+- Consumes jobs from the input channel
+- Produces results to the output channel
+- Cannot send to the input channel
+- Cannot receive from the output channel
+
+## Closing Directional Channels
+
+One important limitation is that you can only close a channel that you can send to. This means:
+- You can close a bidirectional channel
+- You can close a send-only channel
+- You cannot close a receive-only channel
+
+```go
+// Valid - can close a send-only channel
+func producer(ch chan<- int) {
+    for i := 0; i < 5; i++ {
+        ch <- i
+    }
+    close(ch)  // This is valid
+}
+
+// Invalid - cannot close a receive-only channel
+func consumer(ch <-chan int) {
+    for i := range ch {
+        fmt.Println(i)
+    }
+    // close(ch)  // This would be a compilation error
+}
+```
+
+## Summary
+
+- Directional channels restrict operations to either sending or receiving
+- They provide greater type safety and clearer intent
+- Send-only channels use the syntax `chan<- Type`
+- Receive-only channels use the syntax `<-chan Type`
+- Bidirectional channels can be converted to directional channels
+- They're especially useful for clearly defining the data flow in functions
+
+In the next lab, we'll explore buffered channels, which can hold multiple values without a receiver being ready. 

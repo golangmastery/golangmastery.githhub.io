@@ -1,0 +1,265 @@
+---
+title: 'Range over Channels'
+slug: 'range-over-channels'
+---
+
+# Range over Channels
+
+The `range` keyword in Go provides a convenient way to iterate over values received from a channel. It automatically handles waiting for new values and will exit when the channel is closed.
+
+## Basic Range over Channel
+
+Here's the basic syntax for using range with channels:
+
+```go
+for value := range ch {
+    // Process value
+}
+```
+
+When using `range` on a channel:
+- It iterates over each value received from the channel
+- The loop automatically breaks when the channel is closed
+- Unlike a normal receive operation (`value, ok := <-ch`), range doesn't return the second boolean value that indicates whether the channel is closed
+
+## Simple Example
+
+Let's look at a simple example of using range with channels:
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+    ch := make(chan int)
+    
+    // Start a goroutine that sends values
+    go func() {
+        for i := 0; i < 6; i++ {
+            // Send iterator to channel
+            ch <- i
+        }
+        // Close the channel when done
+        close(ch)
+    }()
+    
+    // Range over the channel to receive values
+    for v := range ch {
+        fmt.Println(v)
+    }
+}
+```
+
+When you run this program, you'll see:
+
+```
+0
+1
+2
+3
+4
+5
+```
+
+In this example:
+1. We create a channel `ch`
+2. We start a goroutine that sends values 0 through 5 to the channel and then closes it
+3. We use `range` to receive values from the channel
+4. The `range` loop automatically exits when the channel is closed
+
+## Range vs. Manual Receive
+
+Let's compare using `range` with manual receive operations:
+
+```go
+// Using range (cleaner, more idiomatic)
+for v := range ch {
+    fmt.Println(v)
+}
+
+// Using manual receive (more verbose)
+for {
+    v, ok := <-ch
+    if !ok {
+        // Channel is closed
+        break
+    }
+    fmt.Println(v)
+}
+```
+
+As you can see, using `range` is more concise and less error-prone.
+
+## Handling Channel Closure
+
+When using `range`, you don't need to explicitly check if the channel is closed. The loop will automatically exit when the channel is closed.
+
+This makes `range` particularly useful in consumer code, where you often want to process all values until the producer indicates it's done by closing the channel.
+
+## Example: Worker Pool with Range
+
+Here's an example of a worker pool that uses `range` to process jobs:
+
+```go
+package main
+
+import (
+    "fmt"
+    "sync"
+    "time"
+)
+
+func worker(id int, jobs <-chan int, results chan<- int, wg *sync.WaitGroup) {
+    defer wg.Done()
+    
+    // Use range to process jobs until the channel is closed
+    for job := range jobs {
+        fmt.Printf("Worker %d processing job %d\n", id, job)
+        time.Sleep(time.Second) // Simulate work
+        results <- job * 2
+    }
+    
+    fmt.Printf("Worker %d done\n", id)
+}
+
+func main() {
+    jobs := make(chan int, 5)
+    results := make(chan int, 5)
+    
+    // Create a wait group to wait for all workers to finish
+    var wg sync.WaitGroup
+    
+    // Start 3 workers
+    for w := 1; w <= 3; w++ {
+        wg.Add(1)
+        go worker(w, jobs, results, &wg)
+    }
+    
+    // Send 5 jobs
+    for j := 1; j <= 5; j++ {
+        jobs <- j
+    }
+    
+    // Close the jobs channel to signal no more jobs
+    close(jobs)
+    
+    // Start a goroutine to close the results channel when all workers are done
+    go func() {
+        wg.Wait()
+        close(results)
+    }()
+    
+    // Use range to collect all results
+    for result := range results {
+        fmt.Printf("Result: %d\n", result)
+    }
+}
+```
+
+In this example:
+1. We use `range` in the worker function to process jobs until the jobs channel is closed
+2. We close the jobs channel to signal to the workers that there are no more jobs
+3. We use `range` in the main function to collect all results until the results channel is closed
+4. We close the results channel when all workers are done
+
+## Using Range with Select
+
+When using `range` with `select`, you need a different approach since `range` is a loop and `select` is a block. Here's a pattern that combines both:
+
+```go
+func processMessages(messages <-chan string, quit <-chan bool) {
+    for {
+        select {
+        case msg, ok := <-messages:
+            if !ok {
+                // messages channel is closed
+                return
+            }
+            fmt.Println("Received:", msg)
+        case <-quit:
+            fmt.Println("Quitting")
+            return
+        }
+    }
+}
+```
+
+## Best Practices
+
+### 1. Always Close Channels from the Sender
+
+When using `range`, it's important to remember that the sender should close the channel when there are no more values to send. The closer of a channel should be the only goroutine that knows when the channel should be closed.
+
+```go
+// Good: Sender closes the channel
+go func() {
+    for i := 0; i < 5; i++ {
+        ch <- i
+    }
+    close(ch)
+}()
+
+// Bad: Receiver closes the channel
+go func() {
+    for i := 0; i < 5; i++ {
+        ch <- i
+    }
+}()
+// ...
+close(ch) // Dangerous! The sender might still be trying to send
+```
+
+### 2. Use Done Channels for Signaling Completion
+
+When you need bidirectional communication or complex coordination, consider using done channels:
+
+```go
+func worker(jobs <-chan Job, done chan<- bool) {
+    for job := range jobs {
+        process(job)
+    }
+    done <- true
+}
+```
+
+### 3. Use WaitGroups for Multiple Workers
+
+When you have multiple workers, use a WaitGroup to wait for all of them to finish:
+
+```go
+func main() {
+    jobs := make(chan Job)
+    var wg sync.WaitGroup
+    
+    // Start workers
+    for i := 0; i < 3; i++ {
+        wg.Add(1)
+        go func() {
+            defer wg.Done()
+            for job := range jobs {
+                process(job)
+            }
+        }()
+    }
+    
+    // Send jobs
+    // ...
+    
+    // Close the jobs channel
+    close(jobs)
+    
+    // Wait for all workers to finish
+    wg.Wait()
+}
+```
+
+## Summary
+
+- The `range` keyword provides an easy way to iterate over values from a channel
+- It automatically handles waiting for values and detecting channel closure
+- It's more concise and less error-prone than manual receives
+- Always close channels from the sender, not the receiver
+- Combine `range` with WaitGroups for coordinating multiple workers
+
+In the next lab, we'll take a deeper look at unbuffered channels and their synchronization properties. 

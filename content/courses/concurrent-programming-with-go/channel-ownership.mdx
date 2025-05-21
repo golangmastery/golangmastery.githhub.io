@@ -1,0 +1,339 @@
+---
+title: 'Channel Ownership'
+slug: 'channel-ownership'
+---
+
+# Channel Ownership
+
+Channel ownership refers to the principle that a single goroutine should be responsible for creating, writing to, and closing a channel. This pattern helps prevent common errors like writing to closed channels, closing channels multiple times, or deadlocking due to nil channels.
+
+## Why Channel Ownership Matters
+
+Improper channel management can lead to several types of errors:
+
+1. **Deadlocks from nil channels**: Reading from or writing to a nil channel will block forever
+2. **Panics from closing nil channels**: Closing a nil channel causes a panic
+3. **Panics from writing to closed channels**: Sending to a closed channel causes a panic
+4. **Panics from closing channels multiple times**: Closing an already closed channel causes a panic
+
+By establishing clear ownership, we can avoid these errors and create more maintainable concurrent code.
+
+## The Default Value of Channels
+
+The zero value (default value) of a channel is `nil`:
+
+```go
+var ch chan int  // ch is nil
+```
+
+Working with nil channels:
+- Reading from a nil channel will block forever: `<-ch`
+- Writing to a nil channel will block forever: `ch <- 1`
+- Closing a nil channel will panic: `close(ch)`
+
+This makes it important to ensure channels are properly initialized before use.
+
+## The Ownership Pattern
+
+The channel ownership pattern consists of the following principles:
+
+1. **Owner creates the channel**: The goroutine that owns the channel is responsible for creating it
+2. **Owner writes to the channel**: Only the owner should send values to the channel
+3. **Owner closes the channel**: Only the owner should close the channel
+4. **Consumers have a read-only view**: Consumers should only have a receive-only view of the channel
+
+## Example of Channel Ownership
+
+Here's a simple example that demonstrates the channel ownership pattern:
+
+```go
+package main
+
+import "fmt"
+
+// owner is a function that creates, sends to, and closes a channel
+// It returns a receive-only channel to the caller
+func owner() <-chan int {
+    // Create the channel (ownership responsibility #1)
+    ch := make(chan int)
+    
+    // Start a goroutine that sends values and closes
+    go func() {
+        // Send values to the channel (ownership responsibility #2)
+        for i := 0; i < 5; i++ {
+            ch <- i
+        }
+        // Close the channel when done (ownership responsibility #3)
+        close(ch)
+    }()
+    
+    // Return a receive-only channel to prevent the caller from sending or closing
+    return ch
+}
+
+// consumer only receives from the channel
+func consumer(in <-chan int) {
+    // Read values from the channel
+    for value := range in {
+        fmt.Printf("Received: %d\n", value)
+    }
+    fmt.Println("Channel closed, exiting consumer")
+}
+
+func main() {
+    // Get a receive-only channel from the owner
+    ch := owner()
+    
+    // Consume values
+    consumer(ch)
+}
+```
+
+In this example:
+1. The `owner` function creates the channel, starts a goroutine that sends values to it, and closes it when done
+2. It returns a receive-only channel, preventing the caller from sending to or closing the channel
+3. The `consumer` function only receives from the channel and doesn't need to worry about closing it
+
+## Multiple Consumers
+
+The ownership pattern works well with multiple consumers:
+
+```go
+package main
+
+import (
+    "fmt"
+    "sync"
+)
+
+func owner() <-chan int {
+    ch := make(chan int)
+    
+    go func() {
+        defer close(ch)
+        for i := 0; i < 10; i++ {
+            ch <- i
+        }
+    }()
+    
+    return ch
+}
+
+func consumer(id int, in <-chan int, wg *sync.WaitGroup) {
+    defer wg.Done()
+    
+    for value := range in {
+        fmt.Printf("Consumer %d received: %d\n", id, value)
+    }
+    
+    fmt.Printf("Consumer %d exiting\n", id)
+}
+
+func main() {
+    // Get a receive-only channel from the owner
+    ch := owner()
+    
+    // Start multiple consumers
+    var wg sync.WaitGroup
+    for i := 1; i <= 3; i++ {
+        wg.Add(1)
+        go consumer(i, ch, &wg)
+    }
+    
+    // Wait for all consumers to finish
+    wg.Wait()
+}
+```
+
+In this example, multiple consumers receive from the same channel, but none of them needs to worry about closing it. The owner maintains sole responsibility for that.
+
+## Multiple Producers
+
+When you need multiple producers, you have a few options:
+
+### Option 1: Single Owner with Multiple Producer Functions
+
+```go
+package main
+
+import (
+    "fmt"
+    "sync"
+)
+
+func owner() <-chan int {
+    ch := make(chan int)
+    var wg sync.WaitGroup
+    
+    // Start multiple producer functions
+    for i := 1; i <= 3; i++ {
+        wg.Add(1)
+        go func(id int) {
+            defer wg.Done()
+            for j := 0; j < 3; j++ {
+                ch <- id*10 + j
+            }
+        }(i)
+    }
+    
+    // Close the channel when all producers are done
+    go func() {
+        wg.Wait()
+        close(ch)
+    }()
+    
+    return ch
+}
+
+func main() {
+    ch := owner()
+    
+    for v := range ch {
+        fmt.Printf("Received: %d\n", v)
+    }
+}
+```
+
+### Option 2: Fan-in Pattern
+
+Another approach is to have multiple channels, each with its own owner, and then combine them:
+
+```go
+package main
+
+import (
+    "fmt"
+    "sync"
+)
+
+func producer(id int) <-chan int {
+    ch := make(chan int)
+    
+    go func() {
+        defer close(ch)
+        for i := 0; i < 3; i++ {
+            ch <- id*10 + i
+        }
+    }()
+    
+    return ch
+}
+
+func fanIn(channels ...<-chan int) <-chan int {
+    out := make(chan int)
+    var wg sync.WaitGroup
+    
+    // Function to copy from input channel to output channel
+    copy := func(ch <-chan int) {
+        defer wg.Done()
+        for v := range ch {
+            out <- v
+        }
+    }
+    
+    // Start a goroutine for each input channel
+    wg.Add(len(channels))
+    for _, ch := range channels {
+        go copy(ch)
+    }
+    
+    // Close the output channel when all input channels are done
+    go func() {
+        wg.Wait()
+        close(out)
+    }()
+    
+    return out
+}
+
+func main() {
+    // Create multiple producer channels
+    p1 := producer(1)
+    p2 := producer(2)
+    p3 := producer(3)
+    
+    // Combine them into a single channel
+    combined := fanIn(p1, p2, p3)
+    
+    // Consume values from the combined channel
+    for v := range combined {
+        fmt.Printf("Received: %d\n", v)
+    }
+}
+```
+
+In this example, each producer owns its own channel, and the `fanIn` function combines them into a single output channel that it owns.
+
+## Enforcing Ownership with nil Channels
+
+You can use nil channels to enforce ownership rules by disabling sending or receiving temporarily:
+
+```go
+package main
+
+import (
+    "fmt"
+    "time"
+)
+
+func controller() {
+    var sendCh chan int // nil channel - can't send yet
+    var recvCh chan int // nil channel - can't receive yet
+    
+    // Receive goroutine
+    go func() {
+        for v := range recvCh {
+            fmt.Println("Received:", v)
+        }
+    }()
+    
+    // Create the channel and enable sending
+    sendCh = make(chan int)
+    
+    // Allow receiving on the same channel
+    recvCh = sendCh
+    
+    // Send some values
+    for i := 0; i < 5; i++ {
+        sendCh <- i
+    }
+    
+    // Disable sending by setting to nil
+    sendCh = nil
+    
+    // Wait a bit for receiving to complete
+    time.Sleep(time.Second)
+    
+    // Close the channel (only the owner does this)
+    close(recvCh)
+}
+
+func main() {
+    controller()
+}
+```
+
+In this example, the controller function controls when sending and receiving are enabled by setting the respective channel variables to either nil or a valid channel.
+
+## Best Practices
+
+1. **Clear ownership**: Establish which goroutine owns each channel
+2. **Return receive-only channels**: Functions that create channels should return them as receive-only if consumers don't need to send or close
+3. **Document ownership**: Make it clear in comments or documentation which component owns each channel
+4. **Use WaitGroups for multiple producers**: When multiple goroutines send to a single channel, use a WaitGroup to track when they're all done
+5. **Close channels only once**: The owner should be the only one to close the channel, and should only do it once
+6. **Always check for nil channels**: Before using a channel, ensure it's not nil
+
+## Summary
+
+- Channel ownership establishes that one goroutine is responsible for creating, writing to, and closing a channel
+- This pattern prevents common errors like deadlocks and panics
+- The default value of a channel is nil, which blocks forever on send or receive
+- The owner should return a receive-only channel to prevent others from sending or closing
+- The pattern works well with multiple consumers
+- For multiple producers, either have a single owner coordinate multiple producer functions, or use the fan-in pattern
+- Nil channels can be used to temporarily disable sending or receiving
+
+By following the channel ownership pattern, you can write concurrent code that's more robust and easier to reason about.
+
+In the next lab, we'll explore the pipeline pattern, a powerful concurrency pattern that builds on channel ownership. 
