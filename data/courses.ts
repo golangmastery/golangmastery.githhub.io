@@ -23,6 +23,34 @@ const sangamInstructor = {
 
 export const courses: Course[] = [
   {
+    slug: 'quick-start-with-golang',
+    title: 'Quick Start with Golang',
+    description: 'Master Golang fundamentals in this hands-on course designed for beginners. Learn essential concepts like data types, control structures, functions, packages, and data structures through interactive labs and practical challenges.',
+    level: 'Beginner',
+    duration: '4 weeks',
+    image: '/images/courses/quick-start-with-golang.png',
+    price: 'Free',
+    moduleCount: 8,
+    ...sangamInstructor,
+    topics: [
+      'Go installation and setup',
+      'Variables, Constants, and Data Types',
+      'Control Flow: Conditionals and Loops',
+      'Functions and Methods',
+      'Arrays, Slices, and Maps',
+      'Structs and Interfaces',
+      'Packages and Modules',
+      'Error Handling',
+      'Concurrency Basics',
+      'Building a Simple CLI Application'
+    ],
+    requirements: [
+      'Basic programming knowledge in any language',
+      'Familiarity with command line operations',
+      'Computer with minimum 4GB RAM and 10GB free disk space'
+    ]
+  },
+  {
     slug: 'quick-start-with-golang-modules',
     title: 'Quick Start with Golang',
     description: 'Master Golang fundamentals in this hands-on course designed for beginners. Learn essential concepts like data types, control structures, functions, packages, and data structures through interactive labs and practical challenges.',

@@ -222,24 +222,31 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 
 export const getStaticPaths: GetStaticPaths = async () => {
   console.log('[getStaticPaths courses/[...slug]] Generating paths...');
-  const paths = courses.map(course => ({
-    params: { slug: [course.slug] } 
-  }));
-  console.log('[getStaticPaths courses/[...slug]] Generated paths:', JSON.stringify(paths, null, 2));
   
-  // TODO: For a full static export of modules, you would also need to generate paths for each module.
-  // Example:
-  // const allPaths = [];
-  // courses.forEach(course => {
-  //   allPaths.push({ params: { slug: [course.slug] } });
-  //   const modules = getModuleFiles(course.slug); // Assuming this can run at build time
-  //   modules.forEach(module => {
-  //     allPaths.push({ params: { slug: [course.slug, module.slug] } });
-  //   });
-  // });
-
+  // Generate paths for all courses AND their modules
+  const allPaths: { params: { slug: string[] } }[] = [];
+  
+  // Add course overview paths
+  courses.forEach(course => {
+    allPaths.push({ params: { slug: [course.slug] } });
+    
+    // Add module paths for each course
+    try {
+      const modules = getModuleFiles(course.slug);
+      console.log(`[getStaticPaths] Found ${modules.length} modules for course: ${course.slug}`);
+      
+      modules.forEach(module => {
+        allPaths.push({ params: { slug: [course.slug, module.slug] } });
+      });
+    } catch (err) {
+      console.error(`[getStaticPaths] Error getting modules for course ${course.slug}:`, err);
+    }
+  });
+  
+  console.log('[getStaticPaths courses/[...slug]] Generated paths:', JSON.stringify(allPaths, null, 2));
+  
   return {
-    paths: paths, // Or allPaths if you implement module path generation
+    paths: allPaths,
     fallback: false
   };
 };
