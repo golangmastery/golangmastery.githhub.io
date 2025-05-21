@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quick Start with Golang - Golang Mastery</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/github.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <style>
+    .prose {
+      max-width: 65ch;
+      color: #374151;
+    }
+    .prose p {
+      margin-top: 1.25em;
+      margin-bottom: 1.25em;
+    }
+    .prose h1 {
+      font-size: 2.25em;
+      margin-top: 0;
+      margin-bottom: 0.8888889em;
+      line-height: 1.1111111;
+    }
+    .prose h2 {
+      font-size: 1.5em;
+      margin-top: 2em;
+      margin-bottom: 1em;
+      line-height: 1.3333333;
+    }
+    .prose h3 {
+      font-size: 1.25em;
+      margin-top: 1.6em;
+      margin-bottom: 0.6em;
+      line-height: 1.6;
+    }
+    .prose ul {
+      margin-top: 1.25em;
+      margin-bottom: 1.25em;
+      list-style-type: disc;
+      padding-left: 1.625em;
+    }
+    .prose ol {
+      margin-top: 1.25em;
+      margin-bottom: 1.25em;
+      list-style-type: decimal;
+      padding-left: 1.625em;
+    }
+    .prose li {
+      margin-top: 0.5em;
+      margin-bottom: 0.5em;
+    }
+    .prose code {
+      color: #111827;
+      font-weight: 600;
+      font-size: 0.875em;
+    }
+    .prose pre {
+      color: #e5e7eb;
+      background-color: #1f2937;
+      overflow-x: auto;
+      font-size: 0.875em;
+      line-height: 1.7142857;
+      margin-top: 1.7142857em;
+      margin-bottom: 1.7142857em;
+      border-radius: 0.375rem;
+      padding: 0.8571429em 1.1428571em;
+    }
+  </style>
+</head>
+<body class="bg-gray-50">
+  <header class="bg-white shadow-sm">
+    <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+      <a href="/" class="flex items-center space-x-2">
+        <div class="font-bold text-xl text-blue-600">GolangMastery</div>
+      </a>
+      <nav class="hidden md:flex space-x-8">
+        <a href="../index.html#learn" class="text-gray-600 hover:text-blue-600 transition-colors">Learn</a>
+        <a href="../index.html#projects" class="text-gray-600 hover:text-blue-600 transition-colors">Projects</a>
+        <a href="#" class="text-gray-600 hover:text-blue-600 transition-colors">Pricing</a>
+      </nav>
+      <div class="flex space-x-4">
+        <a href="#" class="text-gray-600 hover:text-blue-600 transition-colors">Log In</a>
+        <a href="#" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors">Join For Free</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container mx-auto px-4 py-8">
+    <div class="max-w-4xl mx-auto">
+      <div class="mb-8">
+        <div class="h-64 w-full bg-blue-100 flex items-center justify-center rounded-lg mb-6">
+          <div class="text-blue-600 text-6xl font-bold">Go</div>
+        </div>
+        <h1 class="text-4xl font-bold mb-4">Quick Start with Golang</h1>
+        <div class="flex flex-wrap gap-2 mb-4">
+          <span class="px-3 py-1 text-sm rounded-full bg-green-100 text-green-800">Beginner</span>
+          <span class="px-3 py-1 text-sm bg-gray-100 text-gray-800 rounded-full">Go</span>
+          <span class="px-3 py-1 text-sm bg-gray-100 text-gray-800 rounded-full">Programming</span>
+        </div>
+        <p class="text-lg text-gray-700">
+          Master Golang fundamentals in this hands-on course designed for beginners. Learn essential concepts like data types, control structures, functions, packages, and data structures through interactive labs and practical challenges. Perfect for those starting their Golang programming journey.
+        </p>
+      </div>
+
+      <div class="prose prose-lg max-w-none">
+        <h1>Quick Start with Golang</h1>
+        
+        <p>Welcome to the Quick Start with Golang course! This course is designed to help you learn the fundamentals of Go programming language quickly and effectively.</p>
+        
+        <h2>What You'll Learn</h2>
+        
+        <p>In this course, you'll learn:</p>
+        
+        <ul>
+          <li>The basic syntax and structure of Go programs</li>
+          <li>Variables, data types, and operators</li>
+          <li>Control structures like if statements, loops, and switch cases</li>
+          <li>Functions and methods</li>
+          <li>Data structures including arrays, slices, maps, and structs</li>
+          <li>Pointers and memory management</li>
+          <li>Object-oriented programming with methods and interfaces</li>
+          <li>Error handling</li>
+          <li>Packages and modules</li>
+        </ul>
+        
+        <h2>Prerequisites</h2>
+        
+        <p>This course is designed for beginners, so no prior Go experience is required. However, some programming experience in any language will be helpful.</p>
+        
+        <h2>Course Structure</h2>
+        
+        <p>The course consists of 10 interactive labs, each focusing on a specific aspect of Go programming. Each lab includes:</p>
+        
+        <ul>
+          <li>Theoretical explanations</li>
+          <li>Code examples</li>
+          <li>Hands-on exercises</li>
+          <li>Challenges to test your understanding</li>
+        </ul>
+        
+        <h2>Sample Code</h2>
+        
+        <p>Here's a simple "Hello, World!" program in Go:</p>
+        
+        <pre><code class="language-go">package main
+
+import "fmt"
+
+func main() {
+    fmt.Println("Hello, World!")
+}</code></pre>
+        
+        <p>And here's an example of a function that calculates the factorial of a number:</p>
+        
+        <pre><code class="language-go">package main
+
+import "fmt"
+
+func factorial(n int) int {
+    if n == 0 {
+        return 1
+    }
+    return n * factorial(n-1)
+}
+
+func main() {
+    fmt.Println("Factorial of 5:", factorial(5))
+}</code></pre>
+        
+        <h2>Getting Started</h2>
+        
+        <p>To get started, click on the first lab: "Your First Go Program". This will introduce you to the basic structure of a Go program and help you write your first Go code.</p>
+        
+        <p>Happy coding!</p>
+      </div>
+
+      <div class="mt-12">
+        <h2 class="text-2xl font-bold mb-6">Course Labs</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="border rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow">
+            <h3 class="text-xl font-bold mb-2">1. Your First Go Program</h3>
+            <p class="text-gray-600 mb-4">Write your first Go program and understand the basic structure of Go code.</p>
+            <a href="#" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors inline-block">
+              Start Lab
+            </a>
+          </div>
+          
+          <div class="border rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow">
+            <h3 class="text-xl font-bold mb-2">2. Go Data Types and Variables</h3>
+            <p class="text-gray-600 mb-4">Learn about Go's data types and how to declare and use variables.</p>
+            <a href="#" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors inline-block">
+              Start Lab
+            </a>
+          </div>
+          
+          <div class="border rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow">
+            <h3 class="text-xl font-bold mb-2">3. Control Structures in Go</h3>
+            <p class="text-gray-600 mb-4">Master control flow with if statements, loops, and switch cases in Go.</p>
+            <a href="#" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors inline-block">
+              Start Lab
+            </a>
+          </div>
+          
+          <div class="border rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow">
+            <h3 class="text-xl font-bold mb-2">4. Functions in Go</h3>
+            <p class="text-gray-600 mb-4">Learn how to define and use functions in Go, including multiple return values.</p>
+            <a href="#" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors inline-block">
+              Start Lab
+            </a>
+          </div>
+        </div>
+        
+        <div class="mt-6 text-center">
+          <a href="../index.html" class="text-blue-600 hover:text-blue-800">
+            Back to Home
+          </a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="bg-gray-800 text-white py-12 mt-12">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div>
+          <h3 class="text-xl font-bold mb-4">GolangMastery</h3>
+          <p class="text-gray-300">
+            Learn Golang with hands-on labs and projects. Master Go programming with our structured learning path.
+          </p>
+        </div>
+        <div>
+          <h4 class="text-lg font-semibold mb-4">Learning Path</h4>
+          <ul class="space-y-2">
+            <li>
+              <a href="../index.html#learn" class="text-gray-300 hover:text-white transition-colors">
+                Learn Golang
+              </a>
+            </li>
+            <li>
+              <a href="../index.html#projects" class="text-gray-300 hover:text-white transition-colors">
+                Golang Projects
+              </a>
+            </li>
+            <li>
+              <a href="#" class="text-gray-300 hover:text-white transition-colors">
+                Tutorials
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="text-lg font-semibold mb-4">Resources</h4>
+          <ul class="space-y-2">
+            <li>
+              <a href="#" class="text-gray-300 hover:text-white transition-colors">
+                Golang Playground
+              </a>
+            </li>
+            <li>
+              <a href="#" class="text-gray-300 hover:text-white transition-colors">
+                Golang Cheat Sheet
+              </a>
+            </li>
+            <li>
+              <a href="#" class="text-gray-300 hover:text-white transition-colors">
+                Community Forum
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="text-lg font-semibold mb-4">Connect</h4>
+          <ul class="space-y-2">
+            <li>
+              <a href="#" class="text-gray-300 hover:text-white transition-colors">
+                GitHub
+              </a>
+            </li>
+            <li>
+              <a href="#" class="text-gray-300 hover:text-white transition-colors">
+                Twitter
+              </a>
+            </li>
+            <li>
+              <a href="#" class="text-gray-300 hover:text-white transition-colors">
+                Discord
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="mt-8 pt-8 border-t border-gray-700 text-center text-gray-400">
+        <p>© <span id="current-year"></span> GolangMastery. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Set current year in footer
+    document.getElementById('current-year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>

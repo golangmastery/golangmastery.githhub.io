@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="800px" height="400px" viewBox="0 0 800 400" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Quick Start with Golang</title>
+    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <rect fill="#E7F5FF" x="0" y="0" width="800" height="400"></rect>
+        <text font-family="Arial" font-size="60" font-weight="bold" fill="#00ACD7" x="400" y="180" text-anchor="middle">Quick Start</text>
+        <text font-family="Arial" font-size="60" font-weight="bold" fill="#00ACD7" x="400" y="250" text-anchor="middle">with Golang</text>
+        <circle fill="#00ACD7" cx="175" cy="125" r="50"></circle>
+        <circle fill="#00ACD7" cx="625" cy="125" r="50"></circle>
+        <rect stroke="#00ACD7" stroke-width="8" x="40" y="40" width="720" height="320" rx="8"></rect>
+    </g>
+</svg> 

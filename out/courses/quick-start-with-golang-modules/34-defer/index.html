@@ -1,0 +1,977 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8" data-next-head=""/><meta name="viewport" content="width=device-width, initial-scale=1" data-next-head=""/><link rel="icon" href="/favicon.ico" data-next-head=""/><title data-next-head="">Defer | Golang Mastery</title><meta name="description" content="Learn Defer in the Golang Mastery course" data-next-head=""/><base href="/golangmastery.github.io/"/><link rel="preload" href="/_next/static/css/15d92a0900ea9955.css" as="style"/><link rel="stylesheet" href="/_next/static/css/15d92a0900ea9955.css" data-n-g=""/><noscript data-n-css=""></noscript><script defer="" nomodule="" src="/_next/static/chunks/polyfills-42372ed130431b0a.js"></script><script src="/_next/static/chunks/webpack-0d0518cf5dc92fa8.js" defer=""></script><script src="/_next/static/chunks/framework-af011a5bfb9eaf36.js" defer=""></script><script src="/_next/static/chunks/main-c9de05bac6222629.js" defer=""></script><script src="/_next/static/chunks/pages/_app-b61fe28f05798ff6.js" defer=""></script><script src="/_next/static/chunks/8-f075bb13003a614f.js" defer=""></script><script src="/_next/static/chunks/314-b39db84a8fffc422.js" defer=""></script><script src="/_next/static/chunks/pages/courses/%5B...slug%5D-42a518c846d644a0.js" defer=""></script><script src="/_next/static/d6GSiC22taG3aPNr7myTt/_buildManifest.js" defer=""></script><script src="/_next/static/d6GSiC22taG3aPNr7myTt/_ssgManifest.js" defer=""></script><style id="__jsx-7516fca1c8381206">@-webkit-keyframes fade-in{from{opacity:0;-webkit-transform:translatey(-5px);transform:translatey(-5px)}to{opacity:1;-webkit-transform:translatey(0);transform:translatey(0)}}@-moz-keyframes fade-in{from{opacity:0;-moz-transform:translatey(-5px);transform:translatey(-5px)}to{opacity:1;-moz-transform:translatey(0);transform:translatey(0)}}@-o-keyframes fade-in{from{opacity:0;-o-transform:translatey(-5px);transform:translatey(-5px)}to{opacity:1;-o-transform:translatey(0);transform:translatey(0)}}@keyframes fade-in{from{opacity:0;-webkit-transform:translatey(-5px);-moz-transform:translatey(-5px);-o-transform:translatey(-5px);transform:translatey(-5px)}to{opacity:1;-webkit-transform:translatey(0);-moz-transform:translatey(0);-o-transform:translatey(0);transform:translatey(0)}}.animate-fade-in.jsx-7516fca1c8381206{-webkit-animation:fade-in.2s ease-out forwards;-moz-animation:fade-in.2s ease-out forwards;-o-animation:fade-in.2s ease-out forwards;animation:fade-in.2s ease-out forwards}</style></head><body><div id="__next"><div class="
+      min-h-screen w-full 
+      bg-gray-50 dark:bg-gray-900
+      
+    "><div class="absolute inset-0 z-0 overflow-hidden pointer-events-none"><div class="absolute top-0 left-0 w-full h-full bg-[url(&#x27;/subtle-pattern.png&#x27;)] opacity-[0.02] dark:opacity-[0.03]"></div></div><div class="relative z-10"><div class="container mx-auto will-change-transform max-w-screen-xl px-6 sm:px-10 lg:px-12 rounded-none shadow-none animate-fade-in opacity-0 translate-y-2 transition duration-300 ease-in-out my-8"><div class="" data-animated="false"><div class="glass-effect p-6 sm:p-8 rounded-xl content-animate-in"><div class="transition-opacity duration-300 opacity-100"><div class="flex flex-col md:flex-row max-w-screen-xl mx-auto gap-6 px-4"><div class="transition-transform duration-300 ease-out -translate-x-4 opacity-0"><div class="md:hidden p-4 sticky top-0 bg-white dark:bg-gray-800 z-10 shadow-sm rounded-md dark:shadow-gray-800/40 border border-gray-200 dark:border-gray-700"><button class="w-full flex items-center justify-between px-4 py-2 rounded-md bg-gray-50 dark:bg-gray-700 text-gray-700 dark:text-gray-200" aria-expanded="false"><span class="font-medium">Defer</span><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500 dark:text-gray-400 transition-transform duration-300 " fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></button></div><aside class="
+        hidden 
+        md:block 
+        bg-white 
+        dark:bg-gray-800
+        border
+        border-gray-200 
+        dark:border-gray-700
+        w-full 
+        md:w-64 
+        md:sticky 
+        md:top-4 
+        md:self-start 
+        md:h-[calc(100vh-4rem)] 
+        md:overflow-y-auto
+        shadow-sm
+        rounded-md
+        transition-all
+        duration-200
+      "><div class="p-4 border-b border-gray-200 dark:border-gray-700"><div class="flex justify-between items-center mb-3"><h3 class="text-sm font-medium text-gray-700 dark:text-gray-300">Course Progress</h3><span class="bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-medium text-xs px-2 py-1 rounded-md">0<!-- -->%</span></div><div class="w-full bg-gray-100 dark:bg-gray-700 rounded-full h-2 overflow-hidden"><div class="h-full rounded-full transition-all duration-500 ease-out bg-gray-400 dark:bg-gray-400" style="width:0%"></div></div><div class="text-xs text-gray-500 dark:text-gray-400 mt-2 flex justify-between"><span>0<!-- --> of <!-- -->103<!-- --> completed</span></div></div><nav class="p-2"><ul class="space-y-1"><li style="transition-delay:0ms" class="transition-all duration-200 ease-out"><a class="
+                      group flex items-center py-2 px-3 rounded-md text-sm
+                      text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700
+                    " href="/courses/quick-start-with-golang-modules/01-introduction-to-go/"><span class="
+                        flex items-center justify-center w-5 h-5 rounded-md mr-3 text-xs
+                        bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400
+                      ">1</span><span class="flex-grow truncate">Introduction to Go</span><button class="
+                        w-5 h-5 rounded-sm border flex items-center justify-center transition-all duration-200
+                        border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-white group-hover:border-gray-400 dark:group-hover:border-gray-500
+                      " aria-label="Mark as complete"></button></a></li><li style="transition-delay:20ms" class="transition-all duration-200 ease-out"><a class="
+                      group flex items-center py-2 px-3 rounded-md text-sm
+                      text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700
+                    " href="/courses/quick-start-with-golang-modules/02-lets-start-with-first-hello-world-program/"><span class="
+                        flex items-center justify-center w-5 h-5 rounded-md mr-3 text-xs
+                        bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400
+                      ">2</span><span class="flex-grow truncate">Lets Start With First Hello world Program</span><button class="
+                        w-5 h-5 rounded-sm border flex items-center justify-center transition-all duration-200
+                        border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-white group-hover:border-gray-400 dark:group-hover:border-gray-500
+                      " aria-label="Mark as complete"></button></a></li><li style="transition-delay:40ms" class="transition-all duration-200 ease-out"><a class="
+                      group flex items-center py-2 px-3 rounded-md text-sm
+                      text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700
+                    " href="/courses/quick-start-with-golang-modules/03-numeral-systems---decimal/"><span class="
+                        flex items-center justify-center w-5 h-5 rounded-md mr-3 text-xs
+                        bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400
+                      ">3</span><span class="flex-grow truncate">Numeral Systems - Decimal</span><button class="
+                        w-5 h-5 rounded-sm border flex items-center justify-center transition-all duration-200
+                        border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-white group-hover:border-gray-400 dark:group-hover:border-gray-500
+                      " aria-label="Mark as complete"></button></a></li><li style="transition-delay:60ms" class="transition-all duration-200 ease-out"><a class="
+                      group flex items-center py-2 px-3 rounded-md text-sm
+                      text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700
+                    " href="/courses/quick-start-with-golang-modules/04-numeral-systems---binary/"><span class="
+                        flex items-center justify-center w-5 h-5 rounded-md mr-3 text-xs
+                        bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400
+                      ">4</span><span class="flex-grow truncate">Numeral Systems - Binary</span><button class="
+                        w-5 h-5 rounded-sm border flex items-center justify-center transition-all duration-200
+                        border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-white group-hover:border-gray-400 dark:group-hover:border-gray-500
+                      " aria-label="Mark as complete"></button></a></li><li style="transition-delay:80ms" class="transition-all duration-200 ease-out"><a class="
+                      group flex items-center py-2 px-3 rounded-md text-sm
+                      text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700
+                    " href="/courses/quick-start-with-golang-modules/05-numeral-systems---hexadecimal/"><span class="
+                        flex items-center justify-center w-5 h-5 rounded-md mr-3 text-xs
+                        bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400
+                      ">5</span><span class="flex-grow truncate">Numeral Systems - Hexadecimal</span><button class="
+                        w-5 h-5 rounded-sm border flex items-center justify-center transition-all duration-200
+                        border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-white group-hover:border-gray-400 dark:group-hover:border-gray-500
+                      " aria-label="Mark as complete"></button></a></li><li style="transition-delay:100ms" class="transition-all duration-200 ease-out"><a class="
+                      group flex items-center py-2 px-3 rounded-md text-sm
+                      text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700
+                    " href="/courses/quick-start-with-golang-modules/06-numeral-systems---loop/"><span class="
+                        flex items-center justify-center w-5 h-5 rounded-md mr-3 text-xs
+                        bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400
+                      ">6</span><span class="flex-grow truncate">Numeral Systems - Loop</span><button class="
+                        w-5 h-5 rounded-sm border flex items-center justify-center transition-all duration-200
+                        border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-white group-hover:border-gray-400 dark:group-hover:border-gray-500
+                      " aria-label="Mark as complete"></button></a></li><li style="transition-delay:120ms" class="transition-all duration-200 ease-out"><a class="
+                      group flex items-center py-2 px-3 rounded-md text-sm
+                      text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700
+                    " href="/courses/quick-start-with-golang-modules/07-numeral-systems-utf-8/"><span class="
+                        flex items-center justify-center w-5 h-5 rounded-md mr-3 text-xs
+                        bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400
+                      ">7</span><span class="flex-grow truncate">Numeral Systems UTF-8</span><button class="
+                        w-5 h-5 rounded-sm border flex items-center justify-center transition-all duration-200
+                        border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-white group-hover:border-gray-400 dark:group-hover:border-gray-500
+                      " aria-label="Mark as complete"></button></a></li><li style="transition-delay:140ms" class="transition-all duration-200 ease-out"><a class="
+                      group flex items-center py-2 px-3 rounded-md text-sm
+                      text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700
+                    " href="/courses/quick-start-with-golang-modules/08-short-variable-declarations/"><span class="
+                        flex items-center justify-center w-5 h-5 rounded-md mr-3 text-xs
+                        bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400
+                      ">8</span><span class="flex-grow truncate">Short variable declarations</span><button class="
+                        w-5 h-5 rounded-sm border flex items-center justify-center transition-all duration-200
+                        border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-white group-hover:border-gray-400 dark:group-hover:border-gray-500
+                      " aria-label="Mark as complete"></button></a></li><li style="transition-delay:160ms" class="transition-all duration-200 ease-out"><a class="
+                      group flex items-center py-2 px-3 rounded-md text-sm
+                      text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700
+                    " href="/courses/quick-start-with-golang-modules/09-variable-with-zero-value/"><span class="
+                        flex items-center justify-center w-5 h-5 rounded-md mr-3 text-xs
+                        bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400
+                      ">9</span><span class="flex-grow truncate">Variable with zero value</span><button class="
+                        w-5 h-5 rounded-sm border flex items-center justify-center transition-all duration-200
+                        border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-white group-hover:border-gray-400 dark:group-hover:border-gray-500
+                      " aria-label="Mark as complete"></button></a></li><li style="transition-delay:180ms" class="transition-all duration-200 ease-out"><a class="
+                      group flex items-center py-2 px-3 rounded-md text-sm
+                      text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700
+                    " href="/courses/quick-start-with-golang-modules/10-deep-drive-on-variables/"><span class="
+                        flex items-center justify-center w-5 h-5 rounded-md mr-3 text-xs
+                        bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400
+                      ">10</span><span class="flex-grow truncate">Deep Drive on Variables</span><button class="
+                        w-5 h-5 rounded-sm border flex items-center justify-center transition-all duration-200
+                        border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-white group-hover:border-gray-400 dark:group-hover:border-gray-500
+                      " aria-label="Mark as complete"></button></a></li><li style="transition-delay:200ms" class="transition-all duration-200 ease-out"><a class="
+                      group flex items-center py-2 px-3 rounded-md text-sm
+                      text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700
+                    " href="/courses/quick-start-with-golang-modules/11-hello-world-in-go/"><span class="
+                        flex items-center justify-center w-5 h-5 rounded-md mr-3 text-xs
+                        bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400
+                      ">11</span><span class="flex-grow truncate">Hello World in Go</span><button class="
+                        w-5 h-5 rounded-sm border flex items-center justify-center transition-all duration-200
+                        border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-white group-hover:border-gray-400 dark:group-hover:border-gray-500
+                      " aria-label="Mark as complete"></button></a></li><li style="transition-delay:220ms" class="transition-all duration-200 ease-out"><a class="
+                      group flex items-center py-2 px-3 rounded-md text-sm
+                      text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700
+                    " href="/courses/quick-start-with-golang-modules/12-deep-drive-on-constants/"><span class="
+                        flex items-center justify-center w-5 h-5 rounded-md mr-3 text-xs
+                        bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400
+                      ">12</span><span class="flex-grow truncate">Deep Drive On Constants</span><button class="
+                        w-5 h-5 rounded-sm border flex items-center justify-center transition-all duration-200
+                        border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-white group-hover:border-gray-400 dark:group-hover:border-gray-500
+                      " aria-label="Mark as complete"></button></a></li><li style="transition-delay:240ms" class="transition-all duration-200 ease-out"><a class="
+                      group flex items-center py-2 px-3 rounded-md text-sm
+                      text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700
+                    " href="/courses/quick-start-with-golang-modules/13-loop-init-condition-post/"><span class="
+                        flex items-center justify-center w-5 h-5 rounded-md mr-3 text-xs
+                        bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400
+                      ">13</span><span class="flex-grow truncate">Loop  Init, Condition, Post</span><button class="
+                        w-5 h-5 rounded-sm border flex items-center justify-center transition-all duration-200
+                        border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-white group-hover:border-gray-400 dark:group-hover:border-gray-500
+                      " aria-label="Mark as complete"></button></a></li><li style="transition-delay:260ms" class="transition-all duration-200 ease-out"><a class="
+                      group flex items-center py-2 px-3 rounded-md text-sm
+                      text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700
+                    " href="/courses/quick-start-with-golang-modules/14-loop---nested-loops/"><span class="
+                        flex items-center justify-center w-5 h-5 rounded-md mr-3 text-xs
+                        bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400
+                      ">14</span><span class="flex-grow truncate">Loop - Nested Loops</span><button class="
+                        w-5 h-5 rounded-sm border flex items-center justify-center transition-all duration-200
+                        border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-white group-hover:border-gray-400 dark:group-hover:border-gray-500
+                      " aria-label="Mark as complete"></button></a></li><li style="transition-delay:280ms" class="transition-all duration-200 ease-out"><a class="
+                      group flex items-center py-2 px-3 rounded-md text-sm
+                      text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700
+                    " href="/courses/quick-start-with-golang-modules/15-loop---for-statement/"><span class="
+                        flex items-center justify-center w-5 h-5 rounded-md mr-3 text-xs
+                        bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400
+                      ">15</span><span class="flex-grow truncate">Loop - For Statement</span><button class="
+                        w-5 h-5 rounded-sm border flex items-center justify-center transition-all duration-200
+                        border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-white group-hover:border-gray-400 dark:group-hover:border-gray-500
+                      " aria-label="Mark as complete"></button></a></li><li style="transition-delay:300ms" class="transition-all duration-200 ease-out"><a class="
+                      group flex items-center py-2 px-3 rounded-md text-sm
+                      text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700
+                    " href="/courses/quick-start-with-golang-modules/16-loop---break-continue/"><span class="
+                        flex items-center justify-center w-5 h-5 rounded-md mr-3 text-xs
+                        bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400
+                      ">16</span><span class="flex-grow truncate">Loop - Break &amp; Continue</span><button class="
+                        w-5 h-5 rounded-sm border flex items-center justify-center transition-all duration-200
+                        border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-white group-hover:border-gray-400 dark:group-hover:border-gray-500
+                      " aria-label="Mark as complete"></button></a></li><li style="transition-delay:320ms" class="transition-all duration-200 ease-out"><a class="
+                      group flex items-center py-2 px-3 rounded-md text-sm
+                      text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700
+                    " href="/courses/quick-start-with-golang-modules/17-generate-random-number-with-mathcryptorand-in-go/"><span class="
+                        flex items-center justify-center w-5 h-5 rounded-md mr-3 text-xs
+                        bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400
+                      ">17</span><span class="flex-grow truncate">Generate Random number with math/crypto/rand in Go</span><button class="
+                        w-5 h-5 rounded-sm border flex items-center justify-center transition-all duration-200
+                        border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-white group-hover:border-gray-400 dark:group-hover:border-gray-500
+                      " aria-label="Mark as complete"></button></a></li><li style="transition-delay:340ms" class="transition-all duration-200 ease-out"><a class="
+                      group flex items-center py-2 px-3 rounded-md text-sm
+                      text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700
+                    " href="/courses/quick-start-with-golang-modules/18-loop---printing-ascii/"><span class="
+                        flex items-center justify-center w-5 h-5 rounded-md mr-3 text-xs
+                        bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400
+                      ">18</span><span class="flex-grow truncate">Loop - Printing ASCII</span><button class="
+                        w-5 h-5 rounded-sm border flex items-center justify-center transition-all duration-200
+                        border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-white group-hover:border-gray-400 dark:group-hover:border-gray-500
+                      " aria-label="Mark as complete"></button></a></li><li style="transition-delay:360ms" class="transition-all duration-200 ease-out"><a class="
+                      group flex items-center py-2 px-3 rounded-md text-sm
+                      text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700
+                    " href="/courses/quick-start-with-golang-modules/19-conditional---if-statement/"><span class="
+                        flex items-center justify-center w-5 h-5 rounded-md mr-3 text-xs
+                        bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400
+                      ">19</span><span class="flex-grow truncate">Conditional - If Statement</span><button class="
+                        w-5 h-5 rounded-sm border flex items-center justify-center transition-all duration-200
+                        border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-white group-hover:border-gray-400 dark:group-hover:border-gray-500
+                      " aria-label="Mark as complete"></button></a></li><li style="transition-delay:380ms" class="transition-all duration-200 ease-out"><a class="
+                      group flex items-center py-2 px-3 rounded-md text-sm
+                      text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700
+                    " href="/courses/quick-start-with-golang-modules/20-conditional---if-else-if-else/"><span class="
+                        flex items-center justify-center w-5 h-5 rounded-md mr-3 text-xs
+                        bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400
+                      ">20</span><span class="flex-grow truncate">Conditional - If, Else if, Else</span><button class="
+                        w-5 h-5 rounded-sm border flex items-center justify-center transition-all duration-200
+                        border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-white group-hover:border-gray-400 dark:group-hover:border-gray-500
+                      " aria-label="Mark as complete"></button></a></li><li style="transition-delay:400ms" class="transition-all duration-200 ease-out"><a class="
+                      group flex items-center py-2 px-3 rounded-md text-sm
+                      text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700
+                    " href="/courses/quick-start-with-golang-modules/21-loop-conditional-modulus/"><span class="
+                        flex items-center justify-center w-5 h-5 rounded-md mr-3 text-xs
+                        bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400
+                      ">21</span><span class="flex-grow truncate">Loop, Conditional, Modulus</span><button class="
+                        w-5 h-5 rounded-sm border flex items-center justify-center transition-all duration-200
+                        border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-white group-hover:border-gray-400 dark:group-hover:border-gray-500
+                      " aria-label="Mark as complete"></button></a></li><li style="transition-delay:420ms" class="transition-all duration-200 ease-out"><a class="
+                      group flex items-center py-2 px-3 rounded-md text-sm
+                      text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700
+                    " href="/courses/quick-start-with-golang-modules/22-variables-and-data-types/"><span class="
+                        flex items-center justify-center w-5 h-5 rounded-md mr-3 text-xs
+                        bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400
+                      ">22</span><span class="flex-grow truncate">Variables and Data Types</span><button class="
+                        w-5 h-5 rounded-sm border flex items-center justify-center transition-all duration-200
+                        border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-white group-hover:border-gray-400 dark:group-hover:border-gray-500
+                      " aria-label="Mark as complete"></button></a></li><li style="transition-delay:440ms" class="transition-all duration-200 ease-out"><a class="
+                      group flex items-center py-2 px-3 rounded-md text-sm
+                      text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700
+                    " href="/courses/quick-start-with-golang-modules/23-conditional---switch-statement/"><span class="
+                        flex items-center justify-center w-5 h-5 rounded-md mr-3 text-xs
+                        bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400
+                      ">23</span><span class="flex-grow truncate">Conditional - Switch Statement</span><button class="
+                        w-5 h-5 rounded-sm border flex items-center justify-center transition-all duration-200
+                        border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-white group-hover:border-gray-400 dark:group-hover:border-gray-500
+                      " aria-label="Mark as complete"></button></a></li><li style="transition-delay:460ms" class="transition-all duration-200 ease-out"><a class="
+                      group flex items-center py-2 px-3 rounded-md text-sm
+                      text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700
+                    " href="/courses/quick-start-with-golang-modules/24-conditional---switch-statement-documentation/"><span class="
+                        flex items-center justify-center w-5 h-5 rounded-md mr-3 text-xs
+                        bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400
+                      ">24</span><span class="flex-grow truncate">Conditional - Switch Statement Documentation</span><button class="
+                        w-5 h-5 rounded-sm border flex items-center justify-center transition-all duration-200
+                        border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-white group-hover:border-gray-400 dark:group-hover:border-gray-500
+                      " aria-label="Mark as complete"></button></a></li><li style="transition-delay:480ms" class="transition-all duration-200 ease-out"><a class="
+                      group flex items-center py-2 px-3 rounded-md text-sm
+                      text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700
+                    " href="/courses/quick-start-with-golang-modules/25-conditional-logic-operators/"><span class="
+                        flex items-center justify-center w-5 h-5 rounded-md mr-3 text-xs
+                        bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400
+                      ">25</span><span class="flex-grow truncate">Conditional Logic Operators</span><button class="
+                        w-5 h-5 rounded-sm border flex items-center justify-center transition-all duration-200
+                        border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-white group-hover:border-gray-400 dark:group-hover:border-gray-500
+                      " aria-label="Mark as complete"></button></a></li><li style="transition-delay:500ms" class="transition-all duration-200 ease-out"><a class="
+                      group flex items-center py-2 px-3 rounded-md text-sm
+                      text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700
+                    " href="/courses/quick-start-with-golang-modules/26-string-type/"><span class="
+                        flex items-center justify-center w-5 h-5 rounded-md mr-3 text-xs
+                        bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400
+                      ">26</span><span class="flex-grow truncate">String Type</span><button class="
+                        w-5 h-5 rounded-sm border flex items-center justify-center transition-all duration-200
+                        border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-white group-hover:border-gray-400 dark:group-hover:border-gray-500
+                      " aria-label="Mark as complete"></button></a></li><li style="transition-delay:520ms" class="transition-all duration-200 ease-out"><a class="
+                      group flex items-center py-2 px-3 rounded-md text-sm
+                      text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700
+                    " href="/courses/quick-start-with-golang-modules/27-bool-type/"><span class="
+                        flex items-center justify-center w-5 h-5 rounded-md mr-3 text-xs
+                        bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400
+                      ">27</span><span class="flex-grow truncate">Bool Type</span><button class="
+                        w-5 h-5 rounded-sm border flex items-center justify-center transition-all duration-200
+                        border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-white group-hover:border-gray-400 dark:group-hover:border-gray-500
+                      " aria-label="Mark as complete"></button></a></li><li style="transition-delay:540ms" class="transition-all duration-200 ease-out"><a class="
+                      group flex items-center py-2 px-3 rounded-md text-sm
+                      text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700
+                    " href="/courses/quick-start-with-golang-modules/28-structs/"><span class="
+                        flex items-center justify-center w-5 h-5 rounded-md mr-3 text-xs
+                        bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400
+                      ">28</span><span class="flex-grow truncate">Structs</span><button class="
+                        w-5 h-5 rounded-sm border flex items-center justify-center transition-all duration-200
+                        border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-white group-hover:border-gray-400 dark:group-hover:border-gray-500
+                      " aria-label="Mark as complete"></button></a></li><li style="transition-delay:560ms" class="transition-all duration-200 ease-out"><a class="
+                      group flex items-center py-2 px-3 rounded-md text-sm
+                      text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700
+                    " href="/courses/quick-start-with-golang-modules/29-struct-literal/"><span class="
+                        flex items-center justify-center w-5 h-5 rounded-md mr-3 text-xs
+                        bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400
+                      ">29</span><span class="flex-grow truncate">Struct Literal</span><button class="
+                        w-5 h-5 rounded-sm border flex items-center justify-center transition-all duration-200
+                        border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-white group-hover:border-gray-400 dark:group-hover:border-gray-500
+                      " aria-label="Mark as complete"></button></a></li><li style="transition-delay:580ms" class="transition-all duration-200 ease-out"><a class="
+                      group flex items-center py-2 px-3 rounded-md text-sm
+                      text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700
+                    " href="/courses/quick-start-with-golang-modules/30-pointer-to-struct/"><span class="
+                        flex items-center justify-center w-5 h-5 rounded-md mr-3 text-xs
+                        bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400
+                      ">30</span><span class="flex-grow truncate">Pointer to struct</span><button class="
+                        w-5 h-5 rounded-sm border flex items-center justify-center transition-all duration-200
+                        border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-white group-hover:border-gray-400 dark:group-hover:border-gray-500
+                      " aria-label="Mark as complete"></button></a></li><li style="transition-delay:600ms" class="transition-all duration-200 ease-out"><a class="
+                      group flex items-center py-2 px-3 rounded-md text-sm
+                      text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700
+                    " href="/courses/quick-start-with-golang-modules/31-conversion-not-casting/"><span class="
+                        flex items-center justify-center w-5 h-5 rounded-md mr-3 text-xs
+                        bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400
+                      ">31</span><span class="flex-grow truncate">Conversion, Not Casting</span><button class="
+                        w-5 h-5 rounded-sm border flex items-center justify-center transition-all duration-200
+                        border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-white group-hover:border-gray-400 dark:group-hover:border-gray-500
+                      " aria-label="Mark as complete"></button></a></li><li style="transition-delay:620ms" class="transition-all duration-200 ease-out"><a class="
+                      group flex items-center py-2 px-3 rounded-md text-sm
+                      text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700
+                    " href="/courses/quick-start-with-golang-modules/32-creating-your-own-type/"><span class="
+                        flex items-center justify-center w-5 h-5 rounded-md mr-3 text-xs
+                        bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400
+                      ">32</span><span class="flex-grow truncate">Creating Your Own Type</span><button class="
+                        w-5 h-5 rounded-sm border flex items-center justify-center transition-all duration-200
+                        border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-white group-hover:border-gray-400 dark:group-hover:border-gray-500
+                      " aria-label="Mark as complete"></button></a></li><li style="transition-delay:640ms" class="transition-all duration-200 ease-out"><a class="
+                      group flex items-center py-2 px-3 rounded-md text-sm
+                      text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700
+                    " href="/courses/quick-start-with-golang-modules/33-control-structures/"><span class="
+                        flex items-center justify-center w-5 h-5 rounded-md mr-3 text-xs
+                        bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400
+                      ">33</span><span class="flex-grow truncate">Control Structures</span><button class="
+                        w-5 h-5 rounded-sm border flex items-center justify-center transition-all duration-200
+                        border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-white group-hover:border-gray-400 dark:group-hover:border-gray-500
+                      " aria-label="Mark as complete"></button></a></li><li style="transition-delay:660ms" class="transition-all duration-200 ease-out"><a class="
+                      group flex items-center py-2 px-3 rounded-md text-sm
+                      bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white font-medium
+                    " href="/courses/quick-start-with-golang-modules/34-defer/"><span class="
+                        flex items-center justify-center w-5 h-5 rounded-md mr-3 text-xs
+                        bg-gray-200 dark:bg-gray-600 text-gray-700 dark:text-gray-200
+                      ">34</span><span class="flex-grow truncate">Defer</span><button class="
+                        w-5 h-5 rounded-sm border flex items-center justify-center transition-all duration-200
+                        border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-white group-hover:border-gray-400 dark:group-hover:border-gray-500
+                      " aria-label="Mark as complete"></button></a></li><li style="transition-delay:680ms" class="transition-all duration-200 ease-out"><a class="
+                      group flex items-center py-2 px-3 rounded-md text-sm
+                      text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700
+                    " href="/courses/quick-start-with-golang-modules/35-stacking-defers/"><span class="
+                        flex items-center justify-center w-5 h-5 rounded-md mr-3 text-xs
+                        bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400
+                      ">35</span><span class="flex-grow truncate">Stacking defers</span><button class="
+                        w-5 h-5 rounded-sm border flex items-center justify-center transition-all duration-200
+                        border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-white group-hover:border-gray-400 dark:group-hover:border-gray-500
+                      " aria-label="Mark as complete"></button></a></li><li style="transition-delay:700ms" class="transition-all duration-200 ease-out"><a class="
+                      group flex items-center py-2 px-3 rounded-md text-sm
+                      text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700
+                    " href="/courses/quick-start-with-golang-modules/36-pointer/"><span class="
+                        flex items-center justify-center w-5 h-5 rounded-md mr-3 text-xs
+                        bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400
+                      ">36</span><span class="flex-grow truncate">Pointer</span><button class="
+                        w-5 h-5 rounded-sm border flex items-center justify-center transition-all duration-200
+                        border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-white group-hover:border-gray-400 dark:group-hover:border-gray-500
+                      " aria-label="Mark as complete"></button></a></li><li style="transition-delay:720ms" class="transition-all duration-200 ease-out"><a class="
+                      group flex items-center py-2 px-3 rounded-md text-sm
+                      text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700
+                    " href="/courses/quick-start-with-golang-modules/37-prefix-suffix/"><span class="
+                        flex items-center justify-center w-5 h-5 rounded-md mr-3 text-xs
+                        bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400
+                      ">37</span><span class="flex-grow truncate">Prefix Suffix</span><button class="
+                        w-5 h-5 rounded-sm border flex items-center justify-center transition-all duration-200
+                        border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-white group-hover:border-gray-400 dark:group-hover:border-gray-500
+                      " aria-label="Mark as complete"></button></a></li><li style="transition-delay:740ms" class="transition-all duration-200 ease-out"><a class="
+                      group flex items-center py-2 px-3 rounded-md text-sm
+                      text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700
+                    " href="/courses/quick-start-with-golang-modules/38-conversion-between-array-and-slice/"><span class="
+                        flex items-center justify-center w-5 h-5 rounded-md mr-3 text-xs
+                        bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400
+                      ">38</span><span class="flex-grow truncate">Conversion between array and slice</span><button class="
+                        w-5 h-5 rounded-sm border flex items-center justify-center transition-all duration-200
+                        border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-white group-hover:border-gray-400 dark:group-hover:border-gray-500
+                      " aria-label="Mark as complete"></button></a></li><li style="transition-delay:760ms" class="transition-all duration-200 ease-out"><a class="
+                      group flex items-center py-2 px-3 rounded-md text-sm
+                      text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700
+                    " href="/courses/quick-start-with-golang-modules/39-methods/"><span class="
+                        flex items-center justify-center w-5 h-5 rounded-md mr-3 text-xs
+                        bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400
+                      ">39</span><span class="flex-grow truncate">methods</span><button class="
+                        w-5 h-5 rounded-sm border flex items-center justify-center transition-all duration-200
+                        border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-white group-hover:border-gray-400 dark:group-hover:border-gray-500
+                      " aria-label="Mark as complete"></button></a></li><li style="transition-delay:780ms" class="transition-all duration-200 ease-out"><a class="
+                      group flex items-center py-2 px-3 rounded-md text-sm
+                      text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700
+                    " href="/courses/quick-start-with-golang-modules/40-variadic-function/"><span class="
+                        flex items-center justify-center w-5 h-5 rounded-md mr-3 text-xs
+                        bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400
+                      ">40</span><span class="flex-grow truncate">variadic function</span><button class="
+                        w-5 h-5 rounded-sm border flex items-center justify-center transition-all duration-200
+                        border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-white group-hover:border-gray-400 dark:group-hover:border-gray-500
+                      " aria-label="Mark as complete"></button></a></li><li style="transition-delay:800ms" class="transition-all duration-200 ease-out"><a class="
+                      group flex items-center py-2 px-3 rounded-md text-sm
+                      text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700
+                    " href="/courses/quick-start-with-golang-modules/41-init-function/"><span class="
+                        flex items-center justify-center w-5 h-5 rounded-md mr-3 text-xs
+                        bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400
+                      ">41</span><span class="flex-grow truncate">init Function</span><button class="
+                        w-5 h-5 rounded-sm border flex items-center justify-center transition-all duration-200
+                        border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-white group-hover:border-gray-400 dark:group-hover:border-gray-500
+                      " aria-label="Mark as complete"></button></a></li><li style="transition-delay:820ms" class="transition-all duration-200 ease-out"><a class="
+                      group flex items-center py-2 px-3 rounded-md text-sm
+                      text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700
+                    " href="/courses/quick-start-with-golang-modules/42-command-line-arguments-and-file-io/"><span class="
+                        flex items-center justify-center w-5 h-5 rounded-md mr-3 text-xs
+                        bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400
+                      ">42</span><span class="flex-grow truncate">Command Line Arguments and File I/O</span><button class="
+                        w-5 h-5 rounded-sm border flex items-center justify-center transition-all duration-200
+                        border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-white group-hover:border-gray-400 dark:group-hover:border-gray-500
+                      " aria-label="Mark as complete"></button></a></li><li style="transition-delay:840ms" class="transition-all duration-200 ease-out"><a class="
+                      group flex items-center py-2 px-3 rounded-md text-sm
+                      text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700
+                    " href="/courses/quick-start-with-golang-modules/43-what-is-interface-/"><span class="
+                        flex items-center justify-center w-5 h-5 rounded-md mr-3 text-xs
+                        bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400
+                      ">43</span><span class="flex-grow truncate">what is interface ?</span><button class="
+                        w-5 h-5 rounded-sm border flex items-center justify-center transition-all duration-200
+                        border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-white group-hover:border-gray-400 dark:group-hover:border-gray-500
+                      " aria-label="Mark as complete"></button></a></li><li style="transition-delay:860ms" class="transition-all duration-200 ease-out"><a class="
+                      group flex items-center py-2 px-3 rounded-md text-sm
+                      text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700
+                    " href="/courses/quick-start-with-golang-modules/44-functions-in-go/"><span class="
+                        flex items-center justify-center w-5 h-5 rounded-md mr-3 text-xs
+                        bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400
+                      ">44</span><span class="flex-grow truncate">Functions in Go</span><button class="
+                        w-5 h-5 rounded-sm border flex items-center justify-center transition-all duration-200
+                        border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-white group-hover:border-gray-400 dark:group-hover:border-gray-500
+                      " aria-label="Mark as complete"></button></a></li><li style="transition-delay:880ms" class="transition-all duration-200 ease-out"><a class="
+                      group flex items-center py-2 px-3 rounded-md text-sm
+                      text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700
+                    " href="/courses/quick-start-with-golang-modules/45-retrieving-the-golang-version/"><span class="
+                        flex items-center justify-center w-5 h-5 rounded-md mr-3 text-xs
+                        bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400
+                      ">45</span><span class="flex-grow truncate">Retrieving the Golang version</span><button class="
+                        w-5 h-5 rounded-sm border flex items-center justify-center transition-all duration-200
+                        border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-white group-hover:border-gray-400 dark:group-hover:border-gray-500
+                      " aria-label="Mark as complete"></button></a></li><li style="transition-delay:900ms" class="transition-all duration-200 ease-out"><a class="
+                      group flex items-center py-2 px-3 rounded-md text-sm
+                      text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700
+                    " href="/courses/quick-start-with-golang-modules/46-accessing-program-arguments/"><span class="
+                        flex items-center justify-center w-5 h-5 rounded-md mr-3 text-xs
+                        bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400
+                      ">46</span><span class="flex-grow truncate">accessing program arguments</span><button class="
+                        w-5 h-5 rounded-sm border flex items-center justify-center transition-all duration-200
+                        border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-white group-hover:border-gray-400 dark:group-hover:border-gray-500
+                      " aria-label="Mark as complete"></button></a></li><li style="transition-delay:920ms" class="transition-all duration-200 ease-out"><a class="
+                      group flex items-center py-2 px-3 rounded-md text-sm
+                      text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700
+                    " href="/courses/quick-start-with-golang-modules/47-creating-a-program-interface-with-the-flag-package/"><span class="
+                        flex items-center justify-center w-5 h-5 rounded-md mr-3 text-xs
+                        bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400
+                      ">47</span><span class="flex-grow truncate">Creating a program interface with the flag package</span><button class="
+                        w-5 h-5 rounded-sm border flex items-center justify-center transition-all duration-200
+                        border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-white group-hover:border-gray-400 dark:group-hover:border-gray-500
+                      " aria-label="Mark as complete"></button></a></li><li style="transition-delay:940ms" class="transition-all duration-200 ease-out"><a class="
+                      group flex items-center py-2 px-3 rounded-md text-sm
+                      text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700
+                    " href="/courses/quick-start-with-golang-modules/48-retrieving-the-current-working-directory/"><span class="
+                        flex items-center justify-center w-5 h-5 rounded-md mr-3 text-xs
+                        bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400
+                      ">48</span><span class="flex-grow truncate">Retrieving the current working directory</span><button class="
+                        w-5 h-5 rounded-sm border flex items-center justify-center transition-all duration-200
+                        border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-white group-hover:border-gray-400 dark:group-hover:border-gray-500
+                      " aria-label="Mark as complete"></button></a></li><li style="transition-delay:960ms" class="transition-all duration-200 ease-out"><a class="
+                      group flex items-center py-2 px-3 rounded-md text-sm
+                      text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700
+                    " href="/courses/quick-start-with-golang-modules/49-getting-the-current-process-pid/"><span class="
+                        flex items-center justify-center w-5 h-5 rounded-md mr-3 text-xs
+                        bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400
+                      ">49</span><span class="flex-grow truncate">Getting the current process PID</span><button class="
+                        w-5 h-5 rounded-sm border flex items-center justify-center transition-all duration-200
+                        border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-white group-hover:border-gray-400 dark:group-hover:border-gray-500
+                      " aria-label="Mark as complete"></button></a></li><li style="transition-delay:980ms" class="transition-all duration-200 ease-out"><a class="
+                      group flex items-center py-2 px-3 rounded-md text-sm
+                      text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700
+                    " href="/courses/quick-start-with-golang-modules/50-handling-operating-system-signals/"><span class="
+                        flex items-center justify-center w-5 h-5 rounded-md mr-3 text-xs
+                        bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400
+                      ">50</span><span class="flex-grow truncate">Handling operating system signals</span><button class="
+                        w-5 h-5 rounded-sm border flex items-center justify-center transition-all duration-200
+                        border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-white group-hover:border-gray-400 dark:group-hover:border-gray-500
+                      " aria-label="Mark as complete"></button></a></li><li style="transition-delay:1000ms" class="transition-all duration-200 ease-out"><a class="
+                      group flex items-center py-2 px-3 rounded-md text-sm
+                      text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700
+                    " href="/courses/quick-start-with-golang-modules/51-calling-an-external-proces/"><span class="
+                        flex items-center justify-center w-5 h-5 rounded-md mr-3 text-xs
+                        bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400
+                      ">51</span><span class="flex-grow truncate">calling an external proces</span><button class="
+                        w-5 h-5 rounded-sm border flex items-center justify-center transition-all duration-200
+                        border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-white group-hover:border-gray-400 dark:group-hover:border-gray-500
+                      " aria-label="Mark as complete"></button></a></li><li style="transition-delay:1020ms" class="transition-all duration-200 ease-out"><a class="
+                      group flex items-center py-2 px-3 rounded-md text-sm
+                      text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700
+                    " href="/courses/quick-start-with-golang-modules/52-retrieving-child-process-information/"><span class="
+                        flex items-center justify-center w-5 h-5 rounded-md mr-3 text-xs
+                        bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400
+                      ">52</span><span class="flex-grow truncate">Retrieving child process information</span><button class="
+                        w-5 h-5 rounded-sm border flex items-center justify-center transition-all duration-200
+                        border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-white group-hover:border-gray-400 dark:group-hover:border-gray-500
+                      " aria-label="Mark as complete"></button></a></li><li style="transition-delay:1040ms" class="transition-all duration-200 ease-out"><a class="
+                      group flex items-center py-2 px-3 rounded-md text-sm
+                      text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700
+                    " href="/courses/quick-start-with-golang-modules/53-reading-writing-from-the-child-process/"><span class="
+                        flex items-center justify-center w-5 h-5 rounded-md mr-3 text-xs
+                        bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400
+                      ">53</span><span class="flex-grow truncate">Reading writing from the child process</span><button class="
+                        w-5 h-5 rounded-sm border flex items-center justify-center transition-all duration-200
+                        border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-white group-hover:border-gray-400 dark:group-hover:border-gray-500
+                      " aria-label="Mark as complete"></button></a></li><li style="transition-delay:1060ms" class="transition-all duration-200 ease-out"><a class="
+                      group flex items-center py-2 px-3 rounded-md text-sm
+                      text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700
+                    " href="/courses/quick-start-with-golang-modules/54-shutting-down-the-application-gracefully/"><span class="
+                        flex items-center justify-center w-5 h-5 rounded-md mr-3 text-xs
+                        bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400
+                      ">54</span><span class="flex-grow truncate">Shutting down the application gracefully</span><button class="
+                        w-5 h-5 rounded-sm border flex items-center justify-center transition-all duration-200
+                        border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-white group-hover:border-gray-400 dark:group-hover:border-gray-500
+                      " aria-label="Mark as complete"></button></a></li><li style="transition-delay:1080ms" class="transition-all duration-200 ease-out"><a class="
+                      group flex items-center py-2 px-3 rounded-md text-sm
+                      text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700
+                    " href="/courses/quick-start-with-golang-modules/55-file-configuration-with-functional-options/"><span class="
+                        flex items-center justify-center w-5 h-5 rounded-md mr-3 text-xs
+                        bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400
+                      ">55</span><span class="flex-grow truncate">file configuration with functional options</span><button class="
+                        w-5 h-5 rounded-sm border flex items-center justify-center transition-all duration-200
+                        border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-white group-hover:border-gray-400 dark:group-hover:border-gray-500
+                      " aria-label="Mark as complete"></button></a></li><li style="transition-delay:1100ms" class="transition-all duration-200 ease-out"><a class="
+                      group flex items-center py-2 px-3 rounded-md text-sm
+                      text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700
+                    " href="/courses/quick-start-with-golang-modules/56-finding-the-substring-in-a-string/"><span class="
+                        flex items-center justify-center w-5 h-5 rounded-md mr-3 text-xs
+                        bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400
+                      ">56</span><span class="flex-grow truncate">Finding the substring in a string</span><button class="
+                        w-5 h-5 rounded-sm border flex items-center justify-center transition-all duration-200
+                        border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-white group-hover:border-gray-400 dark:group-hover:border-gray-500
+                      " aria-label="Mark as complete"></button></a></li><li style="transition-delay:1120ms" class="transition-all duration-200 ease-out"><a class="
+                      group flex items-center py-2 px-3 rounded-md text-sm
+                      text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700
+                    " href="/courses/quick-start-with-golang-modules/57-breaking-the-string-into-words/"><span class="
+                        flex items-center justify-center w-5 h-5 rounded-md mr-3 text-xs
+                        bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400
+                      ">57</span><span class="flex-grow truncate">breaking the string into words</span><button class="
+                        w-5 h-5 rounded-sm border flex items-center justify-center transition-all duration-200
+                        border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-white group-hover:border-gray-400 dark:group-hover:border-gray-500
+                      " aria-label="Mark as complete"></button></a></li><li style="transition-delay:1140ms" class="transition-all duration-200 ease-out"><a class="
+                      group flex items-center py-2 px-3 rounded-md text-sm
+                      text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700
+                    " href="/courses/quick-start-with-golang-modules/58-joining-the-string-slice-with-a-separator/"><span class="
+                        flex items-center justify-center w-5 h-5 rounded-md mr-3 text-xs
+                        bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400
+                      ">58</span><span class="flex-grow truncate">Joining the string slice with a separator</span><button class="
+                        w-5 h-5 rounded-sm border flex items-center justify-center transition-all duration-200
+                        border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-white group-hover:border-gray-400 dark:group-hover:border-gray-500
+                      " aria-label="Mark as complete"></button></a></li><li style="transition-delay:1160ms" class="transition-all duration-200 ease-out"><a class="
+                      group flex items-center py-2 px-3 rounded-md text-sm
+                      text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700
+                    " href="/courses/quick-start-with-golang-modules/59-concatenating-a-string-with-writer/"><span class="
+                        flex items-center justify-center w-5 h-5 rounded-md mr-3 text-xs
+                        bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400
+                      ">59</span><span class="flex-grow truncate">Concatenating a string with writer</span><button class="
+                        w-5 h-5 rounded-sm border flex items-center justify-center transition-all duration-200
+                        border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-white group-hover:border-gray-400 dark:group-hover:border-gray-500
+                      " aria-label="Mark as complete"></button></a></li><li style="transition-delay:1180ms" class="transition-all duration-200 ease-out"><a class="
+                      group flex items-center py-2 px-3 rounded-md text-sm
+                      text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700
+                    " href="/courses/quick-start-with-golang-modules/60-aligning-text-with-tabwriter/"><span class="
+                        flex items-center justify-center w-5 h-5 rounded-md mr-3 text-xs
+                        bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400
+                      ">60</span><span class="flex-grow truncate">Aligning text with tabwriter</span><button class="
+                        w-5 h-5 rounded-sm border flex items-center justify-center transition-all duration-200
+                        border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-white group-hover:border-gray-400 dark:group-hover:border-gray-500
+                      " aria-label="Mark as complete"></button></a></li><li style="transition-delay:1200ms" class="transition-all duration-200 ease-out"><a class="
+                      group flex items-center py-2 px-3 rounded-md text-sm
+                      text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700
+                    " href="/courses/quick-start-with-golang-modules/61-replacing-part-of-the-string/"><span class="
+                        flex items-center justify-center w-5 h-5 rounded-md mr-3 text-xs
+                        bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400
+                      ">61</span><span class="flex-grow truncate">Replacing part of the string</span><button class="
+                        w-5 h-5 rounded-sm border flex items-center justify-center transition-all duration-200
+                        border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-white group-hover:border-gray-400 dark:group-hover:border-gray-500
+                      " aria-label="Mark as complete"></button></a></li><li style="transition-delay:1220ms" class="transition-all duration-200 ease-out"><a class="
+                      group flex items-center py-2 px-3 rounded-md text-sm
+                      text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700
+                    " href="/courses/quick-start-with-golang-modules/62-finding-the-substring-in-text-by-the-regex-pattern/"><span class="
+                        flex items-center justify-center w-5 h-5 rounded-md mr-3 text-xs
+                        bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400
+                      ">62</span><span class="flex-grow truncate">finding the substring in text by the regex pattern</span><button class="
+                        w-5 h-5 rounded-sm border flex items-center justify-center transition-all duration-200
+                        border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-white group-hover:border-gray-400 dark:group-hover:border-gray-500
+                      " aria-label="Mark as complete"></button></a></li><li style="transition-delay:1240ms" class="transition-all duration-200 ease-out"><a class="
+                      group flex items-center py-2 px-3 rounded-md text-sm
+                      text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700
+                    " href="/courses/quick-start-with-golang-modules/63-controlling-case/"><span class="
+                        flex items-center justify-center w-5 h-5 rounded-md mr-3 text-xs
+                        bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400
+                      ">63</span><span class="flex-grow truncate">controlling case</span><button class="
+                        w-5 h-5 rounded-sm border flex items-center justify-center transition-all duration-200
+                        border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-white group-hover:border-gray-400 dark:group-hover:border-gray-500
+                      " aria-label="Mark as complete"></button></a></li><li style="transition-delay:1260ms" class="transition-all duration-200 ease-out"><a class="
+                      group flex items-center py-2 px-3 rounded-md text-sm
+                      text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700
+                    " href="/courses/quick-start-with-golang-modules/64-parsing-comma-separated-data/"><span class="
+                        flex items-center justify-center w-5 h-5 rounded-md mr-3 text-xs
+                        bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400
+                      ">64</span><span class="flex-grow truncate">parsing comma-separated data</span><button class="
+                        w-5 h-5 rounded-sm border flex items-center justify-center transition-all duration-200
+                        border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-white group-hover:border-gray-400 dark:group-hover:border-gray-500
+                      " aria-label="Mark as complete"></button></a></li><li style="transition-delay:1280ms" class="transition-all duration-200 ease-out"><a class="
+                      group flex items-center py-2 px-3 rounded-md text-sm
+                      text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700
+                    " href="/courses/quick-start-with-golang-modules/65-managing-whitespace-in-a-string/"><span class="
+                        flex items-center justify-center w-5 h-5 rounded-md mr-3 text-xs
+                        bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400
+                      ">65</span><span class="flex-grow truncate">managing whitespace in a string</span><button class="
+                        w-5 h-5 rounded-sm border flex items-center justify-center transition-all duration-200
+                        border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-white group-hover:border-gray-400 dark:group-hover:border-gray-500
+                      " aria-label="Mark as complete"></button></a></li><li style="transition-delay:1300ms" class="transition-all duration-200 ease-out"><a class="
+                      group flex items-center py-2 px-3 rounded-md text-sm
+                      text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700
+                    " href="/courses/quick-start-with-golang-modules/66-indenting-a-text-document/"><span class="
+                        flex items-center justify-center w-5 h-5 rounded-md mr-3 text-xs
+                        bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400
+                      ">66</span><span class="flex-grow truncate">indenting a text document</span><button class="
+                        w-5 h-5 rounded-sm border flex items-center justify-center transition-all duration-200
+                        border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-white group-hover:border-gray-400 dark:group-hover:border-gray-500
+                      " aria-label="Mark as complete"></button></a></li><li style="transition-delay:1320ms" class="transition-all duration-200 ease-out"><a class="
+                      group flex items-center py-2 px-3 rounded-md text-sm
+                      text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700
+                    " href="/courses/quick-start-with-golang-modules/67-converting-strings-to-numbers/"><span class="
+                        flex items-center justify-center w-5 h-5 rounded-md mr-3 text-xs
+                        bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400
+                      ">67</span><span class="flex-grow truncate">converting strings to numbers</span><button class="
+                        w-5 h-5 rounded-sm border flex items-center justify-center transition-all duration-200
+                        border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-white group-hover:border-gray-400 dark:group-hover:border-gray-500
+                      " aria-label="Mark as complete"></button></a></li><li style="transition-delay:1340ms" class="transition-all duration-200 ease-out"><a class="
+                      group flex items-center py-2 px-3 rounded-md text-sm
+                      text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700
+                    " href="/courses/quick-start-with-golang-modules/68-comparing-floating-point-numbers/"><span class="
+                        flex items-center justify-center w-5 h-5 rounded-md mr-3 text-xs
+                        bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400
+                      ">68</span><span class="flex-grow truncate">comparing floating-point numbers</span><button class="
+                        w-5 h-5 rounded-sm border flex items-center justify-center transition-all duration-200
+                        border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-white group-hover:border-gray-400 dark:group-hover:border-gray-500
+                      " aria-label="Mark as complete"></button></a></li><li style="transition-delay:1360ms" class="transition-all duration-200 ease-out"><a class="
+                      group flex items-center py-2 px-3 rounded-md text-sm
+                      text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700
+                    " href="/courses/quick-start-with-golang-modules/69-rounding-floating-point-numbers/"><span class="
+                        flex items-center justify-center w-5 h-5 rounded-md mr-3 text-xs
+                        bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400
+                      ">69</span><span class="flex-grow truncate">rounding floating-point numbers</span><button class="
+                        w-5 h-5 rounded-sm border flex items-center justify-center transition-all duration-200
+                        border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-white group-hover:border-gray-400 dark:group-hover:border-gray-500
+                      " aria-label="Mark as complete"></button></a></li><li style="transition-delay:1380ms" class="transition-all duration-200 ease-out"><a class="
+                      group flex items-center py-2 px-3 rounded-md text-sm
+                      text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700
+                    " href="/courses/quick-start-with-golang-modules/70-floating-point-arithmetics/"><span class="
+                        flex items-center justify-center w-5 h-5 rounded-md mr-3 text-xs
+                        bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400
+                      ">70</span><span class="flex-grow truncate">floating-point arithmetics</span><button class="
+                        w-5 h-5 rounded-sm border flex items-center justify-center transition-all duration-200
+                        border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-white group-hover:border-gray-400 dark:group-hover:border-gray-500
+                      " aria-label="Mark as complete"></button></a></li><li style="transition-delay:1400ms" class="transition-all duration-200 ease-out"><a class="
+                      group flex items-center py-2 px-3 rounded-md text-sm
+                      text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700
+                    " href="/courses/quick-start-with-golang-modules/71-formatting-numbers/"><span class="
+                        flex items-center justify-center w-5 h-5 rounded-md mr-3 text-xs
+                        bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400
+                      ">71</span><span class="flex-grow truncate">formatting numbers</span><button class="
+                        w-5 h-5 rounded-sm border flex items-center justify-center transition-all duration-200
+                        border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-white group-hover:border-gray-400 dark:group-hover:border-gray-500
+                      " aria-label="Mark as complete"></button></a></li><li style="transition-delay:1420ms" class="transition-all duration-200 ease-out"><a class="
+                      group flex items-center py-2 px-3 rounded-md text-sm
+                      text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700
+                    " href="/courses/quick-start-with-golang-modules/72-converting-between-binary-octal-decimal-and-hexadecimal/"><span class="
+                        flex items-center justify-center w-5 h-5 rounded-md mr-3 text-xs
+                        bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400
+                      ">72</span><span class="flex-grow truncate">Converting between binary, octal, decimal, and hexadecimal</span><button class="
+                        w-5 h-5 rounded-sm border flex items-center justify-center transition-all duration-200
+                        border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-white group-hover:border-gray-400 dark:group-hover:border-gray-500
+                      " aria-label="Mark as complete"></button></a></li><li style="transition-delay:1440ms" class="transition-all duration-200 ease-out"><a class="
+                      group flex items-center py-2 px-3 rounded-md text-sm
+                      text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700
+                    " href="/courses/quick-start-with-golang-modules/73-formatting-with-the-correct-plurals/"><span class="
+                        flex items-center justify-center w-5 h-5 rounded-md mr-3 text-xs
+                        bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400
+                      ">73</span><span class="flex-grow truncate">formatting with the correct plurals</span><button class="
+                        w-5 h-5 rounded-sm border flex items-center justify-center transition-all duration-200
+                        border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-white group-hover:border-gray-400 dark:group-hover:border-gray-500
+                      " aria-label="Mark as complete"></button></a></li><li style="transition-delay:1460ms" class="transition-all duration-200 ease-out"><a class="
+                      group flex items-center py-2 px-3 rounded-md text-sm
+                      text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700
+                    " href="/courses/quick-start-with-golang-modules/74-generating-random-numbers/"><span class="
+                        flex items-center justify-center w-5 h-5 rounded-md mr-3 text-xs
+                        bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400
+                      ">74</span><span class="flex-grow truncate">generating random numbers</span><button class="
+                        w-5 h-5 rounded-sm border flex items-center justify-center transition-all duration-200
+                        border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-white group-hover:border-gray-400 dark:group-hover:border-gray-500
+                      " aria-label="Mark as complete"></button></a></li><li style="transition-delay:1480ms" class="transition-all duration-200 ease-out"><a class="
+                      group flex items-center py-2 px-3 rounded-md text-sm
+                      text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700
+                    " href="/courses/quick-start-with-golang-modules/75-operating-complex-numbers/"><span class="
+                        flex items-center justify-center w-5 h-5 rounded-md mr-3 text-xs
+                        bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400
+                      ">75</span><span class="flex-grow truncate">operating complex numbers</span><button class="
+                        w-5 h-5 rounded-sm border flex items-center justify-center transition-all duration-200
+                        border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-white group-hover:border-gray-400 dark:group-hover:border-gray-500
+                      " aria-label="Mark as complete"></button></a></li><li style="transition-delay:1500ms" class="transition-all duration-200 ease-out"><a class="
+                      group flex items-center py-2 px-3 rounded-md text-sm
+                      text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700
+                    " href="/courses/quick-start-with-golang-modules/76-converting-between-degrees-and-radians/"><span class="
+                        flex items-center justify-center w-5 h-5 rounded-md mr-3 text-xs
+                        bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400
+                      ">76</span><span class="flex-grow truncate">converting between degrees and radians</span><button class="
+                        w-5 h-5 rounded-sm border flex items-center justify-center transition-all duration-200
+                        border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-white group-hover:border-gray-400 dark:group-hover:border-gray-500
+                      " aria-label="Mark as complete"></button></a></li><li style="transition-delay:1520ms" class="transition-all duration-200 ease-out"><a class="
+                      group flex items-center py-2 px-3 rounded-md text-sm
+                      text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700
+                    " href="/courses/quick-start-with-golang-modules/77-taking-logarithms/"><span class="
+                        flex items-center justify-center w-5 h-5 rounded-md mr-3 text-xs
+                        bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400
+                      ">77</span><span class="flex-grow truncate">taking logarithms</span><button class="
+                        w-5 h-5 rounded-sm border flex items-center justify-center transition-all duration-200
+                        border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-white group-hover:border-gray-400 dark:group-hover:border-gray-500
+                      " aria-label="Mark as complete"></button></a></li><li style="transition-delay:1540ms" class="transition-all duration-200 ease-out"><a class="
+                      group flex items-center py-2 px-3 rounded-md text-sm
+                      text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700
+                    " href="/courses/quick-start-with-golang-modules/78-generating-checksums/"><span class="
+                        flex items-center justify-center w-5 h-5 rounded-md mr-3 text-xs
+                        bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400
+                      ">78</span><span class="flex-grow truncate">generating checksums</span><button class="
+                        w-5 h-5 rounded-sm border flex items-center justify-center transition-all duration-200
+                        border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-white group-hover:border-gray-400 dark:group-hover:border-gray-500
+                      " aria-label="Mark as complete"></button></a></li><li style="transition-delay:1560ms" class="transition-all duration-200 ease-out"><a class="
+                      group flex items-center py-2 px-3 rounded-md text-sm
+                      text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700
+                    " href="/courses/quick-start-with-golang-modules/79-reading-standard-input/"><span class="
+                        flex items-center justify-center w-5 h-5 rounded-md mr-3 text-xs
+                        bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400
+                      ">79</span><span class="flex-grow truncate">reading standard input</span><button class="
+                        w-5 h-5 rounded-sm border flex items-center justify-center transition-all duration-200
+                        border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-white group-hover:border-gray-400 dark:group-hover:border-gray-500
+                      " aria-label="Mark as complete"></button></a></li><li style="transition-delay:1580ms" class="transition-all duration-200 ease-out"><a class="
+                      group flex items-center py-2 px-3 rounded-md text-sm
+                      text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700
+                    " href="/courses/quick-start-with-golang-modules/80-writing-standard-output-and-error/"><span class="
+                        flex items-center justify-center w-5 h-5 rounded-md mr-3 text-xs
+                        bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400
+                      ">80</span><span class="flex-grow truncate">Writing standard output and error</span><button class="
+                        w-5 h-5 rounded-sm border flex items-center justify-center transition-all duration-200
+                        border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-white group-hover:border-gray-400 dark:group-hover:border-gray-500
+                      " aria-label="Mark as complete"></button></a></li><li style="transition-delay:1600ms" class="transition-all duration-200 ease-out"><a class="
+                      group flex items-center py-2 px-3 rounded-md text-sm
+                      text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700
+                    " href="/courses/quick-start-with-golang-modules/81-opening-a-file-by-name/"><span class="
+                        flex items-center justify-center w-5 h-5 rounded-md mr-3 text-xs
+                        bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400
+                      ">81</span><span class="flex-grow truncate">opening a file by name</span><button class="
+                        w-5 h-5 rounded-sm border flex items-center justify-center transition-all duration-200
+                        border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-white group-hover:border-gray-400 dark:group-hover:border-gray-500
+                      " aria-label="Mark as complete"></button></a></li><li style="transition-delay:1620ms" class="transition-all duration-200 ease-out"><a class="
+                      group flex items-center py-2 px-3 rounded-md text-sm
+                      text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700
+                    " href="/courses/quick-start-with-golang-modules/82-reading-the-file-into-a-string/"><span class="
+                        flex items-center justify-center w-5 h-5 rounded-md mr-3 text-xs
+                        bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400
+                      ">82</span><span class="flex-grow truncate">reading the file into a string</span><button class="
+                        w-5 h-5 rounded-sm border flex items-center justify-center transition-all duration-200
+                        border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-white group-hover:border-gray-400 dark:group-hover:border-gray-500
+                      " aria-label="Mark as complete"></button></a></li><li style="transition-delay:1640ms" class="transition-all duration-200 ease-out"><a class="
+                      group flex items-center py-2 px-3 rounded-md text-sm
+                      text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700
+                    " href="/courses/quick-start-with-golang-modules/83-reading-writing-a-different-charset/"><span class="
+                        flex items-center justify-center w-5 h-5 rounded-md mr-3 text-xs
+                        bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400
+                      ">83</span><span class="flex-grow truncate">Reading writing a different charset</span><button class="
+                        w-5 h-5 rounded-sm border flex items-center justify-center transition-all duration-200
+                        border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-white group-hover:border-gray-400 dark:group-hover:border-gray-500
+                      " aria-label="Mark as complete"></button></a></li><li style="transition-delay:1660ms" class="transition-all duration-200 ease-out"><a class="
+                      group flex items-center py-2 px-3 rounded-md text-sm
+                      text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700
+                    " href="/courses/quick-start-with-golang-modules/84-seeking-a-position-within-a-file/"><span class="
+                        flex items-center justify-center w-5 h-5 rounded-md mr-3 text-xs
+                        bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400
+                      ">84</span><span class="flex-grow truncate">Seeking a position within a file</span><button class="
+                        w-5 h-5 rounded-sm border flex items-center justify-center transition-all duration-200
+                        border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-white group-hover:border-gray-400 dark:group-hover:border-gray-500
+                      " aria-label="Mark as complete"></button></a></li><li style="transition-delay:1680ms" class="transition-all duration-200 ease-out"><a class="
+                      group flex items-center py-2 px-3 rounded-md text-sm
+                      text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700
+                    " href="/courses/quick-start-with-golang-modules/85-reading-and-writing-binary-data/"><span class="
+                        flex items-center justify-center w-5 h-5 rounded-md mr-3 text-xs
+                        bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400
+                      ">85</span><span class="flex-grow truncate">reading and writing binary data</span><button class="
+                        w-5 h-5 rounded-sm border flex items-center justify-center transition-all duration-200
+                        border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-white group-hover:border-gray-400 dark:group-hover:border-gray-500
+                      " aria-label="Mark as complete"></button></a></li><li style="transition-delay:1700ms" class="transition-all duration-200 ease-out"><a class="
+                      group flex items-center py-2 px-3 rounded-md text-sm
+                      text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700
+                    " href="/courses/quick-start-with-golang-modules/86-writing-to-multiple-writers-at-once/"><span class="
+                        flex items-center justify-center w-5 h-5 rounded-md mr-3 text-xs
+                        bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400
+                      ">86</span><span class="flex-grow truncate">writing to multiple writers at once</span><button class="
+                        w-5 h-5 rounded-sm border flex items-center justify-center transition-all duration-200
+                        border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-white group-hover:border-gray-400 dark:group-hover:border-gray-500
+                      " aria-label="Mark as complete"></button></a></li><li style="transition-delay:1720ms" class="transition-all duration-200 ease-out"><a class="
+                      group flex items-center py-2 px-3 rounded-md text-sm
+                      text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700
+                    " href="/courses/quick-start-with-golang-modules/87-piping-between-writer-and-reader/"><span class="
+                        flex items-center justify-center w-5 h-5 rounded-md mr-3 text-xs
+                        bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400
+                      ">87</span><span class="flex-grow truncate">piping between writer and reader</span><button class="
+                        w-5 h-5 rounded-sm border flex items-center justify-center transition-all duration-200
+                        border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-white group-hover:border-gray-400 dark:group-hover:border-gray-500
+                      " aria-label="Mark as complete"></button></a></li><li style="transition-delay:1740ms" class="transition-all duration-200 ease-out"><a class="
+                      group flex items-center py-2 px-3 rounded-md text-sm
+                      text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700
+                    " href="/courses/quick-start-with-golang-modules/88-serializing-objects-to-binary-format/"><span class="
+                        flex items-center justify-center w-5 h-5 rounded-md mr-3 text-xs
+                        bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400
+                      ">88</span><span class="flex-grow truncate">serializing objects to binary format</span><button class="
+                        w-5 h-5 rounded-sm border flex items-center justify-center transition-all duration-200
+                        border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-white group-hover:border-gray-400 dark:group-hover:border-gray-500
+                      " aria-label="Mark as complete"></button></a></li><li style="transition-delay:1760ms" class="transition-all duration-200 ease-out"><a class="
+                      group flex items-center py-2 px-3 rounded-md text-sm
+                      text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700
+                    " href="/courses/quick-start-with-golang-modules/89-reading-and-writing-zip-files/"><span class="
+                        flex items-center justify-center w-5 h-5 rounded-md mr-3 text-xs
+                        bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400
+                      ">89</span><span class="flex-grow truncate">reading and writing ZIP files</span><button class="
+                        w-5 h-5 rounded-sm border flex items-center justify-center transition-all duration-200
+                        border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-white group-hover:border-gray-400 dark:group-hover:border-gray-500
+                      " aria-label="Mark as complete"></button></a></li><li style="transition-delay:1780ms" class="transition-all duration-200 ease-out"><a class="
+                      group flex items-center py-2 px-3 rounded-md text-sm
+                      text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700
+                    " href="/courses/quick-start-with-golang-modules/90-parsing-a-large-xml-file-effectively/"><span class="
+                        flex items-center justify-center w-5 h-5 rounded-md mr-3 text-xs
+                        bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400
+                      ">90</span><span class="flex-grow truncate">Parsing a large XML file effectively</span><button class="
+                        w-5 h-5 rounded-sm border flex items-center justify-center transition-all duration-200
+                        border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-white group-hover:border-gray-400 dark:group-hover:border-gray-500
+                      " aria-label="Mark as complete"></button></a></li><li style="transition-delay:1800ms" class="transition-all duration-200 ease-out"><a class="
+                      group flex items-center py-2 px-3 rounded-md text-sm
+                      text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700
+                    " href="/courses/quick-start-with-golang-modules/91-extracting-data-from-an-incomplete-json-array/"><span class="
+                        flex items-center justify-center w-5 h-5 rounded-md mr-3 text-xs
+                        bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400
+                      ">91</span><span class="flex-grow truncate">extracting data from an incomplete JSON array</span><button class="
+                        w-5 h-5 rounded-sm border flex items-center justify-center transition-all duration-200
+                        border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-white group-hover:border-gray-400 dark:group-hover:border-gray-500
+                      " aria-label="Mark as complete"></button></a></li><li style="transition-delay:1820ms" class="transition-all duration-200 ease-out"><a class="
+                      group flex items-center py-2 px-3 rounded-md text-sm
+                      text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700
+                    " href="/courses/quick-start-with-golang-modules/92-getting-file-information/"><span class="
+                        flex items-center justify-center w-5 h-5 rounded-md mr-3 text-xs
+                        bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400
+                      ">92</span><span class="flex-grow truncate">getting file information</span><button class="
+                        w-5 h-5 rounded-sm border flex items-center justify-center transition-all duration-200
+                        border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-white group-hover:border-gray-400 dark:group-hover:border-gray-500
+                      " aria-label="Mark as complete"></button></a></li><li style="transition-delay:1840ms" class="transition-all duration-200 ease-out"><a class="
+                      group flex items-center py-2 px-3 rounded-md text-sm
+                      text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700
+                    " href="/courses/quick-start-with-golang-modules/93-creating-temporary-files/"><span class="
+                        flex items-center justify-center w-5 h-5 rounded-md mr-3 text-xs
+                        bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400
+                      ">93</span><span class="flex-grow truncate">creating temporary files</span><button class="
+                        w-5 h-5 rounded-sm border flex items-center justify-center transition-all duration-200
+                        border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-white group-hover:border-gray-400 dark:group-hover:border-gray-500
+                      " aria-label="Mark as complete"></button></a></li><li style="transition-delay:1860ms" class="transition-all duration-200 ease-out"><a class="
+                      group flex items-center py-2 px-3 rounded-md text-sm
+                      text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700
+                    " href="/courses/quick-start-with-golang-modules/94-writing-the-file/"><span class="
+                        flex items-center justify-center w-5 h-5 rounded-md mr-3 text-xs
+                        bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400
+                      ">94</span><span class="flex-grow truncate">writing the file</span><button class="
+                        w-5 h-5 rounded-sm border flex items-center justify-center transition-all duration-200
+                        border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-white group-hover:border-gray-400 dark:group-hover:border-gray-500
+                      " aria-label="Mark as complete"></button></a></li><li style="transition-delay:1880ms" class="transition-all duration-200 ease-out"><a class="
+                      group flex items-center py-2 px-3 rounded-md text-sm
+                      text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700
+                    " href="/courses/quick-start-with-golang-modules/95-writing-the-file-from-multiple-goroutines/"><span class="
+                        flex items-center justify-center w-5 h-5 rounded-md mr-3 text-xs
+                        bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400
+                      ">95</span><span class="flex-grow truncate">writing the file from multiple goroutines</span><button class="
+                        w-5 h-5 rounded-sm border flex items-center justify-center transition-all duration-200
+                        border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-white group-hover:border-gray-400 dark:group-hover:border-gray-500
+                      " aria-label="Mark as complete"></button></a></li><li style="transition-delay:1900ms" class="transition-all duration-200 ease-out"><a class="
+                      group flex items-center py-2 px-3 rounded-md text-sm
+                      text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700
+                    " href="/courses/quick-start-with-golang-modules/96-listing-a-directory/"><span class="
+                        flex items-center justify-center w-5 h-5 rounded-md mr-3 text-xs
+                        bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400
+                      ">96</span><span class="flex-grow truncate">listing a directory</span><button class="
+                        w-5 h-5 rounded-sm border flex items-center justify-center transition-all duration-200
+                        border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-white group-hover:border-gray-400 dark:group-hover:border-gray-500
+                      " aria-label="Mark as complete"></button></a></li><li style="transition-delay:1920ms" class="transition-all duration-200 ease-out"><a class="
+                      group flex items-center py-2 px-3 rounded-md text-sm
+                      text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700
+                    " href="/courses/quick-start-with-golang-modules/97-changing-file-permissions/"><span class="
+                        flex items-center justify-center w-5 h-5 rounded-md mr-3 text-xs
+                        bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400
+                      ">97</span><span class="flex-grow truncate">Changing file permissions</span><button class="
+                        w-5 h-5 rounded-sm border flex items-center justify-center transition-all duration-200
+                        border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-white group-hover:border-gray-400 dark:group-hover:border-gray-500
+                      " aria-label="Mark as complete"></button></a></li><li style="transition-delay:1940ms" class="transition-all duration-200 ease-out"><a class="
+                      group flex items-center py-2 px-3 rounded-md text-sm
+                      text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700
+                    " href="/courses/quick-start-with-golang-modules/98-creating-files-and-directories/"><span class="
+                        flex items-center justify-center w-5 h-5 rounded-md mr-3 text-xs
+                        bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400
+                      ">98</span><span class="flex-grow truncate">Creating files and directories</span><button class="
+                        w-5 h-5 rounded-sm border flex items-center justify-center transition-all duration-200
+                        border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-white group-hover:border-gray-400 dark:group-hover:border-gray-500
+                      " aria-label="Mark as complete"></button></a></li><li style="transition-delay:1960ms" class="transition-all duration-200 ease-out"><a class="
+                      group flex items-center py-2 px-3 rounded-md text-sm
+                      text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700
+                    " href="/courses/quick-start-with-golang-modules/99-filtering-file-listings/"><span class="
+                        flex items-center justify-center w-5 h-5 rounded-md mr-3 text-xs
+                        bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400
+                      ">99</span><span class="flex-grow truncate">Filtering file listings</span><button class="
+                        w-5 h-5 rounded-sm border flex items-center justify-center transition-all duration-200
+                        border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-white group-hover:border-gray-400 dark:group-hover:border-gray-500
+                      " aria-label="Mark as complete"></button></a></li><li style="transition-delay:1980ms" class="transition-all duration-200 ease-out"><a class="
+                      group flex items-center py-2 px-3 rounded-md text-sm
+                      text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700
+                    " href="/courses/quick-start-with-golang-modules/100-comparing-two-files/"><span class="
+                        flex items-center justify-center w-5 h-5 rounded-md mr-3 text-xs
+                        bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400
+                      ">100</span><span class="flex-grow truncate">comparing two files</span><button class="
+                        w-5 h-5 rounded-sm border flex items-center justify-center transition-all duration-200
+                        border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-white group-hover:border-gray-400 dark:group-hover:border-gray-500
+                      " aria-label="Mark as complete"></button></a></li><li style="transition-delay:2000ms" class="transition-all duration-200 ease-out"><a class="
+                      group flex items-center py-2 px-3 rounded-md text-sm
+                      text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700
+                    " href="/courses/quick-start-with-golang-modules/101-resolving-the-user-home-directory/"><span class="
+                        flex items-center justify-center w-5 h-5 rounded-md mr-3 text-xs
+                        bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400
+                      ">101</span><span class="flex-grow truncate">Resolving the user home directory</span><button class="
+                        w-5 h-5 rounded-sm border flex items-center justify-center transition-all duration-200
+                        border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-white group-hover:border-gray-400 dark:group-hover:border-gray-500
+                      " aria-label="Mark as complete"></button></a></li><li style="transition-delay:2020ms" class="transition-all duration-200 ease-out"><a class="
+                      group flex items-center py-2 px-3 rounded-md text-sm
+                      text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700
+                    " href="/courses/quick-start-with-golang-modules/example-code-highlighting/"><span class="
+                        flex items-center justify-center w-5 h-5 rounded-md mr-3 text-xs
+                        bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400
+                      ">101</span><span class="flex-grow truncate">Code Highlighting Examples</span><button class="
+                        w-5 h-5 rounded-sm border flex items-center justify-center transition-all duration-200
+                        border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-white group-hover:border-gray-400 dark:group-hover:border-gray-500
+                      " aria-label="Mark as complete"></button></a></li><li style="transition-delay:2040ms" class="transition-all duration-200 ease-out"><a class="
+                      group flex items-center py-2 px-3 rounded-md text-sm
+                      text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700
+                    " href="/courses/quick-start-with-golang-modules/custom-code-highlighting/"><span class="
+                        flex items-center justify-center w-5 h-5 rounded-md mr-3 text-xs
+                        bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400
+                      ">102</span><span class="flex-grow truncate">Advanced Code Highlighting Features</span><button class="
+                        w-5 h-5 rounded-sm border flex items-center justify-center transition-all duration-200
+                        border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-white group-hover:border-gray-400 dark:group-hover:border-gray-500
+                      " aria-label="Mark as complete"></button></a></li></ul></nav></aside></div><main class="flex-1 min-w-0"><div class="container mx-auto will-change-transform max-w-screen-lg px-4 sm:px-6 lg:px-8 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow opacity-0 translate-y-2 transition duration-300 ease-in-out mb-6"><div class="p-4 sm:p-6" data-animated="false"><div class="flex items-center gap-3 mb-2"><div class="text-gray-600 dark:text-gray-400 bg-gray-100 dark:bg-gray-700 p-2 rounded-md"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg></div><h1 class="text-xl sm:text-2xl font-semibold text-gray-900 dark:text-white">Defer</h1></div><p class="text-gray-600 dark:text-gray-400 text-sm">Part of <span class="font-medium text-gray-800 dark:text-gray-300">Golang Mastery</span> course</p></div></div><div class="container mx-auto will-change-transform max-w-screen-lg px-4 sm:px-6 lg:px-8 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow opacity-0 translate-y-2 transition duration-300 ease-in-out mb-6"><div class="p-4 sm:p-6" data-animated="false"><div class="mdx-wrapper"><p class="mb-6 text-gray-700 dark:text-gray-300 leading-relaxed text-lg">A defer statement defers the execution of a function until the surrounding function returns.</p>
+<p class="mb-6 text-gray-700 dark:text-gray-300 leading-relaxed text-lg">The deferred call&#x27;s arguments are evaluated immediately, but the function call is not executed until the surrounding function returns.</p>
+<div><code class="bg-gray-100 dark:bg-gray-800 px-1.5 py-0.5 rounded font-mono text-sm text-gray-800 dark:text-gray-200">package main
+
+import &quot;fmt&quot;
+
+func main() {
+	defer fmt.Println(&quot;world&quot;)
+
+	fmt.Println(&quot;hello&quot;)
+}
+</code></div>
+<p class="mb-6 text-gray-700 dark:text-gray-300 leading-relaxed text-lg"><a class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 underline decoration-2 underline-offset-2 transition-colors duration-150" target="_blank" rel="noopener noreferrer" href="https://play.golang.org/p/GBzCn3hH39K">Go Playground</a></p>
+<p class="mb-6 text-gray-700 dark:text-gray-300 leading-relaxed text-lg">output:</p>
+<div><code class="bg-gray-100 dark:bg-gray-800 px-1.5 py-0.5 rounded font-mono text-sm text-gray-800 dark:text-gray-200">hello 
+world 
+
+</code></div>
+<p class="mb-6 text-gray-700 dark:text-gray-300 leading-relaxed text-lg">in this above program if you use <code class="bg-gray-100 dark:bg-gray-800 px-1.5 py-0.5 rounded font-mono text-sm text-gray-800 dark:text-gray-200">defer</code> keyword it will not execute until the surrounding function returns</p></div></div></div><div class="container mx-auto will-change-transform max-w-screen-lg px-4 sm:px-6 lg:px-8 rounded-none shadow-none opacity-0 translate-y-2 transition duration-300 ease-in-out"><div class="" data-animated="false"><div class="jsx-7516fca1c8381206 transition-all duration-200 opacity-100"><div class="jsx-7516fca1c8381206 flex justify-between items-center mt-6 border-t border-gray-200 dark:border-gray-700 pt-4"><button aria-label="Go to previous module: Control Structures" class="jsx-7516fca1c8381206 group flex items-center text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors rounded-md px-3 py-2"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="jsx-7516fca1c8381206 h-4 w-4 mr-2"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" class="jsx-7516fca1c8381206"></path></svg><span class="jsx-7516fca1c8381206 text-sm">Previous</span></button><div class="jsx-7516fca1c8381206 relative"><button class="jsx-7516fca1c8381206 
+              flex items-center px-3 py-1.5 rounded-md text-sm font-medium border
+              bg-gray-50 dark:bg-gray-700 text-gray-700 dark:text-gray-200 border-gray-200 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-600
+              
+            ">Mark as complete</button></div><button aria-label="Go to next module: Stacking defers" class="jsx-7516fca1c8381206 
+              group flex items-center text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors
+              rounded-md px-3 py-2
+              
+            "><span class="jsx-7516fca1c8381206 text-sm">Next</span><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="jsx-7516fca1c8381206 h-4 w-4 ml-2"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" class="jsx-7516fca1c8381206"></path></svg></button></div><div class="jsx-7516fca1c8381206 flex justify-center mt-4"><div class="jsx-7516fca1c8381206 text-xs text-gray-500 dark:text-gray-400 flex items-center space-x-4"><span class="jsx-7516fca1c8381206 flex items-center"><kbd class="jsx-7516fca1c8381206 px-1.5 py-0.5 bg-gray-100 dark:bg-gray-700 rounded border border-gray-200 dark:border-gray-600 mr-1 text-gray-500 dark:text-gray-400 font-mono text-xs">←</kbd><span class="jsx-7516fca1c8381206">Previous</span></span><span class="jsx-7516fca1c8381206 flex items-center"><kbd class="jsx-7516fca1c8381206 px-1.5 py-0.5 bg-gray-100 dark:bg-gray-700 rounded border border-gray-200 dark:border-gray-600 mr-1 text-gray-500 dark:text-gray-400 font-mono text-xs">→</kbd><span class="jsx-7516fca1c8381206">Next</span></span></div></div></div></div></div></main></div></div></div></div></div></div></div></div><script id="__NEXT_DATA__" type="application/json">{"props":{"pageProps":{"source":{"compiledSource":"\"use strict\";\nconst {Fragment: _Fragment, jsx: _jsx, jsxs: _jsxs} = arguments[0];\nconst {useMDXComponents: _provideComponents} = arguments[0];\nfunction _createMdxContent(props) {\n  const _components = {\n    a: \"a\",\n    code: \"code\",\n    p: \"p\",\n    pre: \"pre\",\n    ..._provideComponents(),\n    ...props.components\n  };\n  return _jsxs(_Fragment, {\n    children: [_jsx(_components.p, {\n      children: \"A defer statement defers the execution of a function until the surrounding function returns.\"\n    }), \"\\n\", _jsx(_components.p, {\n      children: \"The deferred call's arguments are evaluated immediately, but the function call is not executed until the surrounding function returns.\"\n    }), \"\\n\", _jsx(_components.pre, {\n      children: _jsx(_components.code, {\n        children: \"package main\\n\\nimport \\\"fmt\\\"\\n\\nfunc main() {\\n\\tdefer fmt.Println(\\\"world\\\")\\n\\n\\tfmt.Println(\\\"hello\\\")\\n}\\n\"\n      })\n    }), \"\\n\", _jsx(_components.p, {\n      children: _jsx(_components.a, {\n        href: \"https://play.golang.org/p/GBzCn3hH39K\",\n        children: \"Go Playground\"\n      })\n    }), \"\\n\", _jsx(_components.p, {\n      children: \"output:\"\n    }), \"\\n\", _jsx(_components.pre, {\n      children: _jsx(_components.code, {\n        children: \"hello \\nworld \\n\\n\"\n      })\n    }), \"\\n\", _jsxs(_components.p, {\n      children: [\"in this above program if you use \", _jsx(_components.code, {\n        children: \"defer\"\n      }), \" keyword it will not execute until the surrounding function returns\"]\n    })]\n  });\n}\nfunction MDXContent(props = {}) {\n  const {wrapper: MDXLayout} = {\n    ..._provideComponents(),\n    ...props.components\n  };\n  return MDXLayout ? _jsx(MDXLayout, {\n    ...props,\n    children: _jsx(_createMdxContent, {\n      ...props\n    })\n  }) : _createMdxContent(props);\n}\nreturn {\n  default: MDXContent\n};\n","frontmatter":{},"scope":{}},"frontMatter":{"title":"Defer","description":"Learning Go programming","order":34},"courseSlug":"quick-start-with-golang-modules","modules":[{"slug":"01-introduction-to-go","title":"Introduction to Go","description":"Learn about the Go programming language, its history, features, and why it's becoming increasingly popular for modern software development.","order":1},{"slug":"02-lets-start-with-first-hello-world-program","title":"Lets Start With First Hello world Program","description":"Learning Go programming","order":2},{"slug":"03-numeral-systems---decimal","title":"Numeral Systems - Decimal","description":"Learning Go programming","order":3},{"slug":"04-numeral-systems---binary","title":"Numeral Systems - Binary","description":"Learning Go programming","order":4},{"slug":"05-numeral-systems---hexadecimal","title":"Numeral Systems - Hexadecimal","description":"Learning Go programming","order":5},{"slug":"06-numeral-systems---loop","title":"Numeral Systems - Loop","description":"Learning Go programming","order":6},{"slug":"07-numeral-systems-utf-8","title":"Numeral Systems UTF-8","description":"Learning Go programming","order":7},{"slug":"08-short-variable-declarations","title":"Short variable declarations","description":"Learning Go programming","order":8},{"slug":"09-variable-with-zero-value","title":"Variable with zero value","description":"Learning Go programming","order":9},{"slug":"10-deep-drive-on-variables","title":"Deep Drive on Variables","description":"Learning Go programming","order":10},{"slug":"11-hello-world-in-go","title":"Hello World in Go","description":"Write and understand your first Go program","order":11},{"slug":"12-deep-drive-on-constants","title":"Deep Drive On Constants","description":"Learning Go programming","order":12},{"slug":"13-loop-init-condition-post","title":"Loop  Init, Condition, Post","description":"Learning Go programming","order":13},{"slug":"14-loop---nested-loops","title":"Loop - Nested Loops","description":"Learning Go programming","order":14},{"slug":"15-loop---for-statement","title":"Loop - For Statement","description":"Learning Go programming","order":15},{"slug":"16-loop---break-continue","title":"Loop - Break \u0026 Continue","description":"Learning Go programming","order":16},{"slug":"17-generate-random-number-with-mathcryptorand-in-go","title":"Generate Random number with math/crypto/rand in Go","description":"Learning Go programming","order":17},{"slug":"18-loop---printing-ascii","title":"Loop - Printing ASCII","description":"Learning Go programming","order":18},{"slug":"19-conditional---if-statement","title":"Conditional - If Statement","description":"Learning Go programming","order":19},{"slug":"20-conditional---if-else-if-else","title":"Conditional - If, Else if, Else","description":"Learning Go programming","order":20},{"slug":"21-loop-conditional-modulus","title":"Loop, Conditional, Modulus","description":"Learning Go programming","order":21},{"slug":"22-variables-and-data-types","title":"Variables and Data Types","description":"Learn about variables, data types, and how to work with them in Go","order":22},{"slug":"23-conditional---switch-statement","title":"Conditional - Switch Statement","description":"Learning Go programming","order":23},{"slug":"24-conditional---switch-statement-documentation","title":"Conditional - Switch Statement Documentation","description":"Learning Go programming","order":24},{"slug":"25-conditional-logic-operators","title":"Conditional Logic Operators","description":"Learning Go programming","order":25},{"slug":"26-string-type","title":"String Type","description":"Learning Go programming","order":26},{"slug":"27-bool-type","title":"Bool Type","description":"Learning Go programming","order":27},{"slug":"28-structs","title":"Structs","description":"Learning Go programming","order":28},{"slug":"29-struct-literal","title":"Struct Literal","description":"Learning Go programming","order":29},{"slug":"30-pointer-to-struct","title":"Pointer to struct","description":"Learning Go programming","order":30},{"slug":"31-conversion-not-casting","title":"Conversion, Not Casting","description":"Learning Go programming","order":31},{"slug":"32-creating-your-own-type","title":"Creating Your Own Type","description":"Learning Go programming","order":32},{"slug":"33-control-structures","title":"Control Structures","description":"Learn about conditional statements and loops in Go","order":33},{"slug":"34-defer","title":"Defer","description":"Learning Go programming","order":34},{"slug":"35-stacking-defers","title":"Stacking defers","description":"Learning Go programming","order":35},{"slug":"36-pointer","title":"Pointer","description":"Learning Go programming","order":36},{"slug":"37-prefix-suffix","title":"Prefix Suffix","description":"Learning Go programming","order":37},{"slug":"38-conversion-between-array-and-slice","title":"Conversion between array and slice","description":"Learning Go programming","order":38},{"slug":"39-methods","title":"methods","description":"Learning Go programming","order":39},{"slug":"40-variadic-function","title":"variadic function","description":"Learning Go programming","order":40},{"slug":"41-init-function","title":"init Function","description":"Learning Go programming","order":41},{"slug":"42-command-line-arguments-and-file-io","title":"Command Line Arguments and File I/O","description":"Learning Go programming","order":42},{"slug":"43-what-is-interface-","title":"what is interface ?","description":"Learning Go programming","order":43},{"slug":"44-functions-in-go","title":"Functions in Go","description":"Learn how to create and use functions in Go, including function parameters, return values, and closures","order":44},{"slug":"45-retrieving-the-golang-version","title":"Retrieving the Golang version","description":"Learning Go programming","order":45},{"slug":"46-accessing-program-arguments","title":"accessing program arguments","description":"Learning Go programming","order":46},{"slug":"47-creating-a-program-interface-with-the-flag-package","title":"Creating a program interface with the flag package","description":"Learning Go programming","order":47},{"slug":"48-retrieving-the-current-working-directory","title":"Retrieving the current working directory","description":"Learning Go programming","order":48},{"slug":"49-getting-the-current-process-pid","title":"Getting the current process PID","description":"Learning Go programming","order":49},{"slug":"50-handling-operating-system-signals","title":"Handling operating system signals","description":"Learning Go programming","order":50},{"slug":"51-calling-an-external-proces","title":"calling an external proces","description":"Learning Go programming","order":51},{"slug":"52-retrieving-child-process-information","title":"Retrieving child process information","description":"Learning Go programming","order":52},{"slug":"53-reading-writing-from-the-child-process","title":"Reading writing from the child process","description":"Learning Go programming","order":53},{"slug":"54-shutting-down-the-application-gracefully","title":"Shutting down the application gracefully","description":"Learning Go programming","order":54},{"slug":"55-file-configuration-with-functional-options","title":"file configuration with functional options","description":"Learning Go programming","order":55},{"slug":"56-finding-the-substring-in-a-string","title":"Finding the substring in a string","description":"Learning Go programming","order":56},{"slug":"57-breaking-the-string-into-words","title":"breaking the string into words","description":"Learning Go programming","order":57},{"slug":"58-joining-the-string-slice-with-a-separator","title":"Joining the string slice with a separator","description":"Learning Go programming","order":58},{"slug":"59-concatenating-a-string-with-writer","title":"Concatenating a string with writer","description":"Learning Go programming","order":59},{"slug":"60-aligning-text-with-tabwriter","title":"Aligning text with tabwriter","description":"Learning Go programming","order":60},{"slug":"61-replacing-part-of-the-string","title":"Replacing part of the string","description":"Learning Go programming","order":61},{"slug":"62-finding-the-substring-in-text-by-the-regex-pattern","title":"finding the substring in text by the regex pattern","description":"Learning Go programming","order":62},{"slug":"63-controlling-case","title":"controlling case","description":"Learning Go programming","order":63},{"slug":"64-parsing-comma-separated-data","title":"parsing comma-separated data","description":"Learning Go programming","order":64},{"slug":"65-managing-whitespace-in-a-string","title":"managing whitespace in a string","description":"Learning Go programming","order":65},{"slug":"66-indenting-a-text-document","title":"indenting a text document","description":"Learning Go programming","order":66},{"slug":"67-converting-strings-to-numbers","title":"converting strings to numbers","description":"Learning Go programming","order":67},{"slug":"68-comparing-floating-point-numbers","title":"comparing floating-point numbers","description":"Learning Go programming","order":68},{"slug":"69-rounding-floating-point-numbers","title":"rounding floating-point numbers","description":"Learning Go programming","order":69},{"slug":"70-floating-point-arithmetics","title":"floating-point arithmetics","description":"Learning Go programming","order":70},{"slug":"71-formatting-numbers","title":"formatting numbers","description":"Learning Go programming","order":71},{"slug":"72-converting-between-binary-octal-decimal-and-hexadecimal","title":"Converting between binary, octal, decimal, and hexadecimal","description":"Learning Go programming","order":72},{"slug":"73-formatting-with-the-correct-plurals","title":"formatting with the correct plurals","description":"Learning Go programming","order":73},{"slug":"74-generating-random-numbers","title":"generating random numbers","description":"Learning Go programming","order":74},{"slug":"75-operating-complex-numbers","title":"operating complex numbers","description":"Learning Go programming","order":75},{"slug":"76-converting-between-degrees-and-radians","title":"converting between degrees and radians","description":"Learning Go programming","order":76},{"slug":"77-taking-logarithms","title":"taking logarithms","description":"Learning Go programming","order":77},{"slug":"78-generating-checksums","title":"generating checksums","description":"Learning Go programming","order":78},{"slug":"79-reading-standard-input","title":"reading standard input","description":"Learning Go programming","order":79},{"slug":"80-writing-standard-output-and-error","title":"Writing standard output and error","description":"Learning Go programming","order":80},{"slug":"81-opening-a-file-by-name","title":"opening a file by name","description":"Learning Go programming","order":81},{"slug":"82-reading-the-file-into-a-string","title":"reading the file into a string","description":"Learning Go programming","order":82},{"slug":"83-reading-writing-a-different-charset","title":"Reading writing a different charset","description":"Learning Go programming","order":83},{"slug":"84-seeking-a-position-within-a-file","title":"Seeking a position within a file","description":"Learning Go programming","order":84},{"slug":"85-reading-and-writing-binary-data","title":"reading and writing binary data","description":"Learning Go programming","order":85},{"slug":"86-writing-to-multiple-writers-at-once","title":"writing to multiple writers at once","description":"Learning Go programming","order":86},{"slug":"87-piping-between-writer-and-reader","title":"piping between writer and reader","description":"Learning Go programming","order":87},{"slug":"88-serializing-objects-to-binary-format","title":"serializing objects to binary format","description":"Learning Go programming","order":88},{"slug":"89-reading-and-writing-zip-files","title":"reading and writing ZIP files","description":"Learning Go programming","order":89},{"slug":"90-parsing-a-large-xml-file-effectively","title":"Parsing a large XML file effectively","description":"Learning Go programming","order":90},{"slug":"91-extracting-data-from-an-incomplete-json-array","title":"extracting data from an incomplete JSON array","description":"Learning Go programming","order":91},{"slug":"92-getting-file-information","title":"getting file information","description":"Learning Go programming","order":92},{"slug":"93-creating-temporary-files","title":"creating temporary files","description":"Learning Go programming","order":93},{"slug":"94-writing-the-file","title":"writing the file","description":"Learning Go programming","order":94},{"slug":"95-writing-the-file-from-multiple-goroutines","title":"writing the file from multiple goroutines","description":"Learning Go programming","order":95},{"slug":"96-listing-a-directory","title":"listing a directory","description":"Learning Go programming","order":96},{"slug":"97-changing-file-permissions","title":"Changing file permissions","description":"Learning Go programming","order":97},{"slug":"98-creating-files-and-directories","title":"Creating files and directories","description":"Learning Go programming","order":98},{"slug":"99-filtering-file-listings","title":"Filtering file listings","description":"Learning Go programming","order":99},{"slug":"100-comparing-two-files","title":"comparing two files","description":"Learning Go programming","order":100},{"slug":"101-resolving-the-user-home-directory","title":"Resolving the user home directory","description":"Learning Go programming","order":101},{"slug":"example-code-highlighting","title":"Code Highlighting Examples","description":"Learn how to use various code syntax highlighting features in Go examples","order":101},{"slug":"custom-code-highlighting","title":"Advanced Code Highlighting Features","description":"Learn how to use the enhanced code block features like line highlighting, titles, and more.","order":102}],"currentModule":{"slug":"34-defer","title":"Defer","description":"Learning Go programming","order":34}},"__N_SSG":true},"page":"/courses/[...slug]","query":{"slug":["quick-start-with-golang-modules","34-defer"]},"buildId":"d6GSiC22taG3aPNr7myTt","isFallback":false,"gsp":true,"scriptLoader":[]}</script></body></html>

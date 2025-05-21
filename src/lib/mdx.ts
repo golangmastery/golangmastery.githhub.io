@@ -198,6 +198,12 @@ function readModulesFromDirectory(directoryPath: string): Module[] {
 export function getModuleFiles(courseSlug: string): Module[] {
   console.log(`Getting modules for course: ${courseSlug}`);
   
+  // Special case for quick-start-with-golang course - use modules from quick-start-with-golang-modules directory
+  if (courseSlug === 'quick-start-with-golang') {
+    console.log('Handling special case for quick-start-with-golang');
+    return readModulesFromDirectory(path.join(contentDirectory, COURSE_TYPE, 'quick-start-with-golang-modules'));
+  }
+  
   // Path 1: Direct course slug directory (e.g., content/courses/quick-start-with-golang-modules/)
   let modules = readModulesFromDirectory(path.join(contentDirectory, COURSE_TYPE, courseSlug));
   if (modules.length > 0) {
@@ -212,15 +218,6 @@ export function getModuleFiles(courseSlug: string): Module[] {
     return modules;
   }
   
-  // Handle the specific case where the input courseSlug might be "quick-start-with-golang"
-  // and the actual directory is "quick-start-with-golang-modules"
-  if (courseSlug === 'quick-start-with-golang') {
-      modules = readModulesFromDirectory(path.join(contentDirectory, COURSE_TYPE, 'quick-start-with-golang-modules'));
-      if (modules.length > 0) {
-          return modules;
-      }
-  }
-
   console.warn(`No modules found for course: ${courseSlug} after trying standard paths.`);
   return [];
 }

@@ -1,20 +1,21 @@
 {
-  "name": "golangmastery.githhub.io",
+  "name": "golangmastery.github.io",
   "version": "1.0.0",
   "description": "Golang Mastery - Learn Golang with Interactive Labs",
   "main": "index.js",
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "rm -rf .next && next build",
+    "export": "npm run build && touch out/.nojekyll",
     "start": "next start",
     "lint": "next lint",
     "analyze": "cross-env ANALYZE=true next build",
     "analyze-bundle": "node analyze-bundle.js",
-    "deploy": "rm -rf out && next build && touch out/.nojekyll && git add out/ && git commit -m \"Deploy to GitHub Pages\" && git subtree push --prefix out origin gh-pages"
+    "deploy": "npm run export && touch .nojekyll && git add out/ .nojekyll && git commit -m \"Deploy to GitHub Pages\" && git subtree push --prefix out origin gh-pages"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/golangmastery/golangmastery.githhub.io.git"
+    "url": "git+https://github.com/golangmastery/golangmastery.github.io.git"
   },
   "keywords": [
     "golang",
@@ -26,9 +27,9 @@
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/golangmastery/golangmastery.githhub.io/issues"
+    "url": "https://github.com/golangmastery/golangmastery.github.io/issues"
   },
-  "homepage": "https://github.com/golangmastery/golangmastery.githhub.io#readme",
+  "homepage": "https://github.com/golangmastery/golangmastery.github.io#readme",
   "dependencies": {
     "@heroicons/react": "^2.2.0",
     "@mdx-js/loader": "^3.0.0",
