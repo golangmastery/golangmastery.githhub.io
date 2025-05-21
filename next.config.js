@@ -10,8 +10,9 @@ const nextConfig = {
       },
     ],
   },
-  output: 'standalone',
-  // Helps with consistent routing
+  output: 'export',
+  basePath: '/golangmastery.github.io',
+  assetPrefix: '/golangmastery.github.io/',
   trailingSlash: true,
   
   // Disable typescript checking temporarily
