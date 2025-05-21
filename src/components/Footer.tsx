@@ -27,24 +27,18 @@ export default function Footer() {
             <h4 className="text-lg font-semibold mb-4">Learning Path</h4>
             <ul className="space-y-2">
               <li>
-                <Link href="/courses">
-                  <a className="text-gray-300 hover:text-white transition-colors">
-                    Go Courses
-                  </a>
+                <Link href="/courses" className="text-gray-300 hover:text-white transition-colors">
+                  Go Courses
                 </Link>
               </li>
               <li>
-                <Link href="/projects">
-                  <a className="text-gray-300 hover:text-white transition-colors">
-                    Go Projects
-                  </a>
+                <Link href="/projects" className="text-gray-300 hover:text-white transition-colors">
+                  Go Projects
                 </Link>
               </li>
               <li>
-                <Link href="/roadmap">
-                  <a className="text-gray-300 hover:text-white transition-colors">
-                    Learning Roadmap
-                  </a>
+                <Link href="/roadmap" className="text-gray-300 hover:text-white transition-colors">
+                  Learning Roadmap
                 </Link>
               </li>
             </ul>
@@ -53,17 +47,13 @@ export default function Footer() {
             <h4 className="text-lg font-semibold mb-4">Resources</h4>
             <ul className="space-y-2">
               <li>
-                <Link href="/playground">
-                  <a className="text-gray-300 hover:text-white transition-colors">
-                    Go Playground
-                  </a>
+                <Link href="/playground" className="text-gray-300 hover:text-white transition-colors">
+                  Go Playground
                 </Link>
               </li>
               <li>
-                <Link href="/cheatsheet">
-                  <a className="text-gray-300 hover:text-white transition-colors">
-                    Go Cheat Sheet
-                  </a>
+                <Link href="/cheatsheet" className="text-gray-300 hover:text-white transition-colors">
+                  Go Cheat Sheet
                 </Link>
               </li>
               <li>
@@ -87,10 +77,8 @@ export default function Footer() {
                 </a>
               </li>
               <li>
-                <Link href="/about">
-                  <a className="text-gray-300 hover:text-white transition-colors">
-                    About Us
-                  </a>
+                <Link href="/about" className="text-gray-300 hover:text-white transition-colors">
+                  About Us
                 </Link>
               </li>
             </ul>

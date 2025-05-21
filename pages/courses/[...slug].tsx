@@ -108,7 +108,6 @@ interface MarkdownModuleProps {
 
 function MarkdownModule({ source, frontMatter, courseSlug, modules, currentModule }: MarkdownModuleProps) {
   const router = useRouter();
-  const [error, setError] = useState<Error | null>(null);
   
   // If the page is not yet generated, show a loading state
   if (router.isFallback) {
@@ -121,10 +120,8 @@ function MarkdownModule({ source, frontMatter, courseSlug, modules, currentModul
     );
   }
 
-  // If there was an error loading the content
-  if (error) {
-    return <Error statusCode={404} />;
-  }
+  // If getStaticProps returned notFound, this component won't even render for that path.
+  // The 404 page will be shown by Next.js directly.
 
   return (
     <>
@@ -152,96 +149,98 @@ function MarkdownModule({ source, frontMatter, courseSlug, modules, currentModul
 }
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
+  console.log('[getStaticProps courses/[...slug]] Received params:', params);
+
   try {
     if (!params || !params.slug || !Array.isArray(params.slug) || params.slug.length < 1) {
+      console.log('[getStaticProps courses/[...slug]] Invalid params structure, returning notFound.');
       return { notFound: true };
     }
 
     const courseSlug = params.slug[0];
+    console.log(`[getStaticProps courses/[...slug]] Processing courseSlug: ${courseSlug}`);
     
-    // Find course from data file
     const course = courses.find(c => c.slug === courseSlug);
     if (!course) {
-      console.log(`Course not found: ${courseSlug}`);
+      console.log(`[getStaticProps courses/[...slug]] Course data not found for slug: ${courseSlug} in data/courses. Returning notFound.`);
       return { notFound: true };
     }
+    console.log(`[getStaticProps courses/[...slug]] Found course data for: ${courseSlug}`, course);
 
-    // Get module content
     if (params.slug.length >= 2) {
       const moduleSlug = params.slug[1];
-      
+      console.log(`[getStaticProps courses/[...slug]] Processing moduleSlug: ${moduleSlug} for course: ${courseSlug}`);
       try {
-        console.log(`Loading module: ${moduleSlug} for course: ${courseSlug}`);
-        // Attempt to load the specific module
         const { frontmatter, content } = getContentFileBySlug(`courses/${courseSlug}`, moduleSlug);
-        
-        // Get all modules for this course for navigation
-        const modules = getModuleFiles(courseSlug);
-        console.log(`Found ${modules.length} modules for course ${courseSlug}`);
-        
-        // Find current module in the list
-        const currentModule = modules.find(m => m.slug === moduleSlug) || { 
+        console.log(`[getStaticProps courses/[...slug]] Loaded module MDX for: courses/${courseSlug}/${moduleSlug}`, frontmatter);
+        const mdxModules = getModuleFiles(courseSlug); // Renamed to avoid conflict with imported Module interface
+        const currentModule = mdxModules.find(m => m.slug === moduleSlug) || { 
           slug: moduleSlug,
           title: frontmatter.title || 'Module',
           order: frontmatter.order || 999
         };
-        
-        // Serialize MDX content for rendering
         const mdxSource = await serializeMdx(content);
-        
         return {
           props: {
             source: mdxSource,
             frontMatter: frontmatter,
             courseSlug,
-            modules,
+            modules: mdxModules,
             currentModule,
           },
         };
       } catch (err) {
-        console.error(`Error loading module ${moduleSlug}:`, err);
+        console.error(`[getStaticProps courses/[...slug]] Error loading module MDX for courses/${courseSlug}/${moduleSlug}:`, err);
         return { notFound: true };
       }
     } else {
-      // If no specific module is requested, load the course overview page
+      console.log(`[getStaticProps courses/[...slug]] Processing course overview for: ${courseSlug}`);
       try {
         const { frontmatter, content } = getContentFileBySlug('courses', courseSlug);
-        const modules = getModuleFiles(courseSlug);
-        console.log(`Found ${modules.length} modules for course ${courseSlug}`);
-        
+        console.log(`[getStaticProps courses/[...slug]] Loaded course overview MDX for: courses/${courseSlug}`, frontmatter);
+        const mdxModules = getModuleFiles(courseSlug);
         const mdxSource = await serializeMdx(content);
-        
         return {
           props: {
             source: mdxSource,
             frontMatter: frontmatter,
             courseSlug,
-            modules,
+            modules: mdxModules,
             currentModule: { slug: courseSlug, title: frontmatter.title || 'Course Overview' }
           },
         };
       } catch (err) {
-        console.error(`Error loading course ${courseSlug}:`, err);
+        console.error(`[getStaticProps courses/[...slug]] Error loading course overview MDX for courses/${courseSlug}:`, err);
         return { notFound: true };
       }
     }
   } catch (err) {
-    console.error('Error in getStaticProps:', err);
-    return { notFound: true };
+    console.error('[getStaticProps courses/[...slug]] General error:', err);
+    return { notFound: true }; // Fallback notFound
   }
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  // For initial build, pre-render only the course index pages
-  // Individual module pages will be generated on-demand
+  console.log('[getStaticPaths courses/[...slug]] Generating paths...');
   const paths = courses.map(course => ({
-    params: { slug: [course.slug] }
+    params: { slug: [course.slug] } 
   }));
+  console.log('[getStaticPaths courses/[...slug]] Generated paths:', JSON.stringify(paths, null, 2));
   
+  // TODO: For a full static export of modules, you would also need to generate paths for each module.
+  // Example:
+  // const allPaths = [];
+  // courses.forEach(course => {
+  //   allPaths.push({ params: { slug: [course.slug] } });
+  //   const modules = getModuleFiles(course.slug); // Assuming this can run at build time
+  //   modules.forEach(module => {
+  //     allPaths.push({ params: { slug: [course.slug, module.slug] } });
+  //   });
+  // });
+
   return {
-    paths,
-    // Enable on-demand generation for module pages
-    fallback: 'blocking'
+    paths: paths, // Or allPaths if you implement module path generation
+    fallback: false
   };
 };
 

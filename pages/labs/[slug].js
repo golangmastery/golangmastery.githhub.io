@@ -58,17 +58,11 @@ export default function LabPage({ frontmatter, mdxSource, content }) {
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
             <div className="flex items-center space-x-2 text-sm mb-4">
-              <Link href="/">
-                <a className="hover:underline">Home</a>
-              </Link>
+              <Link href="/" className="hover:underline">Home</Link>
               <span>/</span>
-              <Link href="/courses">
-                <a className="hover:underline">Courses</a>
-              </Link>
+              <Link href="/courses" className="hover:underline">Courses</Link>
               <span>/</span>
-              <Link href="/labs">
-                <a className="hover:underline">Labs</a>
-              </Link>
+              <Link href="/labs" className="hover:underline">Labs</Link>
               <span>/</span>
               <span>{frontmatter.title}</span>
             </div>
@@ -117,13 +111,11 @@ export default function LabPage({ frontmatter, mdxSource, content }) {
 
               {/* Navigation */}
               <div className="flex justify-between items-center mb-8">
-                <Link href="/labs">
-                  <a className="bg-gray-100 text-gray-700 px-5 py-2 rounded-md hover:bg-gray-200 transition-colors font-medium inline-flex items-center">
-                    <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-                    </svg>
-                    All Labs
-                  </a>
+                <Link href="/labs" className="bg-gray-100 text-gray-700 px-5 py-2 rounded-md hover:bg-gray-200 transition-colors font-medium inline-flex items-center">
+                  <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                  </svg>
+                  All Labs
                 </Link>
 
                 <a
@@ -193,8 +185,8 @@ export default function LabPage({ frontmatter, mdxSource, content }) {
                               <svg className="w-4 h-4 mr-1 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                               </svg>
-                              <Link href={`/labs/${prereq}`}>
-                                <a className="text-blue-600 hover:underline">{prereq.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}</a>
+                              <Link href={`/labs/${prereq}`} className="text-blue-600 hover:underline">
+                                {prereq.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}
                               </Link>
                             </li>
                           ))}
@@ -238,7 +230,7 @@ export async function getStaticPaths() {
 
   return {
     paths,
-    fallback: true,
+    fallback: false,
   };
 }
 

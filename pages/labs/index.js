@@ -76,43 +76,41 @@ export default function LabsPage({ labs }) {
           <div className="space-y-6">
             {labs.map((lab) => (
               <div key={lab.slug} className="bg-white rounded-xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg border border-gray-100 hover:border-green-100">
-                <Link href={`/labs/${lab.slug}`}>
-                  <a className="block p-6">
-                    <div className="flex flex-col md:flex-row md:items-center">
-                      <div className="flex-1">
-                        <div className="flex items-center mb-2">
-                          <h3 className="text-xl font-bold text-gray-800 mr-3">{lab.frontmatter.title}</h3>
-                          <span className={`px-2 py-0.5 text-xs rounded-full ${getLevelBadgeStyle(lab.frontmatter.level)}`}>
-                            {lab.frontmatter.level}
-                          </span>
-                        </div>
-                        <p className="text-gray-600 mb-4">{lab.frontmatter.description}</p>
-                        <div className="flex flex-wrap gap-2">
-                          {lab.frontmatter.tags && lab.frontmatter.tags.map(tag => (
-                            <span key={tag} className="px-2 py-1 text-xs bg-gray-100 text-gray-700 rounded-md">
-                              {tag}
-                            </span>
-                          ))}
-                          {lab.frontmatter.duration && (
-                            <span className="px-2 py-1 text-xs bg-gray-100 text-gray-700 rounded-md flex items-center">
-                              <svg className="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                              </svg>
-                              {lab.frontmatter.duration}
-                            </span>
-                          )}
-                        </div>
-                      </div>
-                      <div className="mt-4 md:mt-0 md:ml-4">
-                        <span className="inline-flex items-center text-green-600 font-medium hover:text-green-700 transition-colors">
-                          Start Lab
-                          <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                          </svg>
+                <Link href={`/labs/${lab.slug}`} className="block p-6">
+                  <div className="flex flex-col md:flex-row md:items-center">
+                    <div className="flex-1">
+                      <div className="flex items-center mb-2">
+                        <h3 className="text-xl font-bold text-gray-800 mr-3">{lab.frontmatter.title}</h3>
+                        <span className={`px-2 py-0.5 text-xs rounded-full ${getLevelBadgeStyle(lab.frontmatter.level)}`}>
+                          {lab.frontmatter.level}
                         </span>
                       </div>
+                      <p className="text-gray-600 mb-4">{lab.frontmatter.description}</p>
+                      <div className="flex flex-wrap gap-2">
+                        {lab.frontmatter.tags && lab.frontmatter.tags.map(tag => (
+                          <span key={tag} className="px-2 py-1 text-xs bg-gray-100 text-gray-700 rounded-md">
+                            {tag}
+                          </span>
+                        ))}
+                        {lab.frontmatter.duration && (
+                          <span className="px-2 py-1 text-xs bg-gray-100 text-gray-700 rounded-md flex items-center">
+                            <svg className="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            {lab.frontmatter.duration}
+                          </span>
+                        )}
+                      </div>
                     </div>
-                  </a>
+                    <div className="mt-4 md:mt-0 md:ml-4">
+                      <span className="inline-flex items-center text-green-600 font-medium hover:text-green-700 transition-colors">
+                        Start Lab
+                        <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        </svg>
+                      </span>
+                    </div>
+                  </div>
                 </Link>
               </div>
             ))}

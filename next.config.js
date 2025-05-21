@@ -24,9 +24,7 @@ const nextConfig = {
   },
   
   // Update experimental settings to be compatible with Next.js 15
-  experimental: {
-    serverComponentsExternalPackages: ['@prisma/client', 'bcryptjs'],
-  },
+  serverExternalPackages: ['@prisma/client', 'bcryptjs'],
   
   webpack: (config, { isServer }) => {
     // Fixes npm packages that depend on `fs` module

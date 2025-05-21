@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import Head from 'next/head';
 import Header from '../../components/Header';
+import Link from 'next/link';
 
 interface Project {
   id: string;
@@ -182,41 +183,47 @@ export default function Projects() {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {filteredProjects.map((project) => (
-              <div key={project.id} className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow">
+              <Link key={project.id} href={`/projects/${project.slug}`} className="block bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow group">
                 <div className="h-48 w-full bg-gray-200 overflow-hidden">
                   <img 
                     src={project.image || '/images/project-placeholder.jpg'} 
                     alt={project.title}
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                     onError={(e) => {
-                      e.currentTarget.src = '/images/project-placeholder.jpg';
+                      (e.target as HTMLImageElement).src = '/images/project-placeholder.jpg';
                     }}
                   />
                 </div>
                 <div className="p-6">
                   <div className="flex justify-between items-center mb-2">
-                    <span className="text-sm text-white bg-blue-600 rounded-full px-3 py-1">{project.level}</span>
-                    <span className="text-sm text-gray-600">{project.duration}</span>
+                    <span className={`text-xs font-semibold px-2.5 py-0.5 rounded-full ${
+                      project.level === 'Beginner' ? 'bg-green-100 text-green-800' :
+                      project.level === 'Intermediate' ? 'bg-yellow-100 text-yellow-800' :
+                      'bg-red-100 text-red-800'
+                    }`}>
+                      {project.level}
+                    </span>
+                    <span className="text-sm text-gray-500">{project.duration}</span>
                   </div>
-                  <h2 className="text-xl font-semibold text-gray-800 mb-2">{project.title}</h2>
-                  <p className="text-gray-600 mb-4">{project.description}</p>
-                  
+                  <h3 className="text-xl font-semibold text-gray-800 mb-2 group-hover:text-blue-600 transition-colors">{project.title}</h3>
+                  <p className="text-gray-600 text-sm mb-3 line-clamp-3">{project.description}</p>
                   <div className="flex flex-wrap gap-2 mb-4">
-                    {project.tags.map((tag, index) => (
-                      <span key={index} className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded">
+                    {project.tags.slice(0, 3).map(tag => (
+                      <span key={tag} className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-full">
                         {tag}
                       </span>
                     ))}
                   </div>
-                  
-                  <a 
-                    href={`/projects/${project.slug}`}
-                    className="block text-center bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-md transition-colors"
-                  >
-                    View Project
-                  </a>
+                  <div className="mt-auto">
+                    <span className="text-blue-600 group-hover:text-blue-700 font-medium text-sm inline-flex items-center">
+                      View Project
+                      <svg className="w-4 h-4 ml-1 transition-transform duration-200 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                      </svg>
+                    </span>
+                  </div>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         )}
