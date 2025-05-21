@@ -1,5 +1,5 @@
 # Dependencies
-node_modules
+/node_modules
 /.pnp
 .pnp.js
 .yarn/install-state.gz
@@ -9,7 +9,8 @@ node_modules
 
 # Next.js
 /.next/
-/out/
+/out
+.next
 
 # Production
 /build
@@ -34,6 +35,12 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+# IDE
+.idea
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+
 # Go specific
 # If you prefer the allow list template instead of the deny list, see community template:
 # https://github.com/github/gitignore/blob/main/community/Golang/Go.AllowList.gitignore
@@ -57,3 +64,6 @@ next-env.d.ts
 # Go workspace file
 go.work
 go.work.sum
+
+# Keep the out directory for GitHub Pages
+!/out
