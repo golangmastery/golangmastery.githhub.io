@@ -17,7 +17,7 @@ export default function Home() {
       description: 'Master Golang fundamentals in this hands-on course designed for beginners. Learn essential concepts like data types, control structures, functions, packages, and data structures through interactive labs and practical challenges.',
       level: 'Beginner',
       tags: ['Go', 'Programming'],
-      labCount: 10
+      labCount: 101
     },
     {
       id: '2',
@@ -27,7 +27,7 @@ export default function Home() {
       description: 'Learn how to write concurrent programs in Go using goroutines and channels. This course covers concurrency patterns, synchronization, and best practices for writing efficient concurrent code in Go.',
       level: 'Intermediate',
       tags: ['Go', 'Concurrency'],
-      labCount: 5
+      labCount: 0
     },
     {
       id: '3',
@@ -37,7 +37,7 @@ export default function Home() {
       description: 'Build web applications with Go\'s standard library and popular frameworks. Learn how to create RESTful APIs, handle HTTP requests, and connect to databases.',
       level: 'Intermediate',
       tags: ['Go', 'Web Development'],
-      labCount: 5
+      labCount: 0
     }
   ];
 
