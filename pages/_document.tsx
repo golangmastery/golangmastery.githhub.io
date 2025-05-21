@@ -7,9 +7,12 @@ class MyDocument extends Document {
   }
 
   render() {
+    const isProd = process.env.NODE_ENV === 'production';
     return (
       <Html lang="en">
-        <Head />
+        <Head>
+          {isProd && <base href="/golangmastery.github.io/" />}
+        </Head>
         <body>
           <Main />
           <NextScript />

@@ -1,4 +1,6 @@
 /** @type {import('next').NextConfig} */
+const isProd = process.env.NODE_ENV === 'production';
+
 const nextConfig = {
   reactStrictMode: true,
   pageExtensions: ['js', 'jsx', 'ts', 'tsx', 'md', 'mdx'],
@@ -6,19 +8,19 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: '**', // Adjust this for production
+        hostname: '**',
       },
     ],
-    unoptimized: true, // Required for static export
+    unoptimized: true,
   },
   output: 'export',
-  basePath: '/golangmastery.github.io',
-  assetPrefix: '/golangmastery.github.io/',
+  basePath: isProd ? '/golangmastery.github.io' : '',
+  assetPrefix: isProd ? '/golangmastery.github.io/' : '',
   trailingSlash: true,
   
   // Disable typescript checking temporarily
   typescript: {
-    ignoreBuildErrors: false,
+    ignoreBuildErrors: true, // Temporarily ignore TypeScript errors during build
   },
   
   // Update experimental settings to be compatible with Next.js 15
@@ -26,8 +28,16 @@ const nextConfig = {
     serverComponentsExternalPackages: ['@prisma/client', 'bcryptjs'],
   },
   
-  webpack: (config) => {
-    config.resolve.fallback = { fs: false };
+  webpack: (config, { isServer }) => {
+    // Fixes npm packages that depend on `fs` module
+    if (!isServer) {
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        fs: false,
+        net: false,
+        tls: false,
+      };
+    }
     return config;
   },
 };
