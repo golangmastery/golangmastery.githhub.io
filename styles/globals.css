@@ -103,29 +103,26 @@ body {
 
 /* VS Code-like syntax highlighting */
 pre {
-  background-color: #1e1e1e; /* VS Code dark theme background */
-  border-radius: 0.375rem;
+  background-color: #1e1e1e; /* VSCode dark background */
   padding: 1rem;
-  overflow-x: auto;
   margin: 1.25rem 0;
-  border: 1px solid #323232;
+  border: 1px solid #323232; /* VSCode dark border */
+  border-radius: 0.375rem;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
   scrollbar-width: thin;
   scrollbar-color: #505050 #1e1e1e;
   position: relative;
-  font-size: 14px;
-  line-height: 1.6;
+  overflow-x: auto;
 }
 
-/* Custom scrollbar for WebKit browsers */
 pre::-webkit-scrollbar {
-  height: 8px;
   width: 8px;
+  height: 8px;
 }
 
 pre::-webkit-scrollbar-track {
   background: #1e1e1e;
-  border-radius: 0.375rem;
+  border-radius: 4px;
 }
 
 pre::-webkit-scrollbar-thumb {
@@ -138,10 +135,12 @@ pre::-webkit-scrollbar-thumb:hover {
 }
 
 pre code {
-  font-family: 'Fira Code', 'Cascadia Code', 'JetBrains Mono', Consolas, Monaco, 'Andale Mono', monospace; /* Better monospace fonts */
+  font-family: 'Fira Code', 'Cascadia Code', 'JetBrains Mono', Consolas, Monaco, 'Andale Mono', monospace;
   font-size: 14px;
   line-height: 1.6;
-  color: #d4d4d4; /* VS Code default text color */
+  color: #d4d4d4; /* VSCode default text color */
+  -moz-tab-size: 2;
+  -o-tab-size: 2;
   tab-size: 2;
   padding: 0;
   background-color: transparent !important;
@@ -153,7 +152,6 @@ pre code {
   float: left;
 }
 
-/* Code block container */
 .code-block-wrapper {
   position: relative;
   margin: 1.75rem 0;
@@ -161,6 +159,8 @@ pre code {
   overflow: hidden;
   opacity: 0;
   animation: fade-in 0.5s ease-out forwards;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border: 1px solid #323232; /* VSCode-like border */
 }
 
 /* Language tab styling */
@@ -207,24 +207,25 @@ pre code {
   user-select: none;
   text-align: right;
   counter-reset: linenumber;
-  background-color: #252526;
-  border-right: 1px solid #404040;
-  padding: 1rem 0.5rem 1rem 0.5rem;
-  margin-right: 0.75rem;
-  color: #858585;
+  background-color: #1e1e1e;
+  color: #858585; /* VSCode line number color */
+  padding: 1rem 0.5rem;
+  border-right: 1px solid #3e3e42; /* VSCode gutter divider */
+  min-width: 3.5rem;
   font-size: 14px;
   line-height: 1.6;
   font-family: 'Fira Code', 'Cascadia Code', 'JetBrains Mono', Consolas, Monaco, monospace;
-  min-width: 30px;
-  display: flex;
-  flex-direction: column;
 }
 
 .line-numbers-rows span {
-  counter-increment: linenumber;
   display: block;
-  position: relative;
-  padding-right: 0.5rem;
+  counter-increment: linenumber;
+  padding-right: 0.8rem;
+}
+
+.line-numbers-rows span::before {
+  content: counter(linenumber);
+  display: block;
 }
 
 .code-with-line-numbers pre {
@@ -952,4 +953,42 @@ code {
 
 .dark .language-go .operator {
   color: #79c0ff;
+}
+
+/* VSCode active line highlight */
+.active-line {
+  background-color: #282828; /* VSCode active line background */
+  display: block;
+  margin: 0 -1rem;
+  padding: 0 1rem;
+  border-left: 2px solid #007acc; /* VSCode active line indicator */
+}
+
+/* VSCode selection highlight */
+.code-selection {
+  background-color: rgba(0, 122, 204, 0.3); /* VSCode selection color */
+}
+
+/* VSCode editor tabs styling */
+.editor-tabs {
+  display: flex;
+  background-color: #252526; /* VSCode tab bar background */
+  border-bottom: 1px solid #3e3e42;
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+
+.editor-tab {
+  padding: 8px 16px;
+  font-size: 13px;
+  color: #969696;
+  border-right: 1px solid #3e3e42;
+  white-space: nowrap;
+}
+
+.editor-tab.active {
+  background-color: #1e1e1e;
+  color: #ffffff;
+  border-top: 1px solid #007acc;
+  padding-top: 7px;
 }

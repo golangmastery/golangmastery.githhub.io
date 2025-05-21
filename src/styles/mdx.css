@@ -10,11 +10,14 @@
 
 /* Code syntax highlighting */
 .mdx-content pre {
-  @apply bg-gray-50 dark:bg-gray-900 rounded-lg overflow-hidden;
+  @apply rounded-lg overflow-hidden;
+  background-color: #1e1e1e; /* VSCode dark background */
+  border: 1px solid #323232; /* VSCode border */
 }
 
 .mdx-content code {
   @apply font-mono text-sm;
+  color: #d4d4d4; /* VSCode default text color */
 }
 
 /* Table styles */
@@ -44,15 +47,17 @@
 }
 
 .mdx-content pre::-webkit-scrollbar-track {
-  @apply bg-gray-100 dark:bg-gray-800 rounded-full;
+  background: #1e1e1e;
+  border-radius: 4px;
 }
 
 .mdx-content pre::-webkit-scrollbar-thumb {
-  @apply bg-gray-300 dark:bg-gray-600 rounded-full;
+  background: #505050;
+  border-radius: 4px;
 }
 
 .mdx-content pre::-webkit-scrollbar-thumb:hover {
-  @apply bg-gray-400 dark:bg-gray-500;
+  background: #676767;
 }
 
 /* Content transitions */
@@ -104,7 +109,7 @@
 }
 
 .dark .language-go {
-  background-color: #1e1e1e;
+  background-color: #1e1e1e; /* VSCode dark background */
 }
 
 /* Keywords (func, var, const, etc) */

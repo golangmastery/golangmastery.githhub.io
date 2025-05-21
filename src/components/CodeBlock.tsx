@@ -7,6 +7,7 @@ interface CodeBlockProps {
   showLineNumbers?: boolean;
   title?: string;
   highlight?: string; // Line numbers to highlight e.g. "1,3-5"
+  activeLine?: number; // Active line to highlight like in VSCode
 }
 
 // Go keywords for syntax highlighting
@@ -41,7 +42,8 @@ const CodeBlock: React.FC<CodeBlockProps> = ({
   className = '', 
   showLineNumbers = true,
   title,
-  highlight
+  highlight,
+  activeLine
 }) => {
   const [copied, setCopied] = useState(false);
   
@@ -148,53 +150,62 @@ const CodeBlock: React.FC<CodeBlockProps> = ({
   // Split code into lines for line numbers
   const lines = codeString.split('\n');
   
+  // File extension based on language
+  const getFileExtension = () => {
+    switch(language) {
+      case 'go': return 'go';
+      case 'js': return 'js';
+      case 'jsx': return 'jsx';
+      case 'ts': return 'ts';
+      case 'tsx': return 'tsx';
+      case 'html': return 'html';
+      case 'css': return 'css';
+      case 'json': return 'json';
+      case 'yml': 
+      case 'yaml': return 'yml';
+      case 'md': return 'md';
+      case 'bash': 
+      case 'sh': return 'sh';
+      default: return 'txt';
+    }
+  };
+  
+  const fileName = title || `example.${getFileExtension()}`;
+  
   return (
-    <div className="relative my-8 rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700 shadow-md">
-      {/* Header with language and title */}
-      <div className="flex items-center justify-between bg-gray-100 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-4 py-2">
-        <div className="flex items-center">
-          <CodeBracketIcon className="w-5 h-5 text-gray-500 dark:text-gray-400 mr-2" />
-          {title ? (
-            <span className="text-gray-700 dark:text-gray-300 font-medium">{title}</span>
-          ) : (
-            language && <span className="text-gray-700 dark:text-gray-300 font-mono text-sm">{language}</span>
-          )}
+    <div className="code-block-wrapper">
+      {/* VSCode editor tabs */}
+      <div className="editor-tabs">
+        <div className="editor-tab active">
+          <span>{fileName}</span>
         </div>
-        
-        {/* Copy button */}
-        <button
-          onClick={copyToClipboard}
-          className="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 text-sm transition-colors flex items-center gap-1"
-          aria-label="Copy code"
-        >
-          {copied ? (
-            <>
-              <CheckIcon className="w-4 h-4 text-green-500" />
-              <span>Copied!</span>
-            </>
-          ) : (
-            <>
-              <ClipboardIcon className="w-4 h-4" />
-              <span>Copy</span>
-            </>
-          )}
-        </button>
       </div>
       
-      {/* Code block with optional line numbers */}
-      <div className="overflow-x-auto bg-gray-50 dark:bg-gray-900">
-        <div className="min-w-full p-4 font-mono text-sm">
-          {lines.map((line, i) => (
-            <div 
-              key={i} 
-              className={`flex ${highlightedLines.has(i + 1) ? 'bg-yellow-50 dark:bg-yellow-900/20' : ''}`}
-            >
-              {showLineNumbers && (
-                <div className="text-gray-400 dark:text-gray-600 text-right select-none w-8 mr-4 flex-shrink-0">
-                  {i + 1}
-                </div>
-              )}
-              <div className="flex-grow overflow-x-auto">
+      {/* Code container */}
+      <div className="flex bg-[#1e1e1e] text-[#d4d4d4] overflow-x-auto">
+        {/* Line numbers */}
+        {showLineNumbers && (
+          <div className="line-numbers-rows">
+            {lines.map((_, i) => (
+              <span key={i}></span>
+            ))}
+          </div>
+        )}
+        
+        {/* Code content */}
+        <pre className="flex-1 m-0 p-4 overflow-x-auto bg-[#1e1e1e] border-l-0">
+          <div>
+            {lines.map((line, i) => (
+              <div 
+                key={i} 
+                className={`${
+                  activeLine === i + 1 
+                    ? 'active-line' 
+                    : highlightedLines.has(i + 1) 
+                      ? 'code-highlight' 
+                      : ''
+                }`}
+              >
                 {isGo ? (
                   <code dangerouslySetInnerHTML={{ 
                     __html: highlightGoSyntax(line || '\u00A0') 
@@ -203,10 +214,29 @@ const CodeBlock: React.FC<CodeBlockProps> = ({
                   <code>{line || '\u00A0'}</code>
                 )}
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        </pre>
       </div>
+      
+      {/* Copy button */}
+      <button
+        onClick={copyToClipboard}
+        className="copy-button"
+        aria-label="Copy code"
+      >
+        {copied ? (
+          <>
+            <CheckIcon className="w-4 h-4" />
+            <span>Copied!</span>
+          </>
+        ) : (
+          <>
+            <ClipboardIcon className="w-4 h-4" />
+            <span>Copy</span>
+          </>
+        )}
+      </button>
     </div>
   );
 };
