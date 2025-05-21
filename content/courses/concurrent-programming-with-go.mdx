@@ -1,45 +1,114 @@
 ---
-title: Concurrent Programming with Go
-description: Learn how to write concurrent programs in Go using goroutines and channels. This course covers concurrency patterns, synchronization, and best practices for writing efficient concurrent code in Go.
-coverImage: /images/courses/concurrent-programming-with-go.png
-level: Intermediate
-tags: [Go, Concurrency]
+title: 'Concurrent Programming with Go'
+slug: 'concurrent-programming-with-go'
+coverImage: '/images/courses/concurrent-programming-with-go.png'
+description: "Learn how to write concurrent programs in Go using goroutines and channels. This course covers concurrency patterns, synchronization, and best practices for writing efficient concurrent code in Go."
+level: 'Intermediate'
+tags: ['Go', 'Concurrency']
 labs:
-  - title: Introduction to Goroutines
-    slug: intro-to-goroutines
-    description: Learn about goroutines and how to create concurrent functions.
-  - title: Working with Channels
-    slug: working-with-channels
-    description: Master Go channels for communication between goroutines.
-  - title: Synchronization Patterns
-    slug: synchronization-patterns
-    description: Learn different patterns for synchronizing concurrent operations.
+  - title: 'Introduction to Concurrency in Go'
+    slug: 'introduction-to-concurrency'
+    description: "Understand the difference between concurrency and parallelism, and Go's approach to concurrent programming."
+  - title: 'Channels Basics'
+    slug: 'channels-basics'
+    description: 'Learn about channels, the fundamental communication mechanism between goroutines.'
+  - title: 'Bidirectional Channels'
+    slug: 'bidirectional-channels'
+    description: 'Learn how to use bidirectional channels for sending and receiving data.'
+  - title: 'Directional Channels'
+    slug: 'directional-channels'
+    description: 'Understand how to use channels that can only send or only receive data.'
+  - title: 'Buffered Channels'
+    slug: 'buffered-channels'
+    description: 'Learn about buffered channels that can hold multiple values.'
+  - title: 'Creating Goroutines'
+    slug: 'creating-goroutines'
+    description: 'Learn how to create and use goroutines, the lightweight threads of Go.'
+  - title: 'Working with WaitGroups'
+    slug: 'working-with-waitgroups'
+    description: 'Use WaitGroups to coordinate multiple goroutines and wait for their completion.'
+  - title: 'Testing with WaitGroups'
+    slug: 'testing-with-waitgroups'
+    description: 'Learn strategies for testing concurrent code with WaitGroups.'
+  - title: 'Race Conditions'
+    slug: 'race-conditions'
+    description: 'Understand what race conditions are and how to detect them.'
+  - title: 'Using Mutex'
+    slug: 'using-mutex'
+    description: 'Learn how to use mutexes to protect shared resources from concurrent access.'
+  - title: 'The Producer-Consumer Problem'
+    slug: 'producer-consumer-problem'
+    description: 'Solve the classic producer-consumer problem using Go concurrency primitives.'
+  - title: 'Range over Channels'
+    slug: 'range-over-channels'
+    description: 'Learn how to iterate over the values received from a channel.'
+  - title: 'Unbuffered Channels'
+    slug: 'unbuffered-channels'
+    description: 'Deep dive into unbuffered channels and their synchronization properties.'
+  - title: 'Buffered vs Unbuffered Channels'
+    slug: 'buffered-vs-unbuffered'
+    description: 'Compare buffered and unbuffered channels and learn when to use each.'
+  - title: 'Channel Direction'
+    slug: 'channel-direction'
+    description: 'Learn how to specify and enforce channel direction in function parameters.'
+  - title: 'Channel Ownership'
+    slug: 'channel-ownership'
+    description: 'Understand the concept of channel ownership and why it matters.'
+  - title: 'Pipeline Pattern'
+    slug: 'pipeline-pattern'
+    description: 'Learn how to implement the pipeline pattern for processing streams of data.'
+  - title: 'Fan-Out Fan-In Pattern'
+    slug: 'fan-out-fan-in'
+    description: 'Distribute work and collect results using the fan-out fan-in pattern.'
+  - title: 'Cancellation with Context Package'
+    slug: 'context-package'
+    description: 'Learn how to use the context package to manage goroutine lifecycles and handle cancellation.'
 ---
 
 # Concurrent Programming with Go
 
-Welcome to Concurrent Programming with Go! This course will teach you how to harness the power of Go's concurrency model to build efficient, concurrent applications.
+Welcome to the Concurrent Programming with Go course! In this course, you'll learn how to write concurrent programs using Go's powerful concurrency primitives.
 
 ## What You'll Learn
 
-- Go's goroutines for concurrent execution
-- Channels for communication between goroutines
-- Synchronization primitives like Mutex and WaitGroup
-- Common concurrency patterns
-- Detecting and fixing race conditions
-- Creating efficient concurrent algorithms
+- Understanding concurrency versus parallelism
+- Working with goroutines and channels
+- Synchronization techniques using WaitGroups and Mutexes
+- Common concurrency patterns in Go
 - Best practices for concurrent programming
+- Error handling in concurrent code
+- Testing concurrent programs
 
 ## Prerequisites
 
-This course assumes you have:
+Before starting this course, you should have:
 
-- Basic knowledge of Go programming
-- Completed the "Quick Start with Golang" course or equivalent
-- Understanding of functions and error handling in Go
+- Basic knowledge of Go programming language
+- Understanding of functions, structs, and interfaces in Go
+- Familiarity with Go's error handling
 
-## Course Structure
+## Course Modules
 
-This course consists of 5 hands-on labs that will guide you through building increasingly complex concurrent applications. Each lab includes practical examples and exercises to help you master concurrent programming in Go.
+This course is divided into several modules to help you learn concurrent programming in Go step by step:
 
-Let's start building fast, concurrent programs with Go!
+1. [Introduction to Concurrency](/courses/concurrent-programming-with-go-modules/01-introduction-to-concurrency) - Understand concurrency vs parallelism and Go's approach.
+2. [Channels Basics](/courses/concurrent-programming-with-go-modules/02-channels-basics) - Learn about Go's primary communication mechanism.
+3. [Bidirectional Channels](/courses/concurrent-programming-with-go-modules/03-bidirectional-channels) - See how channels can send and receive data.
+4. [Directional Channels](/courses/concurrent-programming-with-go-modules/04-directional-channels) - Learn about send-only and receive-only channels.
+5. [Buffered Channels](/courses/concurrent-programming-with-go-modules/05-buffered-channels) - Work with channels that can store multiple values.
+6. [Creating Goroutines](/courses/concurrent-programming-with-go-modules/06-creating-goroutines) - Launch lightweight threads in Go.
+7. [Working with WaitGroups](/courses/concurrent-programming-with-go-modules/07-working-with-waitgroups) - Coordinate multiple goroutines.
+8. [Testing with WaitGroups](/courses/concurrent-programming-with-go-modules/08-testing-with-waitgroups) - Write tests for concurrent code.
+9. [Race Conditions](/courses/concurrent-programming-with-go-modules/09-race-conditions) - Identify and understand race conditions.
+10. [Using Mutex](/courses/concurrent-programming-with-go-modules/10-using-mutex) - Protect shared resources from concurrent access.
+11. [The Producer-Consumer Problem](/courses/concurrent-programming-with-go-modules/11-producer-consumer-problem) - Solve this classic concurrency challenge.
+12. [Range over Channels](/courses/concurrent-programming-with-go-modules/12-range-over-channels) - Iterate over channel values elegantly.
+13. [Unbuffered Channels](/courses/concurrent-programming-with-go-modules/13-unbuffered-channels) - Understand synchronization with unbuffered channels.
+14. [Buffered vs Unbuffered Channels](/courses/concurrent-programming-with-go-modules/14-buffered-vs-unbuffered) - Compare the two channel types.
+15. [Channel Direction](/courses/concurrent-programming-with-go-modules/15-channel-direction) - Enforce data flow direction.
+16. [Channel Ownership](/courses/concurrent-programming-with-go-modules/16-channel-ownership) - Establish clear ownership patterns.
+17. [Pipeline Pattern](/courses/concurrent-programming-with-go-modules/17-pipeline-pattern) - Process data through a series of stages.
+18. [Fan-Out Fan-In Pattern](/courses/concurrent-programming-with-go-modules/18-fan-out-fan-in) - Distribute and collect work among goroutines.
+19. [Cancellation with Context Package](/courses/concurrent-programming-with-go-modules/19-context-package) - Manage goroutine lifecycles and cancellation.
+
+Let's explore how Go's concurrency model makes it easy to write concurrent programs that are both efficient and easy to reason about! 

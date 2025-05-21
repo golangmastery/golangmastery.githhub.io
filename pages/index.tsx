@@ -17,7 +17,7 @@ export default function Home() {
       description: 'Master Golang fundamentals in this hands-on course designed for beginners. Learn essential concepts like data types, control structures, functions, packages, and data structures through interactive labs and practical challenges.',
       level: 'Beginner',
       tags: ['Go', 'Programming'],
-      labCount: 101
+      labCount: 10
     },
     {
       id: '2',
